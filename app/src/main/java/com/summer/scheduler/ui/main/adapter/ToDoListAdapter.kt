@@ -26,7 +26,7 @@ class ToDoListAdapter(private val toDoItems: ArrayList<ToDoItem>): RecyclerView.
        return toDoItems.size
     }
 
-    class ToDoItemHolder(private val itemView: View): RecyclerView.ViewHolder(itemView) {
+    class ToDoItemHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         val checkBox: CheckBox = itemView.findViewById(R.id.to_do_checkBox)
         val title: TextView = itemView.findViewById(R.id.to_do_actionText)
     }
