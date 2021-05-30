@@ -3,45 +3,61 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#121211">
 
-    <com.google.android.material.button.MaterialButtonToggleGroup
-        android:id="@+id/activity_main_togglebutton"
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraint_eventsandreminders"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="64dp"
         android:layout_marginTop="80dp"
         android:background="#1D1D1F"
-        android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:singleSelection="true">
+        app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnFragment1"
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switch_compat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Events"
-            />
+            android:textOff="Events"
+            android:textOn="Reminders"
+            android:thumb="@drawable/thumb"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:showText="true"
+            app:track="@drawable/track" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnFragment2"
+        <TextView
+            android:id="@+id/done_eventsandreminder"
+            style="@style/text_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Reminders"
-            tools:layout_editor_absoluteX="182dp"
-            tools:layout_editor_absoluteY="-4dp" />
-    </com.google.android.material.button.MaterialButtonToggleGroup>
+            android:layout_alignEnd="@id/constraint_eventsandreminders"
+            android:layout_marginEnd="24dp"
+            android:text="Done"
+            android:textColor="@color/blue_dark_008aff"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <FrameLayout
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+          <FrameLayout
         android:id="@+id/flFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:background="#121211"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activity_main_togglebutton" />
+        app:layout_constraintTop_toBottomOf="@+id/constraint_eventsandreminders"
+        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

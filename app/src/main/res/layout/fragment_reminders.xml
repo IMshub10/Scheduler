@@ -7,7 +7,7 @@
     android:background="#1D1D1F">
 
     <EditText
-        android:id="@+id/re"
+        android:id="@+id/editText_fragmentEvents_reminder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -22,7 +22,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/da"
+        android:id="@+id/editText_fragmentEvents_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -35,6 +35,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/re" />
+        app:layout_constraintTop_toBottomOf="@id/editText_fragmentEvents_reminder" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
