@@ -12,26 +12,26 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="17dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginStart="18dp"
         android:text="@string/reminder_default_timing_string" />
 
     <TextView
         android:id="@+id/textView_reminderTitle"
         style="@style/text_list"
-        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="214dp"
+        android:layout_marginStart="40dp"
+        android:layout_toEndOf="@+id/textView_reminderTimings"
         android:text="@string/reminder_default_title_string" />
 
     <ImageView
+        android:id="@+id/imageView_arrowImg"
+        android:layout_centerVertical="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="75dp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginStart="104dp"
         android:layout_toEndOf="@+id/textView_reminderTitle"
         android:src="@drawable/ic_forward" />
 
