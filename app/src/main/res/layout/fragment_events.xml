@@ -13,27 +13,29 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
         android:backgroundTint="#FFFFFF"
-        android:hint="Event Title"
+        android:hint="@string/event_title"
         android:inputType="text"
         android:textColorHint="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:autofillHints="@string/event_title" />
 
     <EditText
-        android:id="@+id/ageditText_fragmentEvents_agenda"
+        android:id="@+id/editText_fragmentEvents_agenda"
         style="@style/text_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
         android:backgroundTint="#FFFFFF"
-        android:hint="Agenda"
+        android:hint="@string/agenda"
         android:inputType="text"
         android:textColorHint="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editText_fragmentEvents_eventTitle" />
+        app:layout_constraintTop_toBottomOf="@id/editText_fragmentEvents_eventTitle"
+        android:autofillHints="@string/agenda" />
 
     <EditText
         android:id="@+id/editText_fragmentEvents_starts"
@@ -43,12 +45,13 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
         android:backgroundTint="#FFFFFF"
-        android:hint="Starts"
+        android:hint="@string/starts"
         android:inputType="text"
         android:textColorHint="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ageditText_fragmentEvents_agenda" />
+        app:layout_constraintTop_toBottomOf="@id/editText_fragmentEvents_agenda"
+        android:autofillHints="@string/starts" />
 
     <EditText
         android:id="@+id/editText_fragmentEvents_ends"
@@ -58,12 +61,13 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
         android:backgroundTint="#FFFFFF"
-        android:hint="Ends"
+        android:hint="@string/ends"
         android:inputType="text"
         android:textColorHint="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editText_fragmentEvents_starts" />
+        app:layout_constraintTop_toBottomOf="@id/editText_fragmentEvents_starts"
+        android:autofillHints="@string/ends" />
 
     <EditText
         android:id="@+id/editText_fragmentEvents_people"
@@ -73,12 +77,13 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
         android:backgroundTint="#FFFFFF"
-        android:hint="People"
+        android:hint="@string/people"
         android:inputType="text"
         android:textColorHint="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editText_fragmentEvents_ends" />
+        app:layout_constraintTop_toBottomOf="@id/editText_fragmentEvents_ends"
+        android:autofillHints="@string/people" />
 
     <EditText
         android:id="@+id/editText_fragmentEvents_link"
@@ -88,12 +93,13 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
         android:backgroundTint="#FFFFFF"
-        android:hint="Link"
+        android:hint="@string/link"
         android:inputType="text"
         android:textColorHint="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editText_fragmentEvents_people" />
+        app:layout_constraintTop_toBottomOf="@id/editText_fragmentEvents_people"
+        android:autofillHints="@string/link" />
 
     <EditText
         android:id="@+id/editText_fragmentEvents_location"
@@ -103,11 +109,12 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
         android:backgroundTint="#FFFFFF"
-        android:hint="Location"
+        android:hint="@string/location"
         android:inputType="text"
         android:textColorHint="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editText_fragmentEvents_link" />
+        app:layout_constraintTop_toBottomOf="@id/editText_fragmentEvents_link"
+        android:autofillHints="@string/location" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

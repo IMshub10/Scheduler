@@ -6,4 +6,19 @@
     <string name="to_do_default_action_string">Text of job here</string>
     <string name="to_do_list_empty_msg">Live, Love, Laugh</string>
     <string name="event_list_empty_msg">It is okay to breathe and enjoy things around you once in a while.</string>
+    <string name="event_title">Event Title</string>
+    <string name="agenda">Agenda</string>
+    <string name="starts">Starts</string>
+    <string name="ends">Ends</string>
+    <string name="people">People</string>
+    <string name="link">Link</string>
+    <string name="location">Location</string>
+    <string name="reminder">Reminder</string>
+    <string name="date">Date</string>
+    <string name="events">Events</string>
+    <string name="reminders">Reminders</string>
+    <string name="to_do">To Do</string>
+    <string name="today">Today</string>
+    <string name="next">next</string>
+    <string name="done">Done</string>
 </resources>

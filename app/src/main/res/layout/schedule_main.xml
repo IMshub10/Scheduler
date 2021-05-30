@@ -6,7 +6,6 @@
     android:background="?attr/colorPrimary"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
@@ -49,7 +48,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_bold"
                     android:gravity="center"
-                    android:text="To Do"
+                    android:text="@string/to_do"
                     android:layout_weight="1"
                     android:textColor="?attr/colorOnPrimary"
                     android:textSize="18sp"/>
@@ -114,7 +113,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:fontFamily="@font/roboto_bold"
-                    android:text="Today"
+                    android:text="@string/today"
                     android:layout_weight="1"
                     android:textSize="18sp"
                     android:textColor="?attr/colorOnPrimary"/>
