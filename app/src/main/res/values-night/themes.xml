@@ -12,10 +12,13 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="icon_color1">@color/white</item>
     </style>
 
-    <style name="text_list" parent="TextAppearance.AppCompat">
+    <style name="editTextStyle" parent="Widget.AppCompat.EditText">
 
+    </style>
+    <style name="text_list" parent="TextAppearance.AppCompat">
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:fontFamily">@font/roboto</item>
