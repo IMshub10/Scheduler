@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
@@ -7,26 +7,33 @@
     android:paddingBottom="10dp">
 
     <TextView
-        android:id="@+id/timings_textView"
+        android:id="@+id/textView_reminderTimings"
         style="@style/text_list"
+        android:layout_centerVertical="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="17dp"
         android:layout_marginEnd="20dp"
-        android:text="1:00 AM - 2:00 AM" />
+        android:text="@string/reminder_default_timing_string" />
 
     <TextView
-        android:id="@+id/title_textView"
+        android:id="@+id/textView_reminderTitle"
         style="@style/text_list"
+        android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Title" />
+        android:layout_marginStart="214dp"
+        android:text="@string/reminder_default_title_string" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="75dp"
+        android:layout_marginEnd="32dp"
+        android:layout_toEndOf="@+id/textView_reminderTitle"
         android:src="@drawable/ic_forward" />
 
-</LinearLayout>
+</RelativeLayout>
