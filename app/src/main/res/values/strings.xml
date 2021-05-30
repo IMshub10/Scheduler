@@ -4,4 +4,6 @@
     <string name="reminder_default_timing_string">1:00 AM - 2:00 AM</string>
     <string name="reminder_default_title_string">Title</string>
     <string name="to_do_default_action_string">Text of job here</string>
+    <string name="to_do_list_empty_msg">Live, Love, Laugh</string>
+    <string name="event_list_empty_msg">It is okay to breathe and enjoy things around you once in a while.</string>
 </resources>
