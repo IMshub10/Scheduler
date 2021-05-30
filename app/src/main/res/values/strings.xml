@@ -17,10 +17,12 @@
     <string name="date">Date</string>
     <string name="events">Events</string>
     <string name="reminders">Reminders</string>
-    <string name="to_do">To Do</string>
-    <string name="today">Today</string>
     <string name="next">next</string>
     <string name="done">Done</string>
     <string name="to_do">To Do</string>
     <string name="today">Today</string>
+    <string name="reminder_details_string">Details of event here</string>
+    <string name="reminder_details_location_string">Location of event here</string>
+    <string name="reminder_details_links_string">Links of event here</string>
+    <string name="reminder_details_users_string">Users in the event here</string>
 </resources>

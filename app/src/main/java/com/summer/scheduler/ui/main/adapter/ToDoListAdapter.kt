@@ -7,6 +7,7 @@ import android.widget.CheckBox
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.summer.scheduler.R
+import com.summer.scheduler.data.model.recycler_view_items.ToDoItem
 
 class ToDoListAdapter(private val toDoItems: ArrayList<ToDoItem>): RecyclerView.Adapter<ToDoListAdapter.ToDoItemHolder>() {
 

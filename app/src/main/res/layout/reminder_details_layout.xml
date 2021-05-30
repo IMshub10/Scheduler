@@ -1,8 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
+    <ImageView
+        android:id="@+id/imageView_reminderDetailsEdit"
+        android:src="@drawable/ic_edit"
+        android:layout_alignParentEnd="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"/>
 
+    <TextView
+        android:id="@+id/textView_reminderDetailsTitle"
+        style="@style/text_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="12dp"
+        android:text="@string/reminder_default_title_string"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textView_reminderDetailsTiming"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView_reminderDetailsTitle"
+        style="@style/text_list"
+        android:text="@string/reminder_default_timing_string"
+        android:layout_marginTop="50dp"
+        android:layout_marginStart="16dp"/>
+
+    <TextView
+        android:id="@+id/textView_reminderDetails"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView_reminderDetailsTiming"
+        android:layout_marginStart="16dp"
+        style="@style/text_list"
+        android:layout_marginTop="16dp"
+        android:text="@string/reminder_details_string"/>
+
+    <TextView
+        android:id="@+id/textView_reminderDetailsLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView_reminderDetails"
+        android:layout_marginStart="16dp"
+        style="@style/text_list"
+        android:layout_marginTop="16dp"
+        android:text="@string/reminder_details_location_string"/>
+
+    <TextView
+        android:id="@+id/textView_reminderDetailsLinks"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView_reminderDetailsLocation"
+        android:layout_marginStart="16dp"
+        style="@style/text_list"
+        android:textColor="@color/blue_dark_008aff"
+        android:layout_marginTop="16dp"
+        android:text="@string/reminder_details_links_string"/>
+
+    <TextView
+        android:id="@+id/textView_reminderDetailsUsers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/blue_dark_008aff"
+        android:layout_below="@+id/textView_reminderDetailsLinks"
+        android:layout_marginStart="16dp"
+        style="@style/text_list"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/reminder_details_users_string"/>
 
 </RelativeLayout>
