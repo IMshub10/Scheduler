@@ -6,4 +6,8 @@
     <string name="to_do_default_action_string">Text of job here</string>
     <string name="to_do_list_empty_msg">Live, Love, Laugh</string>
     <string name="event_list_empty_msg">It is okay to breathe and enjoy things around you once in a while.</string>
+    <string name="reminder_details_string">Details of event here</string>
+    <string name="reminder_details_location_string">Location of event here</string>
+    <string name="reminder_details_links_string">Links of event here</string>
+    <string name="reminder_details_users_string">Users in the event here</string>
 </resources>
