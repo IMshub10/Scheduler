@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.summer.scheduler.R
-import com.summer.scheduler.data.model.ReminderItem
 
 class ReminderListAdapter(private val reminderItems: ArrayList<ReminderItem>): RecyclerView.Adapter<ReminderListAdapter.ReminderItemHolder>() {
 
