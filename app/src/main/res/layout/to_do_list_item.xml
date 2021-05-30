@@ -1,23 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:background="@android:color/transparent"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <CheckBox
-        android:id="@+id/to_do_checkBox"
+        android:id="@+id/checkBox_toDoCheck"
         android:layout_width="wrap_content"
-        android:layout_marginStart="10dp"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="15dp"
         android:layout_height="wrap_content"/>
 
     <TextView
         style="@style/text_list"
-        android:id="@+id/to_do_actionText"
-        android:text="Text of job here"
+        android:layout_centerVertical="true"
+        android:id="@+id/textView_toDoText"
+        android:text="@string/to_do_default_action_string"
         android:layout_marginStart="20dp"
         android:layout_marginTop="2dp"
+        android:layout_toEndOf="@+id/checkBox_toDoCheck"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
-</LinearLayout>
+</RelativeLayout>

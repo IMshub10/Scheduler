@@ -26,8 +26,8 @@ class ReminderListAdapter(private val reminderItems: ArrayList<ReminderItem>): R
     }
 
     class ReminderItemHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        val timings: TextView = itemView.findViewById(R.id.timings_textView)
-        val title: TextView = itemView.findViewById(R.id.title_textView)
+        val timings: TextView = itemView.findViewById(R.id.textView_reminderTimings)
+        val title: TextView = itemView.findViewById(R.id.textView_reminderTitle)
     }
 
     fun addAll(items: ArrayList<ReminderItem>) {

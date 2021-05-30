@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Scheduler</string>
     <string name="new_button">New</string>
+    <string name="reminder_default_timing_string">1:00 AM - 2:00 AM</string>
+    <string name="reminder_default_title_string">Title</string>
+    <string name="to_do_default_action_string">Text of job here</string>
 </resources>
