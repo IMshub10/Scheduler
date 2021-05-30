@@ -56,7 +56,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_bold"
                             android:gravity="center"
-                            android:text="To Do"
+                            android:text="@string/to_do"
                             android:textColor="?attr/colorOnPrimary"
                             android:textSize="18sp"/>
 
@@ -64,7 +64,7 @@
                             android:id="@+id/to_do_newItem"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:gravity="right"
+                            android:gravity="end"
                             android:fontFamily="@font/roboto"
                             android:text="@string/new_button"
                             android:layout_marginEnd="16dp"
@@ -119,14 +119,14 @@
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:fontFamily="@font/roboto_bold"
-                            android:text="Today"
+                            android:text="@string/today"
                             android:textSize="18sp"
                             android:textColor="?attr/colorOnPrimary"/>
                         <TextView
                             android:id="@+id/today_newEvent"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:gravity="right"
+                            android:gravity="end"
                             android:fontFamily="@font/roboto"
                             android:text="@string/new_button"
                             android:layout_marginEnd="16dp"
