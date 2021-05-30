@@ -18,11 +18,12 @@
     <color name="red_dark_ff453a">#ff453a</color>
     <color name="red_light_ff3b30">#ff3b30</color>
 
-    <color name="grey_darkest_2c2c2e">#992c2c2e</color>
+    <color name="grey_darkest_2c2c2e">#2c2c2e</color>
     <color name="grey_darker_3a3a3c">#3a3a3c</color>
     <color name="grey_dark_48484a">#48484a</color>
     <color name="grey_8e8e93">#8e8e93</color>
     <color name="grey_light_aeaeb2">#aeaeb2</color>
     <color name="grey_lighter_c7c7cc">#c7c7cc</color>
     <color name="grey_lightest_d1d1d5">#d6d6d8</color>
+
 </resources>
