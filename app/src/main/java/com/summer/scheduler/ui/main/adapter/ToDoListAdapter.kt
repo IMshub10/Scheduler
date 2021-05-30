@@ -27,8 +27,8 @@ class ToDoListAdapter(private val toDoItems: ArrayList<ToDoItem>): RecyclerView.
     }
 
     class ToDoItemHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        val checkBox: CheckBox = itemView.findViewById(R.id.to_do_checkBox)
-        val title: TextView = itemView.findViewById(R.id.to_do_actionText)
+        val checkBox: CheckBox = itemView.findViewById(R.id.checkBox_toDoCheck)
+        val title: TextView = itemView.findViewById(R.id.textView_toDoText)
     }
 
     fun addItems(items: ArrayList<ToDoItem>) {
