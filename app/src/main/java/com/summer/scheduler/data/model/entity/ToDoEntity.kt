@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "to_do_table")
 data class ToDoEntity(
-    @PrimaryKey(autoGenerate = true) val key: String,
+    @PrimaryKey(autoGenerate = true) val key: Int,
     val title: String,
     val day: Int,
     val check: Boolean

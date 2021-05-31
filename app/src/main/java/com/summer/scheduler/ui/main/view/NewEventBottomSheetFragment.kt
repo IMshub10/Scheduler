@@ -49,7 +49,7 @@ class NewEventBottomSheetFragment : BottomSheetDialogFragment() {
         val eventLocation = editText_fragmentEvents_location.text.toString()
 
         if(inputCheck(eventTitle, eventStart, eventEnd)) {
-            val Event = ReminderEntity("newEvent",eventTitle,eventAgenda,Integer.parseInt(eventStart.toString()),Integer.parseInt(eventEnd.toString()),eventPeople,eventLink,eventLocation)
+            val Event = ReminderEntity(0,eventTitle,eventAgenda,Integer.parseInt(eventStart.toString()),Integer.parseInt(eventEnd.toString()),eventPeople,eventLink,eventLocation)
             newEventViewModel.addReminder(Event)
             Toast.makeText(requireContext(), "Successfully Added",Toast.LENGTH_SHORT).show()
         } else {

@@ -45,7 +45,7 @@ class NewToDoBottomSheetFragment : BottomSheetDialogFragment() {
         val date = editText_fragmentEvents_date.text
 
         if(inputCheck(toDoItem, date)) {
-            val ToDo = ToDoEntity("ToDoItem",toDoItem,Integer.parseInt(date.toString()),true)
+            val ToDo = ToDoEntity(0,toDoItem,Integer.parseInt(date.toString()),true)
             newToDoViewModel.addToDo(ToDo)
             Toast.makeText(requireContext(), "Successfully Added",Toast.LENGTH_SHORT).show()
         } else {
