@@ -64,14 +64,14 @@ class ReminderListAdapter(private val context: Context) :
                     oldItem: ReminderEntity,
                     newItem: ReminderEntity
                 ): Boolean {
-                    TODO("Not yet implemented")
+                    return oldItem.key == newItem.key
                 }
 
                 override fun areContentsTheSame(
                     oldItem: ReminderEntity,
                     newItem: ReminderEntity
                 ): Boolean {
-                    TODO("Not yet implemented")
+                    return oldItem == newItem
                 }
             }
     }

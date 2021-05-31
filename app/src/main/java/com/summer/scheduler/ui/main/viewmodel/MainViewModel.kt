@@ -18,6 +18,7 @@ import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.launch
 
 class MainViewModel(private val reminderRepository: ReminderRepository, private val toDoRepository: ToDoRepository): ViewModel() {
+
     private val userIntent = Channel<MainIntent>(Channel.UNLIMITED)
     private val _state = MutableStateFlow<MainState>(MainState.Idle)
     val state: StateFlow<MainState>
@@ -30,7 +31,7 @@ class MainViewModel(private val reminderRepository: ReminderRepository, private 
     private fun handleIntent() {
         viewModelScope.launch {
             userIntent.consumeAsFlow().collect {
-                when (it) {
+                when(it) {
                     is MainIntent.FetchReminders -> fetchAllReminders()
                     is MainIntent.FetchTodos -> fetchAllToDos()
                     else -> Log.d("USER INTENT", "else case")
