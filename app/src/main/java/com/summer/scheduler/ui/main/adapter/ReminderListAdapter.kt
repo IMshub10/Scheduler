@@ -28,30 +28,7 @@ class ReminderListAdapter(private val context: Context) :
     override fun onBindViewHolder(holder: ReminderItemHolder, position: Int) {
         val reminder = getItem(position)
 
-        var sHour = ""
-        var sMin = ""
-        var eHour = ""
-        var eMin = ""
-
-        if (reminder.startHour < 10) {
-            sHour = "0"
-        }
-        if (reminder.startMinute < 10) {
-            sMin = "0"
-        }
-        if (reminder.endHour < 10) {
-            eHour = "0"
-        }
-        if (reminder.endMinute < 10) {
-            eMin = "0"
-        }
-
-        sHour += reminder.startHour
-        sMin += reminder.startMinute
-        eHour += reminder.endHour
-        eMin += reminder.endMinute
-
-        val time = "$sHour:$sMin-$eHour:$eMin"
+        val time = "${reminder.start}-${reminder.end}"
 
         holder.timings.text = time
         holder.title.text = reminder.event

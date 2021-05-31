@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import com.summer.scheduler.data.model.dao.ReminderDao
 import com.summer.scheduler.data.model.entity.ReminderEntity
 
-@Database(entities = [ReminderEntity::class], version = 1)
+@Database(entities = [ReminderEntity::class], version = 1, exportSchema = false)
 abstract class ReminderDatabase : RoomDatabase() {
 
     abstract fun getReminderDao(): ReminderDao

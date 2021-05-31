@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import com.summer.scheduler.data.model.dao.ToDoDao
 import com.summer.scheduler.data.model.entity.ToDoEntity
 
-@Database(entities = [ToDoEntity::class], version = 1)
+@Database(entities = [ToDoEntity::class], version = 1, exportSchema = false)
 abstract class ToDoDatabase: RoomDatabase() {
 
     abstract fun getToDoDao(): ToDoDao

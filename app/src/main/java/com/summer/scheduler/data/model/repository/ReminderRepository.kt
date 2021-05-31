@@ -17,7 +17,7 @@ class ReminderRepository(application: Application) {
     }
 
 
-    suspend fun getAllReminders() : Flow<ArrayList<ReminderEntity>> = reminderDao.getAllReminders()
+    fun getAllReminders() : Flow<List<ReminderEntity>> = reminderDao.getAllReminders()
 
     suspend fun addReminder(reminder: ReminderEntity) = reminderDao.addReminder(reminder)
 

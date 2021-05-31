@@ -15,7 +15,7 @@ class ToDoRepository(application: Application) {
         todoDao = database.getToDoDao()
     }
 
-    suspend fun getAllToDos() : Flow<ArrayList<ToDoEntity>> = todoDao.getAllToDos()
+    fun getAllToDos() : Flow<List<ToDoEntity>> = todoDao.getAllToDos()
 
     suspend fun addToDo(toDo: ToDoEntity) = todoDao.addToDo(toDo)
 
