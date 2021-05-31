@@ -19,5 +19,5 @@ interface ToDoDao {
     suspend fun deleteAllToDos()
 
     @Query("SELECT * FROM to_do_table ORDER BY `key` DESC")
-    suspend fun getAllToDos(): Flow<ArrayList<ToDoEntity>>
+    suspend fun getAllToDos(): ArrayList<ToDoEntity>
 }
