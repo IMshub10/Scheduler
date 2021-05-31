@@ -119,6 +119,16 @@ class MainViewModel(private val application: Application, private val reminderRe
             .setContentText("This Reminder item will be permanently deleted")
             .setConfirmText("Yes")
             .setCancelText("No")
+            .setConfirmClickListener { sweetAlertDialog ->
+                sweetAlertDialog.setTitleText("Deleted!")
+                    .setContentText("Your Reminder item is successfully deleted!")
+                    .setConfirmText("OK")
+                    .setConfirmClickListener(null)
+                    .changeAlertType(SweetAlertDialog.SUCCESS_TYPE)
+            }
+            .setCancelClickListener {
+                it.cancel()
+            }
 
         dialog.show()
     }
@@ -129,6 +139,16 @@ class MainViewModel(private val application: Application, private val reminderRe
             .setContentText("This To Do item will be permanently deleted")
             .setConfirmText("Yes")
             .setCancelText("No")
+            .setConfirmClickListener { sweetAlertDialog ->
+                sweetAlertDialog.setTitleText("Deleted!")
+                    .setContentText("Your To Do item is successfully deleted!")
+                    .setConfirmText("OK")
+                    .setConfirmClickListener(null)
+                    .changeAlertType(SweetAlertDialog.SUCCESS_TYPE)
+            }
+            .setCancelClickListener {
+                it.cancel()
+            }
 
         dialog.show()
     }
