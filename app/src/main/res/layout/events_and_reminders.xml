@@ -17,7 +17,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.appcompat.widget.SwitchCompat
+        <!-- androidx.appcompat.widget.SwitchCompat
             android:id="@+id/switch_constraint_eventsAndReminders"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -27,8 +27,30 @@
             android:shadowColor="@null"
             android:thumb="@drawable/thumb"
             app:showText="true"
-            app:track="@drawable/track" />
+            app:track="@drawable/track" /-->
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/materialToggleGroup_events_reminders"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:checkedButton="@id/materialButton_toDo"
+            app:singleSelection="true">
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/materialButton_toDo"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/to_do"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/materialButton_today"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/today"/>
+
+        </com.google.android.material.button.MaterialButtonToggleGroup>
         <TextView
             android:id="@+id/textView_done_eventsAndReminders"
             style="@style/text_list"

@@ -15,9 +15,9 @@ interface ToDoDao {
     @Delete
     suspend fun deleteToDo(toDo: ToDoEntity)
 
-    @Query("DELETE FROM reminder_table")
+    @Query("DELETE FROM to_do_table")
     suspend fun deleteAllToDos()
 
     @Query("SELECT * FROM to_do_table ORDER BY `key` DESC")
-    suspend fun getAllToDos(): Flow<ArrayList<ToDoEntity>>
+    fun getAllToDos(): Flow<List<ToDoEntity>>
 }
