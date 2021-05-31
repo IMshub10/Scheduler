@@ -4,6 +4,7 @@ import android.app.Application
 import com.summer.scheduler.data.model.dao.ToDoDao
 import com.summer.scheduler.data.model.database.ToDoDatabase
 import com.summer.scheduler.data.model.entity.ToDoEntity
+import kotlinx.coroutines.flow.Flow
 
 class ToDoRepository(application: Application) {
 
@@ -14,7 +15,7 @@ class ToDoRepository(application: Application) {
         todoDao = database.getToDoDao()
     }
 
-    suspend fun getAllToDos() : ArrayList<ToDoEntity> = todoDao.getAllToDos()
+    suspend fun getAllToDos() : Flow<ArrayList<ToDoEntity>> = todoDao.getAllToDos()
 
     suspend fun addToDo(toDo: ToDoEntity) = todoDao.addToDo(toDo)
 
