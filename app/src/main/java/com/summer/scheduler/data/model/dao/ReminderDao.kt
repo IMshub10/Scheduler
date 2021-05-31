@@ -20,5 +20,5 @@ interface ReminderDao {
     suspend fun deleteAllReminders()
 
     @Query("SELECT * FROM reminder_table ORDER BY `key` DESC")
-    suspend fun getAllReminders(): Flow<ArrayList<ReminderEntity>>
+    suspend fun getAllReminders(): Flow<ReminderEntity>
 }
