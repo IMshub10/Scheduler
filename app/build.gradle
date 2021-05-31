@@ -51,12 +51,14 @@ dependencies {
 
     //recyclerview
     implementation"androidx.recyclerview:recyclerview:1.2.0"
+
     // For control over item selection of both touch and mouse driven selection
     implementation"androidx.recyclerview:recyclerview-selection:1.1.0"
 
-//    //HorizontalPicker
+    //HorizontalPicker
 //    implementation 'com.github.jhonnyx2012:horizontal-picker:1.0.6'
     implementation  'com.github.GoodieBag:HorizontalPicker:v1.0'
+
 
     // Navigation Component
     implementation 'androidx.navigation:navigation-fragment-ktx:2.3.5'

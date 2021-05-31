@@ -4,8 +4,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import android.util.Log
-import android.view.View
 import com.goodiebag.horizontalpicker.HorizontalPicker
 import com.summer.scheduler.R
 import com.summer.scheduler.data.model.entity.ReminderEntity
@@ -17,8 +15,6 @@ import com.summer.scheduler.ui.main.viewmodel.ViewModelFactory
 import com.summer.scheduler.ui.main.viewstate.MainState
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import kotlinx.android.synthetic.main.schedule_main.*
-
 
 class MainActivity : AppCompatActivity() {
 
@@ -74,10 +70,10 @@ class MainActivity : AppCompatActivity() {
 
         val hpText: HorizontalPicker = findViewById(R.id.hpicker)
 
-        val textItems: MutableList<com.goodiebag.horizontalpicker.HorizontalPicker.PickerItem> =
+        val textItems: MutableList<HorizontalPicker.PickerItem> =
             ArrayList()
         for (i in 1..4) {
-            textItems.add(com.goodiebag.horizontalpicker.HorizontalPicker.TextItem("S$i"))
+            textItems.add(HorizontalPicker.TextItem("S$i"))
         }
         hpText.setItems(
             textItems,
