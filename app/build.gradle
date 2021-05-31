@@ -45,10 +45,10 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
-    //cardview
+    //CardView
     implementation "androidx.cardview:cardview:1.0.0"
 
-    //recyclerview
+    //RecyclerView
     implementation"androidx.recyclerview:recyclerview:1.2.0"
     // For control over item selection of both touch and mouse driven selection
     implementation"androidx.recyclerview:recyclerview-selection:1.1.0"
@@ -75,4 +75,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.4.31"
     api "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.1"
     api "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1"
+
+    //Material Design
+    implementation 'com.google.android.material:material:1.4.0-beta01'
 }
