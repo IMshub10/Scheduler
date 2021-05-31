@@ -9,6 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:id="@+id/calendarDialog"
+        android:background="#1D1D1F"
         android:focusedMonthDateColor="#FFFFFF"/>
 
 </RelativeLayout>
