@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.summer.scheduler.data.model.entity.ReminderEntity
+import com.summer.scheduler.data.model.entity.ToDoEntity
 import com.summer.scheduler.data.model.repository.ReminderRepository
 import com.summer.scheduler.data.model.repository.ToDoRepository
 import com.summer.scheduler.ui.main.intent.MainIntent
@@ -21,13 +22,15 @@ class MainViewModel(private val reminderRepository: ReminderRepository, private 
     private val _state = MutableStateFlow<MainState>(MainState.Idle)
     val state: StateFlow<MainState>
         get() = _state
+
     init {
         handleIntent()
     }
+
     private fun handleIntent() {
         viewModelScope.launch {
             userIntent.consumeAsFlow().collect {
-                when(it) {
+                when (it) {
                     is MainIntent.FetchReminders -> fetchAllReminders()
                     is MainIntent.FetchTodos -> fetchAllToDos()
                     else -> Log.d("USER INTENT", "else case")
@@ -56,6 +59,18 @@ class MainViewModel(private val reminderRepository: ReminderRepository, private 
                 }
             }
 
+        }
+    }
+
+    fun addToDo(toDo: ToDoEntity) {
+        viewModelScope.launch(Dispatchers.IO) {
+            toDoRepository.addToDo(toDo)
+        }
+    }
+
+    fun addReminder(event: ReminderEntity) {
+        viewModelScope.launch(Dispatchers.IO) {
+            reminderRepository.addReminder(event)
         }
     }
 }
