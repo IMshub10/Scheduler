@@ -47,7 +47,7 @@ class MainViewModel(private val application: Application, private val reminderRe
             _state.value = MainState.Loading
             viewModelScope.launch(Dispatchers.IO) {
                 reminderRepository.getAllReminders().collect {
-                    MainState.Reminders(it)
+                    _state.value = MainState.Reminders(it)
                 }
             }
         }
@@ -58,7 +58,7 @@ class MainViewModel(private val application: Application, private val reminderRe
             _state.value = MainState.Loading
             viewModelScope.launch(Dispatchers.IO) {
                 toDoRepository.getAllToDos().collect {
-                    MainState.ToDos(it)
+                    _state.value = MainState.ToDos(it)
                 }
             }
 
