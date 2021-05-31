@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import android.util.Log
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import com.goodiebag.horizontalpicker.HorizontalPicker
 import com.summer.scheduler.R
 import com.summer.scheduler.data.model.entity.ReminderEntity
