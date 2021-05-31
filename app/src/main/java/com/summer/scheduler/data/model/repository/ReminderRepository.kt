@@ -4,6 +4,7 @@ import android.app.Application
 import com.summer.scheduler.data.model.dao.ReminderDao
 import com.summer.scheduler.data.model.database.ReminderDatabase
 import com.summer.scheduler.data.model.entity.ReminderEntity
+import kotlinx.coroutines.flow.Flow
 
 
 class ReminderRepository(application: Application) {
@@ -16,7 +17,7 @@ class ReminderRepository(application: Application) {
     }
 
 
-    suspend fun getAllReminders() : ArrayList<ReminderEntity> = reminderDao.getAllReminders()
+    suspend fun getAllReminders() : Flow<ArrayList<ReminderEntity>> = reminderDao.getAllReminders()
 
     suspend fun addReminder(reminder: ReminderEntity) = reminderDao.addReminder(reminder)
 
