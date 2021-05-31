@@ -1,8 +1,10 @@
 package com.summer.scheduler.ui.main.viewmodel
 
+import android.app.Application
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import cn.pedant.SweetAlert.SweetAlertDialog
 import com.summer.scheduler.data.model.entity.ReminderEntity
 import com.summer.scheduler.data.model.entity.ToDoEntity
 import com.summer.scheduler.data.model.repository.ReminderRepository
@@ -17,7 +19,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.launch
 
-class MainViewModel(private val reminderRepository: ReminderRepository, private val toDoRepository: ToDoRepository): ViewModel() {
+class MainViewModel(private val application: Application, private val reminderRepository: ReminderRepository, private val toDoRepository: ToDoRepository): ViewModel() {
 
     private val userIntent = Channel<MainIntent>(Channel.UNLIMITED)
     private val _state = MutableStateFlow<MainState>(MainState.Idle)
@@ -109,5 +111,25 @@ class MainViewModel(private val reminderRepository: ReminderRepository, private 
         viewModelScope.launch(Dispatchers.IO) {
             reminderRepository.removeAllReminders()
         }
+    }
+
+    fun showDeleteReminderDialog() {
+        val dialog = SweetAlertDialog(application.baseContext, SweetAlertDialog.WARNING_TYPE)
+            .setTitleText("Are you sure?")
+            .setContentText("This Reminder item will be permanently deleted")
+            .setConfirmText("Yes")
+            .setCancelText("No")
+
+        dialog.show()
+    }
+
+    fun showDeleteToDoDialog() {
+        val dialog = SweetAlertDialog(application.baseContext, SweetAlertDialog.WARNING_TYPE)
+            .setTitleText("Are you sure?")
+            .setContentText("This To Do item will be permanently deleted")
+            .setConfirmText("Yes")
+            .setCancelText("No")
+
+        dialog.show()
     }
 }
