@@ -1,10 +1,11 @@
 package com.summer.scheduler.ui.main.view
 
-import androidx.appcompat.app.AppCompatActivity
+import AddOptionBottomSheetFragment
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.TextView
-import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import androidx.appcompat.app.AppCompatActivity
 import com.summer.scheduler.R
 
 class MainSchedule : AppCompatActivity() {
@@ -23,5 +24,18 @@ class MainSchedule : AppCompatActivity() {
             val newEventSheet = NewEventBottomSheetFragment()
             newEventSheet.show(supportFragmentManager,newEventSheet.tag)
         }
+    }
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.main, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.addButton -> {
+                val addOptionSheet = AddOptionBottomSheetFragment()
+                addOptionSheet.show(supportFragmentManager,addOptionSheet.tag)
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }
