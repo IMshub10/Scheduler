@@ -2,28 +2,38 @@ package com.summer.scheduler.utils.views
 
 import android.content.Context
 import android.content.res.Resources
-import android.graphics.Canvas
-import android.graphics.Paint
-import android.graphics.Rect
-import android.graphics.RectF
+import android.graphics.*
 import android.graphics.drawable.GradientDrawable
 import android.util.AttributeSet
 import android.util.TypedValue
 import androidx.appcompat.widget.SwitchCompat
 
+
 class SwitchCompatEx : SwitchCompat {
 
     companion object {
-
         const val TRACK_COLOR = 0xFFFFFFFF.toInt()
         val TRACK_STROKE_WIDTH = 2f.dp2Px.toInt()
         const val TRACK_STROKE_COLOR = 0xFF00A1FF.toInt()
         const val TRACK_LABEL_COLOR = 0xFF00A1FF.toInt()
+        const val COLOR = 0xFF00FF00.toInt()
         val TRACK_LABEL_SIZE = 14f.sp2Px
 
         const val THUMB_COLOR = 0xFF00A1FF.toInt()
         const val THUMB_LABEL_COLOR = 0xFFFFFFFF.toInt()
         val THUMB_LABEL_SIZE = 14f.sp2Px
+
+        fun drawBackGround(canvas: Canvas,
+                           bounds: Rect,
+                           paint: Paint,
+                           text: CharSequence?){
+            val tb = RectF()
+            tb.right = paint.measureText(text, 0, text!!.length)
+            tb.bottom = paint.descent() - paint.ascent()
+            tb.left += bounds.centerX() - tb.centerX()
+            tb.top += bounds.centerY() - tb.centerY() - paint.ascent()
+            canvas.drawRect(100f,100f,100f,100f,paint)
+        }
 
         fun drawLabel(canvas: Canvas,
                       bounds: Rect,
@@ -55,6 +65,11 @@ class SwitchCompatEx : SwitchCompat {
         isAntiAlias = true
         textSize = TRACK_LABEL_SIZE
         color = TRACK_LABEL_COLOR
+    }
+
+    private val thumbPaint = Paint().apply {
+        isAntiAlias = true
+        color = COLOR
     }
 
     private val thumbLabelPaint = Paint().apply {
@@ -134,7 +149,7 @@ class SwitchCompatEx : SwitchCompat {
 
         override fun draw(canvas: Canvas) {
             super.draw(canvas)
-
+            drawBackGround(canvas,thumbLabelBounds,thumbPaint,thumbLabel)
             drawLabel(canvas, thumbLabelBounds, thumbLabelPaint, thumbLabel)
         }
     }

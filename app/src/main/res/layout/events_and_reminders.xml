@@ -24,6 +24,7 @@
             android:layout_gravity="center"
             android:textOff="@string/events"
             android:textOn="@string/reminders"
+            android:shadowColor="@null"
             android:thumb="@drawable/thumb"
             app:showText="true"
             app:track="@drawable/track" />

@@ -6,7 +6,5 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <include
-        layout="@layout/events_and_reminders"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
