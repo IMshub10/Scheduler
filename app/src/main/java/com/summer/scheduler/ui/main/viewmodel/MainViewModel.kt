@@ -74,4 +74,40 @@ class MainViewModel(private val reminderRepository: ReminderRepository, private 
             reminderRepository.addReminder(event)
         }
     }
+
+    fun updateToDo(toDo: ToDoEntity) {
+        viewModelScope.launch(Dispatchers.IO) {
+            toDoRepository.updateToDo(toDo)
+        }
+    }
+
+    fun updateReminder(event: ReminderEntity) {
+        viewModelScope.launch(Dispatchers.IO) {
+            reminderRepository.updateReminder(event)
+        }
+    }
+
+    fun removeToDo(toDo: ToDoEntity) {
+        viewModelScope.launch(Dispatchers.IO) {
+            toDoRepository.removeToDo(toDo)
+        }
+    }
+
+    fun removeReminder(event: ReminderEntity) {
+        viewModelScope.launch(Dispatchers.IO) {
+            reminderRepository.removeReminder(event)
+        }
+    }
+
+    fun removeAllToDos() {
+        viewModelScope.launch(Dispatchers.IO) {
+            toDoRepository.removeAllToDos()
+        }
+    }
+
+    fun removeAllReminders() {
+        viewModelScope.launch(Dispatchers.IO) {
+            reminderRepository.removeAllReminders()
+        }
+    }
 }

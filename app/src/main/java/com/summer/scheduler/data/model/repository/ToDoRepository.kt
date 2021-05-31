@@ -23,5 +23,5 @@ class ToDoRepository(application: Application) {
 
     suspend fun removeToDo(toDo: ToDoEntity) = todoDao.deleteToDo(toDo)
 
-    suspend fun removeAllToDos(toDo: ToDoEntity) = todoDao.deleteAllToDos()
+    suspend fun removeAllToDos() = todoDao.deleteAllToDos()
 }
