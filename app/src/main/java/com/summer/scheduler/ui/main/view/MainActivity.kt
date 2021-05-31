@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.goodiebag.horizontalpicker.HorizontalPicker
 import com.summer.scheduler.R
 import com.summer.scheduler.data.model.entity.ReminderEntity
@@ -13,6 +14,7 @@ import com.summer.scheduler.ui.main.adapter.ToDoListAdapter
 import com.summer.scheduler.ui.main.viewmodel.MainViewModel
 import com.summer.scheduler.ui.main.viewmodel.ViewModelFactory
 import com.summer.scheduler.ui.main.viewstate.MainState
+import kotlinx.android.synthetic.main.schedule_main.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -66,7 +68,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupUI() {
         reminderAdapter = ReminderListAdapter(this)
+        toDoAdapter = ToDoListAdapter(this)
 
+        to_do_recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        today_recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+
+        to_do_recyclerView.adapter = toDoAdapter
+        today_recyclerView.adapter = reminderAdapter
 
         val hpText: HorizontalPicker = findViewById(R.id.hpicker)
 
