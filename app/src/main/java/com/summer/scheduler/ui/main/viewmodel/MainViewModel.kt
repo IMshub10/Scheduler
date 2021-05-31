@@ -3,7 +3,6 @@ package com.summer.scheduler.ui.main.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.summer.scheduler.data.model.entity.ReminderEntity
 import com.summer.scheduler.data.model.repository.ReminderRepository
 import com.summer.scheduler.data.model.repository.ToDoRepository
 import com.summer.scheduler.ui.main.intent.MainIntent
@@ -17,13 +16,16 @@ import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.launch
 
 class MainViewModel(private val reminderRepository: ReminderRepository, private val toDoRepository: ToDoRepository): ViewModel() {
+
     private val userIntent = Channel<MainIntent>(Channel.UNLIMITED)
     private val _state = MutableStateFlow<MainState>(MainState.Idle)
     val state: StateFlow<MainState>
         get() = _state
+
     init {
         handleIntent()
     }
+
     private fun handleIntent() {
         viewModelScope.launch {
             userIntent.consumeAsFlow().collect {
