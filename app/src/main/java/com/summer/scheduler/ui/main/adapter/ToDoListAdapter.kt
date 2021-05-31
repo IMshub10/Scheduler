@@ -36,11 +36,11 @@ class ToDoListAdapter(private val context: Context) :
             object : DiffUtil.ItemCallback<ToDoEntity>() {
 
                 override fun areItemsTheSame(oldItem: ToDoEntity, newItem: ToDoEntity): Boolean {
-                    TODO("Not yet implemented")
+                    return oldItem.key == newItem.key
                 }
 
                 override fun areContentsTheSame(oldItem: ToDoEntity, newItem: ToDoEntity): Boolean {
-                    TODO("Not yet implemented")
+                    return oldItem == newItem
                 }
             }
     }
