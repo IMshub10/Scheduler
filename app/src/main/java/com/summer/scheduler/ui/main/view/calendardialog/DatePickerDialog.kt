@@ -3,26 +3,26 @@ package com.summer.scheduler.ui.main.view.calendardialog
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
-import android.widget.CalendarView
+import android.widget.DatePicker
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDialogFragment
 import com.summer.scheduler.R
 import java.text.SimpleDateFormat
 import java.util.*
 
-class CalendarDialog : AppCompatDialogFragment() {
+class DatePickerDialog : AppCompatDialogFragment() {
     var dateString = ""
     var weekNo = 0
-    private var listener: CalendarDialogBoxListener? = null
+    private var listener: DatePickerDialogBoxListener? = null
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(
             requireActivity()
         )
         val inflater = requireActivity().layoutInflater
         val view = inflater.inflate(R.layout.component_scheduler_calendar, null)
-        val calendarView = view.findViewById<CalendarView>(R.id.calendarDialog)
-        calendarView.firstDayOfWeek = Calendar.SUNDAY
-        calendarView.setOnDateChangeListener { calendarView, i, i1, i2 ->
+        val datePicker = view.findViewById<DatePicker>(R.id.datePickerDialog)
+        datePicker.firstDayOfWeek = Calendar.SUNDAY
+        datePicker.setOnDateChangedListener { dp, i, i1, i2 ->
             val cal = Calendar.getInstance()
             cal[i, i1] = i2
             val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
@@ -37,10 +37,12 @@ class CalendarDialog : AppCompatDialogFragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        listener = try {
-            targetFragment as CalendarDialogBoxListener?
-        } catch (e: ClassCastException) {
-            throw ClassCastException(context.toString() + "must implement CalendarDialogBoxListener")
+        if (context is DatePickerDialogBoxListener) {
+            listener = context
+        } else {
+            throw ClassCastException(
+                "$context must implement CalendarDialogBoxListener"
+            )
         }
     }
 }

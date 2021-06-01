@@ -2,6 +2,6 @@ package com.summer.scheduler.ui.main.view.calendardialog
 
 import java.util.*
 
-interface CalendarDialogBoxListener {
+interface DatePickerDialogBoxListener {
     fun sendDateInfo(dateString: String?, weekNo: Int, date: Date?)
 }

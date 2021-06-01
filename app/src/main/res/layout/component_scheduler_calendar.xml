@@ -4,12 +4,14 @@
     android:layout_height="match_parent">
     <!--android:background="?attr/colorBackground" -->
 
-    <CalendarView
+    <DatePicker
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:id="@+id/calendarDialog"
+        android:id="@+id/datePickerDialog"
         android:background="#1D1D1F"
+        android:calendarViewShown="true"
+        android:spinnersShown="false"
         android:focusedMonthDateColor="#FFFFFF"/>
 
 </RelativeLayout>
