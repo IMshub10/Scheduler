@@ -3,6 +3,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ToggleButton
+import androidx.navigation.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.summer.scheduler.R
@@ -26,10 +27,10 @@ class AddOptionBottomSheetFragment : BottomSheetDialogFragment() {
 
         materialButton_toDo.isSelected = true
         materialButton_toDo.setOnClickListener {
-
+            view: View -> view.findNavController().navigate(R.id.action_addOptionBottomSheetFragment_to_newToDoBottomSheetFragment2)
         }
         materialButton_today.setOnClickListener {
-
+                view: View -> view.findNavController().navigate(R.id.action_addOptionBottomSheetFragment_to_newEventBottomSheetFragment)
         }
 
         return view;

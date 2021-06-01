@@ -1,6 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/navigation">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/addOptionBottomSheetFragment">
 
+    <fragment
+        android:id="@+id/addOptionBottomSheetFragment"
+        android:name="AddOptionBottomSheetFragment"
+        android:label="AddOptionBottomSheetFragment"
+        tools:layout="@layout/events_and_reminders">
+        <action
+            android:id="@+id/action_addOptionBottomSheetFragment_to_newEventBottomSheetFragment"
+            app:destination="@id/newEventBottomSheetFragment"
+            app:popUpTo="@id/addOptionBottomSheetFragment"
+            app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_addOptionBottomSheetFragment_to_newToDoBottomSheetFragment2"
+            app:destination="@id/newToDoBottomSheetFragment"
+            app:popUpTo="@id/addOptionBottomSheetFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/newToDoBottomSheetFragment"
+        android:name="com.summer.scheduler.ui.main.view.NewToDoBottomSheetFragment"
+        android:label="NewToDoBottomSheetFragment"
+        tools:layout="@layout/fragment_reminders"/>
+    <fragment
+        android:id="@+id/newEventBottomSheetFragment"
+        android:name="com.summer.scheduler.ui.main.view.NewEventBottomSheetFragment"
+        android:label="NewEventBottomSheetFragment"
+        tools:layout="@layout/fragment_events"/>
 </navigation>
