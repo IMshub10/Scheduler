@@ -2,8 +2,7 @@ package com.summer.scheduler.ui.main.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.goodiebag.horizontalpicker.HorizontalPicker
 import com.summer.scheduler.R
@@ -16,6 +15,8 @@ import com.summer.scheduler.ui.main.viewmodel.ViewModelFactory
 import com.summer.scheduler.ui.main.viewstate.MainState
 import kotlinx.android.synthetic.main.schedule_main.*
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
@@ -35,20 +36,28 @@ class MainActivity : AppCompatActivity() {
 
     private fun observableViewModel() {
         lifecycleScope.launch {
-            mainViewModel.state.collect {
-                when (it) {
-                    is MainState.Idle -> {}
-                    is MainState.Loading -> {}
-                    is MainState.Reminders -> {
-                        getAllReminders(it.reminders)
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                mainViewModel.state.collect {
+                    when (it) {
+                        is MainState.Idle -> {
+                        }
+                        is MainState.Loading -> {
+                        }
+                        is MainState.Reminders -> {
+                            getAllReminders(it.reminders)
+                        }
+                        is MainState.ToDos -> {
+                            getAllToDos(it.toDos)
+                        }
+                        is MainState.OpenBottomSheet -> {
+                        }
+                        is MainState.SelectDateFromCalendar -> {
+                        }
+                        is MainState.SelectDateFromPicker -> {
+                        }
                     }
-                    is MainState.ToDos -> {
-                        getAllToDos(it.toDos)
-                    }
-                    is MainState.OpenBottomSheet -> {}
-                    is MainState.SelectDateFromCalendar -> {}
-                    is MainState.SelectDateFromPicker -> {}
                 }
+
             }
         }
     }
