@@ -15,8 +15,6 @@ import com.summer.scheduler.ui.main.viewmodel.ViewModelFactory
 import com.summer.scheduler.ui.main.viewstate.MainState
 import kotlinx.android.synthetic.main.schedule_main.*
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
