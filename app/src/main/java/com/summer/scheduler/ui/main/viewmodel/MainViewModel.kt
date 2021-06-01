@@ -1,7 +1,6 @@
 package com.summer.scheduler.ui.main.viewmodel
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import cn.pedant.SweetAlert.SweetAlertDialog
@@ -38,13 +37,22 @@ class MainViewModel(private val application: Application,
                 when(it) {
                     is MainIntent.FetchReminders -> fetchAllReminders(it.day)
                     is MainIntent.FetchTodos -> fetchAllToDos(it.day)
+                    is MainIntent.SelectDateFromDatePicker -> selectFromDatePicker()
+                    is MainIntent.SelectDateFromHorizontalPicker -> selectFromHorizontalPicker()
                     is MainIntent.SwitchBetweenReminderToDo -> switchFragments()
                     is MainIntent.AddToDo -> openToDoFragment()
                     is MainIntent.AddReminder -> openReminderFragment()
-                    else -> Log.d("USER INTENT", "else case")
                 }
             }
         }
+    }
+
+    private fun selectFromHorizontalPicker() {
+        _state.value = MainState.SelectDateFromHorizontalPicker
+    }
+
+    private fun selectFromDatePicker() {
+        _state.value = MainState.SelectDateFromDatePicker
     }
 
     private fun switchFragments() {

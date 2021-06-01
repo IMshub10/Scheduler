@@ -12,16 +12,21 @@ import com.summer.scheduler.data.model.entity.ToDoEntity
 import com.summer.scheduler.ui.main.adapter.ReminderListAdapter
 import com.summer.scheduler.ui.main.adapter.ToDoListAdapter
 import com.summer.scheduler.ui.main.intent.MainIntent
+import com.summer.scheduler.ui.main.view.calendardialog.DatePickerDialog
+import com.summer.scheduler.ui.main.view.calendardialog.DatePickerDialogBoxListener
 import com.summer.scheduler.ui.main.viewmodel.MainViewModel
 import com.summer.scheduler.ui.main.viewmodel.ViewModelFactory
 import com.summer.scheduler.ui.main.viewstate.MainState
 import kotlinx.android.synthetic.main.schedule_main.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import java.util.*
+import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity(),
     NewEventBottomSheetFragment.OnEventAddedListener,
-    NewToDoBottomSheetFragment.OnToDoAddedListener {
+    NewToDoBottomSheetFragment.OnToDoAddedListener,
+    DatePickerDialogBoxListener{
 
     private lateinit var mainViewModel: MainViewModel
     private lateinit var reminderAdapter: ReminderListAdapter
@@ -71,9 +76,11 @@ class MainActivity : AppCompatActivity(),
                         is MainState.OpenReminderBottomSheet -> {
                             openReminderFragment()
                         }
-                        is MainState.SelectDateFromCalendar -> {
+                        is MainState.SelectDateFromDatePicker -> {
+                            openDatePickerDialog()
                         }
-                        is MainState.SelectDateFromPicker -> {
+                        is MainState.SelectDateFromHorizontalPicker -> {
+
                         }
                         is MainState.OpenSwitchBottomSheet -> {
                             openSwitchFragment()
@@ -81,6 +88,14 @@ class MainActivity : AppCompatActivity(),
                     }
                 }
 
+            }
+        }
+    }
+
+    private fun openDatePickerDialog() {
+        supportFragmentManager.let {
+            DatePickerDialog.newInstance(Bundle()).apply {
+                show(it, tag)
             }
         }
     }
@@ -145,7 +160,6 @@ class MainActivity : AppCompatActivity(),
             textItems,
             3
         ) //3 here signifies the default selected item. Use : hpText.setItems(textItems) if none of the items are selected by default.
-
     }
 
     override fun onEventAdded(event: ReminderEntity) {
@@ -154,5 +168,15 @@ class MainActivity : AppCompatActivity(),
 
     override fun onToDoAdded(toDo: ToDoEntity) {
         mainViewModel.addToDo(toDo)
+    }
+
+    override fun sendDateInfo(dateString: String?, weekNo: Int, date: Date?) {
+        val day = dateString?.filter {
+            it != '/'
+        }
+        lifecycleScope.launch {
+            mainViewModel.userIntent.send(MainIntent.FetchTodos(day!!.toInt()))
+            mainViewModel.userIntent.send(MainIntent.FetchReminders(day.toInt()))
+        }
     }
 }
