@@ -62,7 +62,7 @@ class NewToDoBottomSheetFragment : BottomSheetDialogFragment() {
             mListener = context
         } else {
             throw RuntimeException(
-                "$context must implement ItemClickListener"
+                "$context must implement OnToDoAddedListener"
             )
         }
     }
@@ -73,7 +73,7 @@ class NewToDoBottomSheetFragment : BottomSheetDialogFragment() {
 
     companion object {
         @JvmStatic
-        fun getInstance(bundle: Bundle): NewToDoBottomSheetFragment {
+        fun newInstance(bundle: Bundle): NewToDoBottomSheetFragment {
             val fragment = NewToDoBottomSheetFragment()
             fragment.arguments = bundle
             return fragment

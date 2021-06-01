@@ -6,7 +6,9 @@ import com.summer.scheduler.data.model.entity.ToDoEntity
 sealed class MainState {
     object Idle : MainState()
     object Loading : MainState()
-    object OpenBottomSheet : MainState()
+    object OpenToDoBottomSheet : MainState()
+    object OpenReminderBottomSheet: MainState()
+    object OpenSwitchBottomSheet: MainState()
     data class ToDos(val toDos: List<ToDoEntity>) : MainState()
     data class Reminders(val reminders: List<ReminderEntity>) : MainState()
     data class SelectDateFromCalendar(val day: Int) : MainState()

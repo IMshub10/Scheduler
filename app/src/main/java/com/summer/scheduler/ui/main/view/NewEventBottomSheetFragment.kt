@@ -58,7 +58,7 @@ class NewEventBottomSheetFragment : BottomSheetDialogFragment() {
 
     companion object {
         @JvmStatic
-        fun getInstance(bundle: Bundle): NewEventBottomSheetFragment {
+        fun newInstance(bundle: Bundle): NewEventBottomSheetFragment {
             val fragment = NewEventBottomSheetFragment()
             fragment.arguments = bundle
             return fragment
@@ -73,7 +73,7 @@ class NewEventBottomSheetFragment : BottomSheetDialogFragment() {
             mListener = context
         } else {
             throw RuntimeException(
-                "$context must implement ItemClickListener"
+                "$context must implement OnEventAddedListener"
             )
         }
     }

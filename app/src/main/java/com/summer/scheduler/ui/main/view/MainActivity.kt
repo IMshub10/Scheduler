@@ -1,5 +1,6 @@
 package com.summer.scheduler.ui.main.view
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.*
@@ -10,6 +11,7 @@ import com.summer.scheduler.data.model.entity.ReminderEntity
 import com.summer.scheduler.data.model.entity.ToDoEntity
 import com.summer.scheduler.ui.main.adapter.ReminderListAdapter
 import com.summer.scheduler.ui.main.adapter.ToDoListAdapter
+import com.summer.scheduler.ui.main.intent.MainIntent
 import com.summer.scheduler.ui.main.viewmodel.MainViewModel
 import com.summer.scheduler.ui.main.viewmodel.ViewModelFactory
 import com.summer.scheduler.ui.main.viewstate.MainState
@@ -17,7 +19,9 @@ import kotlinx.android.synthetic.main.schedule_main.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(),
+    NewEventBottomSheetFragment.OnEventAddedListener,
+    NewToDoBottomSheetFragment.OnToDoAddedListener {
 
     private lateinit var mainViewModel: MainViewModel
     private lateinit var reminderAdapter: ReminderListAdapter
@@ -27,9 +31,23 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        startActivity(Intent(this, MainSchedule::class.java))
+
         setupUI()
         setupViewModel()
         observableViewModel()
+
+        to_do_newItem.setOnClickListener {
+            lifecycleScope.launch {
+                mainViewModel.userIntent.send(MainIntent.AddToDo)
+            }
+        }
+
+        today_newEvent.setOnClickListener {
+            lifecycleScope.launch {
+                mainViewModel.userIntent.send(MainIntent.AddReminder)
+            }
+        }
     }
 
     private fun observableViewModel() {
@@ -47,15 +65,46 @@ class MainActivity : AppCompatActivity() {
                         is MainState.ToDos -> {
                             getAllToDos(it.toDos)
                         }
-                        is MainState.OpenBottomSheet -> {
+                        is MainState.OpenToDoBottomSheet -> {
+                            openToDoFragment()
+                        }
+                        is MainState.OpenReminderBottomSheet -> {
+                            openReminderFragment()
                         }
                         is MainState.SelectDateFromCalendar -> {
                         }
                         is MainState.SelectDateFromPicker -> {
                         }
+                        is MainState.OpenSwitchBottomSheet -> {
+                            openSwitchFragment()
+                        }
                     }
                 }
 
+            }
+        }
+    }
+
+    private fun openToDoFragment() {
+        supportFragmentManager.let {
+            NewToDoBottomSheetFragment.newInstance(Bundle()).apply {
+                show(it, tag)
+            }
+        }
+    }
+
+    private fun openReminderFragment() {
+        supportFragmentManager.let {
+            NewEventBottomSheetFragment.newInstance(Bundle()).apply {
+                show(it, tag)
+            }
+        }
+    }
+
+    private fun openSwitchFragment() {
+        supportFragmentManager.let {
+            AddOptionBottomSheetFragment.newInstance(Bundle()).apply {
+                show(it, tag)
             }
         }
     }
@@ -77,8 +126,10 @@ class MainActivity : AppCompatActivity() {
         reminderAdapter = ReminderListAdapter(this)
         toDoAdapter = ToDoListAdapter(this)
 
-        to_do_recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        today_recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        to_do_recyclerView.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        today_recyclerView.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
         to_do_recyclerView.adapter = toDoAdapter
         today_recyclerView.adapter = reminderAdapter
@@ -95,5 +146,13 @@ class MainActivity : AppCompatActivity() {
             3
         ) //3 here signifies the default selected item. Use : hpText.setItems(textItems) if none of the items are selected by default.
 
+    }
+
+    override fun onEventAdded(event: ReminderEntity) {
+        mainViewModel.addReminder(event)
+    }
+
+    override fun onToDoAdded(toDo: ToDoEntity) {
+        mainViewModel.addToDo(toDo)
     }
 }
