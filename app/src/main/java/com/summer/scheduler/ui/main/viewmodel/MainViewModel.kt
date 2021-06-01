@@ -36,10 +36,25 @@ class MainViewModel(private val application: Application, private val reminderRe
                 when(it) {
                     is MainIntent.FetchReminders -> fetchAllReminders()
                     is MainIntent.FetchTodos -> fetchAllToDos()
+                    is MainIntent.SwitchBetweenReminderToDo -> switchBetweenToDos()
+                    is MainIntent.AddToDo -> openToDoFragment()
+                    is MainIntent.AddReminder -> openReminderFragment()
                     else -> Log.d("USER INTENT", "else case")
                 }
             }
         }
+    }
+
+    private fun switchBetweenToDos() {
+        TODO("Not yet implemented")
+    }
+
+    private fun openReminderFragment() {
+
+    }
+
+    private fun openToDoFragment() {
+
     }
 
     private fun fetchAllReminders() {
