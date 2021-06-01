@@ -55,7 +55,7 @@ class SwipeItemTouchHelper(private val context: Context, dragDirs: Int, private 
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {}
     override fun onChildDraw(c: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
-        super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+        super.onChildDraw(c, recyclerView, viewHolder, dX / 3, dY, actionState, isCurrentlyActive)
         if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
             setTouchListener(recyclerView, viewHolder)
         }
