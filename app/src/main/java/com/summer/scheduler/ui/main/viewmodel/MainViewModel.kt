@@ -36,8 +36,8 @@ class MainViewModel(private val application: Application,
         viewModelScope.launch {
             userIntent.consumeAsFlow().collect {
                 when(it) {
-                    is MainIntent.FetchReminders -> fetchAllReminders()
-                    is MainIntent.FetchTodos -> fetchAllToDos()
+                    is MainIntent.FetchReminders -> fetchAllReminders(it.day)
+                    is MainIntent.FetchTodos -> fetchAllToDos(it.day)
                     is MainIntent.SwitchBetweenReminderToDo -> switchFragments()
                     is MainIntent.AddToDo -> openToDoFragment()
                     is MainIntent.AddReminder -> openReminderFragment()
@@ -59,22 +59,22 @@ class MainViewModel(private val application: Application,
         _state.value = MainState.OpenToDoBottomSheet
     }
 
-    private fun fetchAllReminders() {
+    private fun fetchAllReminders(day: Int) {
         viewModelScope.launch {
             _state.value = MainState.Loading
             viewModelScope.launch(Dispatchers.IO) {
-                reminderRepository.getAllReminders().collect {
+                reminderRepository.getAllReminders(day).collect {
                     _state.value = MainState.Reminders(it)
                 }
             }
         }
     }
 
-    private fun fetchAllToDos() {
+    private fun fetchAllToDos(day: Int) {
         viewModelScope.launch {
             _state.value = MainState.Loading
             viewModelScope.launch(Dispatchers.IO) {
-                toDoRepository.getAllToDos().collect {
+                toDoRepository.getAllToDos(day).collect {
                     _state.value = MainState.ToDos(it)
                 }
             }
@@ -117,15 +117,15 @@ class MainViewModel(private val application: Application,
         }
     }
 
-    fun removeAllToDos() {
+    fun removeAllToDos(day: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            toDoRepository.removeAllToDos()
+            toDoRepository.removeAllToDos(day)
         }
     }
 
-    fun removeAllReminders() {
+    fun removeAllReminders(day: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            reminderRepository.removeAllReminders()
+            reminderRepository.removeAllReminders(day)
         }
     }
 

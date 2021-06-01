@@ -15,7 +15,7 @@ class ToDoRepository(application: Application) {
         todoDao = database.getToDoDao()
     }
 
-    fun getAllToDos() : Flow<List<ToDoEntity>> = todoDao.getAllToDos()
+    fun getAllToDos(day: Int) : Flow<List<ToDoEntity>> = todoDao.getAllToDos(day)
 
     suspend fun addToDo(toDo: ToDoEntity) = todoDao.addToDo(toDo)
 
@@ -23,5 +23,5 @@ class ToDoRepository(application: Application) {
 
     suspend fun removeToDo(toDo: ToDoEntity) = todoDao.deleteToDo(toDo)
 
-    suspend fun removeAllToDos() = todoDao.deleteAllToDos()
+    suspend fun removeAllToDos(day: Int) = todoDao.deleteAllToDos(day)
 }

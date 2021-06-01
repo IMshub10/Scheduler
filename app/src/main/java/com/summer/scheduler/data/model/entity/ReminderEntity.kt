@@ -13,4 +13,5 @@ data class ReminderEntity(
     val people : String,
     val link : String,
     val location : String,
+    val day: Int
 )

@@ -13,6 +13,7 @@ import com.summer.scheduler.R
 import com.summer.scheduler.data.model.entity.ReminderEntity
 import kotlinx.android.synthetic.main.fragment_events.*
 import kotlinx.android.synthetic.main.fragment_events.view.*
+import java.util.*
 
 class NewEventBottomSheetFragment : BottomSheetDialogFragment() {
 
@@ -44,7 +45,17 @@ class NewEventBottomSheetFragment : BottomSheetDialogFragment() {
         val eventLocation = editText_fragmentEvents_location.text.toString()
 
         if(inputCheck(eventTitle, eventStart, eventEnd)) {
-            val event = ReminderEntity(0,eventTitle,eventAgenda,Integer.parseInt(eventStart.toString()),Integer.parseInt(eventEnd.toString()),eventPeople,eventLink,eventLocation)
+            val c: Calendar = Calendar.getInstance()
+            var dString = "${c.get(Calendar.DAY_OF_MONTH)}"
+            var mString = "${c.get(Calendar.MONTH)}"
+
+            if (c.get(Calendar.DAY_OF_MONTH) < 10) dString = "0$dString"
+            if (c.get(Calendar.MONTH) < 10) mString = "0$mString"
+            val yString = "${c.get(Calendar.YEAR)}"
+
+            val day = "$yString$mString$dString"
+
+            val event = ReminderEntity(0,eventTitle,eventAgenda,Integer.parseInt(eventStart.toString()),Integer.parseInt(eventEnd.toString()),eventPeople,eventLink,eventLocation, day.toInt())
             mListener?.onEventAdded(event)
             Toast.makeText(requireContext(), "Successfully Added",Toast.LENGTH_SHORT).show()
         } else {
