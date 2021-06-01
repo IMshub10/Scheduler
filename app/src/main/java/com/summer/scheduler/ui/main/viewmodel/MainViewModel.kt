@@ -1,8 +1,10 @@
 package com.summer.scheduler.ui.main.viewmodel
 
+import android.app.Application
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import cn.pedant.SweetAlert.SweetAlertDialog
 import com.summer.scheduler.data.model.entity.ReminderEntity
 import com.summer.scheduler.data.model.entity.ToDoEntity
 import com.summer.scheduler.data.model.repository.ReminderRepository
@@ -17,7 +19,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.launch
 
-class MainViewModel(private val reminderRepository: ReminderRepository, private val toDoRepository: ToDoRepository): ViewModel() {
+class MainViewModel(private val application: Application, private val reminderRepository: ReminderRepository, private val toDoRepository: ToDoRepository): ViewModel() {
 
     private val userIntent = Channel<MainIntent>(Channel.UNLIMITED)
     private val _state = MutableStateFlow<MainState>(MainState.Idle)
@@ -45,7 +47,7 @@ class MainViewModel(private val reminderRepository: ReminderRepository, private 
             _state.value = MainState.Loading
             viewModelScope.launch(Dispatchers.IO) {
                 reminderRepository.getAllReminders().collect {
-                    MainState.Reminders(it)
+                    _state.value = MainState.Reminders(it)
                 }
             }
         }
@@ -56,7 +58,7 @@ class MainViewModel(private val reminderRepository: ReminderRepository, private 
             _state.value = MainState.Loading
             viewModelScope.launch(Dispatchers.IO) {
                 toDoRepository.getAllToDos().collect {
-                    MainState.ToDos(it)
+                    _state.value = MainState.ToDos(it)
                 }
             }
 
@@ -73,5 +75,81 @@ class MainViewModel(private val reminderRepository: ReminderRepository, private 
         viewModelScope.launch(Dispatchers.IO) {
             reminderRepository.addReminder(event)
         }
+    }
+
+    fun updateToDo(toDo: ToDoEntity) {
+        viewModelScope.launch(Dispatchers.IO) {
+            toDoRepository.updateToDo(toDo)
+        }
+    }
+
+    fun updateReminder(event: ReminderEntity) {
+        viewModelScope.launch(Dispatchers.IO) {
+            reminderRepository.updateReminder(event)
+        }
+    }
+
+    fun removeToDo(toDo: ToDoEntity) {
+        viewModelScope.launch(Dispatchers.IO) {
+            toDoRepository.removeToDo(toDo)
+        }
+    }
+
+    fun removeReminder(event: ReminderEntity) {
+        viewModelScope.launch(Dispatchers.IO) {
+            reminderRepository.removeReminder(event)
+        }
+    }
+
+    fun removeAllToDos() {
+        viewModelScope.launch(Dispatchers.IO) {
+            toDoRepository.removeAllToDos()
+        }
+    }
+
+    fun removeAllReminders() {
+        viewModelScope.launch(Dispatchers.IO) {
+            reminderRepository.removeAllReminders()
+        }
+    }
+
+    fun showDeleteReminderDialog() {
+        val dialog = SweetAlertDialog(application.baseContext, SweetAlertDialog.WARNING_TYPE)
+            .setTitleText("Are you sure?")
+            .setContentText("This Reminder item will be permanently deleted")
+            .setConfirmText("Yes")
+            .setCancelText("No")
+            .setConfirmClickListener { sweetAlertDialog ->
+                sweetAlertDialog.setTitleText("Deleted!")
+                    .setContentText("Your Reminder item is successfully deleted!")
+                    .setConfirmText("OK")
+                    .setConfirmClickListener(null)
+                    .changeAlertType(SweetAlertDialog.SUCCESS_TYPE)
+            }
+            .setCancelClickListener {
+                it.cancel()
+            }
+
+        dialog.show()
+    }
+
+    fun showDeleteToDoDialog() {
+        val dialog = SweetAlertDialog(application.baseContext, SweetAlertDialog.WARNING_TYPE)
+            .setTitleText("Are you sure?")
+            .setContentText("This To Do item will be permanently deleted")
+            .setConfirmText("Yes")
+            .setCancelText("No")
+            .setConfirmClickListener { sweetAlertDialog ->
+                sweetAlertDialog.setTitleText("Deleted!")
+                    .setContentText("Your To Do item is successfully deleted!")
+                    .setConfirmText("OK")
+                    .setConfirmClickListener(null)
+                    .changeAlertType(SweetAlertDialog.SUCCESS_TYPE)
+            }
+            .setCancelClickListener {
+                it.cancel()
+            }
+
+        dialog.show()
     }
 }

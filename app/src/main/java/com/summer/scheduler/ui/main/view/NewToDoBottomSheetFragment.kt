@@ -12,9 +12,9 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.summer.scheduler.R
 import com.summer.scheduler.data.model.entity.ToDoEntity
 import com.summer.scheduler.ui.main.viewmodel.MainViewModel
+import com.summer.scheduler.ui.main.viewmodel.ViewModelFactory
 import kotlinx.android.synthetic.main.fragment_reminders.*
 import kotlinx.android.synthetic.main.fragment_reminders.view.*
-import kotlinx.android.synthetic.main.schedule_main.view.*
 
 class NewToDoBottomSheetFragment : BottomSheetDialogFragment() {
 
@@ -31,22 +31,23 @@ class NewToDoBottomSheetFragment : BottomSheetDialogFragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_reminders, container, false)
 
-        newToDoViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+        newToDoViewModel = ViewModelProvider(this, ViewModelFactory(requireActivity().application))
+            .get(MainViewModel::class.java)
 
         view.to_do_done.setOnClickListener {
-            insertToDotoDatabase()
+            insertToDoToDatabase()
         }
 
         return view
     }
 
-    private fun insertToDotoDatabase() {
+    private fun insertToDoToDatabase() {
         val toDoItem = editText_fragmentEvents_reminder.text.toString()
         val date = editText_fragmentEvents_date.text
 
         if(inputCheck(toDoItem, date)) {
-            val ToDo = ToDoEntity(0,toDoItem,Integer.parseInt(date.toString()),true)
-            newToDoViewModel.addToDo(ToDo)
+            val toDo = ToDoEntity(0,toDoItem,Integer.parseInt(date.toString()),true)
+            newToDoViewModel.addToDo(toDo)
             Toast.makeText(requireContext(), "Successfully Added",Toast.LENGTH_SHORT).show()
         } else {
             Toast.makeText(requireContext(), "Please fill out all fields",Toast.LENGTH_SHORT).show()

@@ -12,6 +12,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.summer.scheduler.R
 import com.summer.scheduler.data.model.entity.ReminderEntity
 import com.summer.scheduler.ui.main.viewmodel.MainViewModel
+import com.summer.scheduler.ui.main.viewmodel.ViewModelFactory
 import kotlinx.android.synthetic.main.fragment_events.*
 import kotlinx.android.synthetic.main.fragment_events.view.*
 
@@ -30,16 +31,17 @@ class NewEventBottomSheetFragment : BottomSheetDialogFragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_events, container, false)
 
-        newEventViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+        newEventViewModel = ViewModelProvider(this, ViewModelFactory(requireActivity().application))
+            .get(MainViewModel::class.java)
 
         view.event_done.setOnClickListener {
-            insertToDotoDatabase()
+            insertToDoToDatabase()
         }
 
         return view
     }
 
-    private fun insertToDotoDatabase() {
+    private fun insertToDoToDatabase() {
         val eventTitle = editText_fragmentEvents_eventTitle.text.toString()
         val eventAgenda = editText_fragmentEvents_agenda.text.toString()
         val eventStart = editText_fragmentEvents_starts.text

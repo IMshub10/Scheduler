@@ -25,5 +25,5 @@ class ReminderRepository(application: Application) {
 
     suspend fun removeReminder(reminder: ReminderEntity) = reminderDao.deleteReminder(reminder)
 
-    suspend fun removeAllReminders(reminder: ReminderEntity) = reminderDao.deleteAllReminders()
+    suspend fun removeAllReminders() = reminderDao.deleteAllReminders()
 }
