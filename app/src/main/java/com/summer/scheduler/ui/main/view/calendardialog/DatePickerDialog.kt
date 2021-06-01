@@ -45,4 +45,13 @@ class DatePickerDialog : AppCompatDialogFragment() {
             )
         }
     }
+
+    companion object {
+        @JvmStatic
+        fun newInstance(bundle: Bundle): DatePickerDialog {
+            val fragment = DatePickerDialog()
+            fragment.arguments = bundle
+            return fragment
+        }
+    }
 }
