@@ -51,7 +51,11 @@ class MainViewModel(private val application: Application, private val reminderRe
     }
 
     private fun switchBetweenToDos() {
-        TODO("Not yet implemented")
+        (application.baseContext as MainActivity).supportFragmentManager.let {
+            AddOptionBottomSheetFragment.getInstance(Bundle()).apply {
+                show(it, tag)
+            }
+        }
     }
 
     private fun openReminderFragment() {

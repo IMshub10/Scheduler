@@ -7,6 +7,7 @@ import androidx.navigation.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.summer.scheduler.R
+import com.summer.scheduler.ui.main.view.NewEventBottomSheetFragment
 import com.summer.scheduler.ui.main.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.events_and_reminders.*
 
@@ -34,5 +35,14 @@ class AddOptionBottomSheetFragment : BottomSheetDialogFragment() {
         }
 
         return view;
+    }
+
+    companion object {
+        @JvmStatic
+        fun getInstance(bundle: Bundle): AddOptionBottomSheetFragment {
+            val fragment = AddOptionBottomSheetFragment()
+            fragment.arguments = bundle
+            return fragment
+        }
     }
 }
