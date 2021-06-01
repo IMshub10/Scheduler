@@ -1,5 +1,6 @@
 package com.summer.scheduler.ui.main.view
 
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
@@ -18,8 +19,6 @@ import kotlinx.android.synthetic.main.fragment_reminders.view.*
 
 class NewToDoBottomSheetFragment : BottomSheetDialogFragment() {
 
-    private lateinit var newToDoViewModel: MainViewModel
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -30,9 +29,6 @@ class NewToDoBottomSheetFragment : BottomSheetDialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_reminders, container, false)
-
-        newToDoViewModel = ViewModelProvider(this, ViewModelFactory(requireActivity().application))
-            .get(MainViewModel::class.java)
 
         view.to_do_done.setOnClickListener {
             insertToDoToDatabase()
@@ -47,7 +43,7 @@ class NewToDoBottomSheetFragment : BottomSheetDialogFragment() {
 
         if(inputCheck(toDoItem, date)) {
             val toDo = ToDoEntity(0,toDoItem,Integer.parseInt(date.toString()),false)
-            newToDoViewModel.addToDo(toDo)
+            mListener?.onToDoAdded(toDo)
             Toast.makeText(requireContext(), "Successfully Added",Toast.LENGTH_SHORT).show()
         } else {
             Toast.makeText(requireContext(), "Please fill out all fields",Toast.LENGTH_SHORT).show()
@@ -56,5 +52,31 @@ class NewToDoBottomSheetFragment : BottomSheetDialogFragment() {
 
     private fun inputCheck(toDoItem: String, date: Editable):Boolean {
         return !(TextUtils.isEmpty(toDoItem) && date.isEmpty())
+    }
+
+    private var mListener: OnToDoAddedListener? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is OnToDoAddedListener) {
+            mListener = context
+        } else {
+            throw RuntimeException(
+                "$context must implement ItemClickListener"
+            )
+        }
+    }
+
+    interface OnToDoAddedListener {
+        fun onToDoAdded(toDo: ToDoEntity)
+    }
+
+    companion object {
+        @JvmStatic
+        fun getInstance(bundle: Bundle): NewToDoBottomSheetFragment {
+            val fragment = NewToDoBottomSheetFragment()
+            fragment.arguments = bundle
+            return fragment
+        }
     }
 }

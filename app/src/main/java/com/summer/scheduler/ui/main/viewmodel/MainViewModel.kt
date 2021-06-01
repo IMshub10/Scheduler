@@ -1,6 +1,7 @@
 package com.summer.scheduler.ui.main.viewmodel
 
 import android.app.Application
+import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,6 +11,9 @@ import com.summer.scheduler.data.model.entity.ToDoEntity
 import com.summer.scheduler.data.model.repository.ReminderRepository
 import com.summer.scheduler.data.model.repository.ToDoRepository
 import com.summer.scheduler.ui.main.intent.MainIntent
+import com.summer.scheduler.ui.main.view.MainActivity
+import com.summer.scheduler.ui.main.view.NewEventBottomSheetFragment
+import com.summer.scheduler.ui.main.view.NewToDoBottomSheetFragment
 import com.summer.scheduler.ui.main.viewstate.MainState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
@@ -19,7 +23,8 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.launch
 
-class MainViewModel(private val application: Application, private val reminderRepository: ReminderRepository, private val toDoRepository: ToDoRepository): ViewModel() {
+class MainViewModel(private val application: Application, private val reminderRepository: ReminderRepository, private val toDoRepository: ToDoRepository): ViewModel()
+    , NewEventBottomSheetFragment.OnEventAddedListener, NewToDoBottomSheetFragment.OnToDoAddedListener {
 
     private val userIntent = Channel<MainIntent>(Channel.UNLIMITED)
     private val _state = MutableStateFlow<MainState>(MainState.Idle)
@@ -50,11 +55,19 @@ class MainViewModel(private val application: Application, private val reminderRe
     }
 
     private fun openReminderFragment() {
-
+        (application.baseContext as MainActivity).supportFragmentManager.let {
+            NewEventBottomSheetFragment.getInstance(Bundle()).apply {
+                show(it, tag)
+            }
+        }
     }
 
     private fun openToDoFragment() {
-
+        (application.baseContext as MainActivity).supportFragmentManager.let {
+            NewToDoBottomSheetFragment.getInstance(Bundle()).apply {
+                show(it, tag)
+            }
+        }
     }
 
     private fun fetchAllReminders() {
@@ -80,13 +93,13 @@ class MainViewModel(private val application: Application, private val reminderRe
         }
     }
 
-    fun addToDo(toDo: ToDoEntity) {
+    private fun addToDo(toDo: ToDoEntity) {
         viewModelScope.launch(Dispatchers.IO) {
             toDoRepository.addToDo(toDo)
         }
     }
 
-    fun addReminder(event: ReminderEntity) {
+    private fun addReminder(event: ReminderEntity) {
         viewModelScope.launch(Dispatchers.IO) {
             reminderRepository.addReminder(event)
         }
@@ -166,5 +179,13 @@ class MainViewModel(private val application: Application, private val reminderRe
             }
 
         dialog.show()
+    }
+
+    override fun onEventAdded(event: ReminderEntity) {
+        addReminder(event)
+    }
+
+    override fun onToDoAdded(toDo: ToDoEntity) {
+        addToDo(toDo)
     }
 }
