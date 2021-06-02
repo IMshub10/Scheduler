@@ -25,7 +25,7 @@ class DatePickerDialog : AppCompatDialogFragment() {
         datePicker.setOnDateChangedListener { dp, i, i1, i2 ->
             val cal = Calendar.getInstance()
             cal[i, i1] = i2
-            val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+            val sdf = SimpleDateFormat("yyyy/MM/dd", Locale.getDefault())
             dateString = sdf.format(cal.time)
             weekNo = cal[Calendar.WEEK_OF_YEAR]
             listener!!.sendDateInfo(dateString, weekNo, cal.time)
