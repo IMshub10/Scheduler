@@ -91,5 +91,11 @@ class NewEvent : BottomSheetDialogFragment() {
 
     interface OnEventAddedListener {
         fun onEventAdded(event: ReminderEntity)
+        fun onCloseReminderFragment()
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        mListener?.onCloseReminderFragment()
     }
 }

@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -163,7 +162,7 @@ class MainActivity : AppCompatActivity(),
         }
     }
 
-    fun getAllReminders(reminders: List<ReminderEntity>) {
+    private fun getAllReminders(reminders: List<ReminderEntity>) {
         reminderAdapter.submitList(reminders)
     }
 
@@ -412,12 +411,24 @@ class MainActivity : AppCompatActivity(),
         }
     }
 
+    override fun onCloseDatePickerFragment() {
+        mainViewModel.setIdleState()
+    }
+
     override fun onEventAdded(event: ReminderEntity) {
         mainViewModel.addReminder(event)
     }
 
+    override fun onCloseReminderFragment() {
+        mainViewModel.setIdleState()
+    }
+
     override fun onToDoAdded(toDo: ToDoEntity) {
         mainViewModel.addToDo(toDo)
+    }
+
+    override fun onCloseToDoFragment() {
+        mainViewModel.setIdleState()
     }
 
     override fun rightSwipeDelete(position: Int, recyclerId: Int) {

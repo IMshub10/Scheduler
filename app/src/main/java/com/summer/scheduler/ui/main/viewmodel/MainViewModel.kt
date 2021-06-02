@@ -53,7 +53,10 @@ class MainViewModel(private val application: Application,
 
     private fun selectFromDatePicker() {
         _state.value = MainState.SelectDateFromDatePicker
+    }
 
+    fun setIdleState() {
+        _state.value = MainState.Idle
     }
 
     private fun switchFragments() {

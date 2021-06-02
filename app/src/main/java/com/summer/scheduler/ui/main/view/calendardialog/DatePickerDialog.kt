@@ -57,4 +57,9 @@ class DatePickerDialog : AppCompatDialogFragment() {
             return fragment
         }
     }
+
+    override fun onDetach() {
+        super.onDetach()
+        listener?.onCloseDatePickerFragment()
+    }
 }
