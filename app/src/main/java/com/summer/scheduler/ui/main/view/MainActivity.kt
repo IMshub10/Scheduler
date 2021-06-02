@@ -198,8 +198,8 @@ class MainActivity : AppCompatActivity(),
 
     override fun sendDateInfo(dateString: String?, weekNo: Int, date: Date?) {
         lifecycleScope.launch {
-            mainViewModel.userIntent.send(MainIntent.FetchTodos(day!!.toInt()))
-            mainViewModel.userIntent.send(MainIntent.FetchReminders(day.toInt()))
+            mainViewModel.userIntent.send(MainIntent.FetchTodos(dateString!!.toInt()))
+            mainViewModel.userIntent.send(MainIntent.FetchReminders(dateString.toInt()))
         }
     }
 
