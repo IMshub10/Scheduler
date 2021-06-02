@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.summer.scheduler.R
+import kotlinx.android.synthetic.main.reminder_details_layout.*
+import kotlinx.android.synthetic.main.reminder_details_layout.view.*
 
 class EventView : BottomSheetDialogFragment() {
 
@@ -20,8 +22,11 @@ class EventView : BottomSheetDialogFragment() {
     ): View? {
         val view = inflater.inflate(R.layout.reminder_details_layout, container, false)
 
+        view.textView_doneButton.setOnClickListener {
+            textView_doneButton.setVisibility(View.INVISIBLE)
 
 
+        }
         return view;
     }
 }
