@@ -1,12 +1,10 @@
 package com.summer.scheduler.ui.main.view
 
-import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -32,7 +30,6 @@ import com.summer.scheduler.utils.SwipeItemTouchHelper
 import com.summer.scheduler.utils.listeners.Swipe
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.schedule_main.*
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
