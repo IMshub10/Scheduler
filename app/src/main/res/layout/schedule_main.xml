@@ -3,40 +3,262 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:theme="@style/Theme.Scheduler"
-    android:background="?attr/colorPrimary"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <androidx.cardview.widget.CardView
+    android:background="?attr/colorPrimary"
+    android:orientation="vertical"
+    android:theme="@style/Theme.Scheduler">
+    <TextView
+        android:id="@+id/textView_month"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_marginHorizontal="16dp"
+        android:layout_height="wrap_content"
+        android:text="MAY"
+        android:fontFamily="@font/roboto_bold"
+        android:gravity="center"
+        android:textColor="@color/white"
+        />
+    <!--Container for the week-->
+    <LinearLayout
+        android:id="@+id/linearlayout_weekContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="16dp"
-        android:background="?attr/colorSurface">
+        android:layout_marginEnd="16dp"
+        android:orientation="horizontal"
+        android:weightSum="7">
 
-<!--        <com.github.jhonnyx2012.horizontalpicker.HorizontalPicker-->
-<!--            android:id="@+id/schedule_datePicker"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"/>-->
-
-        <com.goodiebag.horizontalpicker.HorizontalPicker
-            android:id="@+id/hpicker"
-            android:layout_width="wrap_content"
+        <!--Layout for Sunday-->
+        <RelativeLayout
+            android:id="@+id/relativeLayout_sunday"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:textSize="18sp"
-            app:itemMargin="5dp"
-            app:itemHeight="40dp"
-            app:itemWidth="40dp"
-            app:textColorSelector="@color/white"/>
+            android:layout_weight="1">
 
-    </androidx.cardview.widget.CardView>
+            <TextView
+                android:id="@+id/textView_sunday"
+                style="@style/textCalendar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:gravity="center_horizontal"
+                android:text="SUN" />
+
+
+            <TextView
+                android:id="@+id/sunDate"
+                style="@style/textCalendar"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_below="@id/textView_sunday"
+                android:layout_centerInParent="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/shape_circle"
+                android:gravity="center"
+                android:text="30"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </RelativeLayout>
+
+        <!--Layout for Monday-->
+        <RelativeLayout
+            android:id="@+id/relativeLayout_monday"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/textView_monday"
+                style="@style/textCalendar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:gravity="center_horizontal"
+                android:text="MON" />
+
+
+            <TextView
+                android:id="@+id/monDate"
+                style="@style/textCalendar"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_below="@id/textView_monday"
+                android:layout_centerInParent="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/shape_circle"
+                android:gravity="center"
+                android:text="31" />
+        </RelativeLayout>
+
+        <!--Layout for Tuesday-->
+        <RelativeLayout
+            android:id="@+id/relativeLayout_tuesday"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/textView_tuesday"
+                style="@style/textCalendar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:gravity="center_horizontal"
+                android:text="TUE" />
+
+            <TextView
+                android:id="@+id/tueDate"
+                style="@style/textCalendar"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_below="@id/textView_tuesday"
+                android:layout_centerInParent="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/shape_circle"
+                android:gravity="center"
+                android:text="01" />
+
+        </RelativeLayout>
+
+        <!--Layout for Wednesday-->
+        <RelativeLayout
+            android:id="@+id/relativeLayout_wednesday"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="01">
+
+            <TextView
+                android:id="@+id/textView_wednesday"
+                style="@style/textCalendar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:gravity="center_horizontal"
+                android:text="WED" />
+
+
+            <TextView
+                android:id="@+id/wedDate"
+                style="@style/textCalendar"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_below="@id/textView_wednesday"
+                android:layout_centerInParent="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/shape_circle"
+                android:gravity="center"
+                android:text="02" />
+
+        </RelativeLayout>
+
+        <!--Layout for Thursday-->
+        <RelativeLayout
+            android:id="@+id/relativeLayout_thursday"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/textView_thursday"
+                style="@style/textCalendar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:gravity="center_horizontal"
+                android:text="THU" />
+
+            <TextView
+                android:id="@+id/thuDate"
+                style="@style/textCalendar"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_below="@id/textView_thursday"
+                android:layout_centerInParent="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/shape_circle"
+                android:gravity="center"
+                android:text="03" />
+        </RelativeLayout>
+
+        <!--Layout Friday-->
+
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout_friday"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/textView_friday"
+                style="@style/textCalendar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:gravity="center_horizontal"
+                android:text="FRI" />
+
+
+            <TextView
+                android:id="@+id/friDate"
+                style="@style/textCalendar"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_below="@id/textView_friday"
+                android:layout_centerInParent="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/shape_circle"
+                android:gravity="center"
+                android:text="04" />
+
+        </RelativeLayout>
+
+        <!--Layout Saturday-->
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout_saturday"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/textView_saturday"
+                style="@style/textCalendar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:gravity="center_horizontal"
+                android:text="SAT" />
+
+
+            <TextView
+                android:id="@+id/satDate"
+                style="@style/textCalendar"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_below="@id/textView_saturday"
+                android:layout_centerInParent="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/shape_circle"
+                android:gravity="center"
+                android:text="05" />
+        </RelativeLayout>
+    </LinearLayout>
+
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -53,8 +275,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:background="?attr/colorSurface">
+                    android:background="?attr/colorSurface"
+                    android:orientation="vertical">
 
                     <FrameLayout
                         android:layout_width="match_parent"
@@ -68,18 +290,18 @@
                             android:gravity="center"
                             android:text="@string/to_do"
                             android:textColor="?attr/colorOnPrimary"
-                            android:textSize="18sp"/>
+                            android:textSize="18sp" />
 
                         <TextView
                             android:id="@+id/to_do_newItem"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:gravity="end"
-                            android:fontFamily="@font/roboto"
-                            android:text="@string/new_button"
                             android:layout_marginEnd="16dp"
-                            android:textSize="18sp"
-                            android:textColor="?attr/colorSecondary"/>
+                            android:fontFamily="@font/roboto"
+                            android:gravity="end"
+                            android:text="@string/new_button"
+                            android:textColor="?attr/colorSecondary"
+                            android:textSize="18sp" />
 
                     </FrameLayout>
 
@@ -87,8 +309,8 @@
                         android:id="@+id/to_do_recyclerView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        tools:listitem="@layout/to_do_list_item"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/to_do_list_item" />
 
                 </LinearLayout>
 
@@ -105,40 +327,43 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:background="?attr/colorSurface">
+                    android:background="?attr/colorSurface"
+                    android:orientation="vertical">
 
                     <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
+
                         <TextView
                             android:id="@+id/today_title"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:gravity="center"
                             android:fontFamily="@font/roboto_bold"
+                            android:gravity="center"
                             android:text="@string/today"
-                            android:textSize="18sp"
-                            android:textColor="?attr/colorOnPrimary"/>
+                            android:textColor="?attr/colorOnPrimary"
+                            android:textSize="18sp" />
+
                         <TextView
                             android:id="@+id/today_newEvent"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:gravity="end"
-                            android:fontFamily="@font/roboto"
-                            android:text="@string/new_button"
                             android:layout_marginEnd="16dp"
-                            android:textSize="18sp"
-                            android:textColor="?attr/colorSecondary"/>
+                            android:fontFamily="@font/roboto"
+                            android:gravity="end"
+                            android:text="@string/new_button"
+                            android:textColor="?attr/colorSecondary"
+                            android:textSize="18sp" />
 
 
                     </FrameLayout>
+
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/today_recyclerView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        tools:listitem="@layout/reminder_list_item"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/reminder_list_item" />
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>

@@ -28,6 +28,9 @@ class DatePickerDialog : AppCompatDialogFragment() {
             val sdf = SimpleDateFormat("yyyyMMdd", Locale.getDefault())
             dateString = sdf.format(cal.time)
             weekNo = cal[Calendar.WEEK_OF_YEAR]
+            if (cal[Calendar.DAY_OF_WEEK] ==Calendar.SUNDAY){
+                weekNo++
+            }
             listener!!.sendDateInfo(dateString, weekNo, cal.time)
             dismiss()
         }
