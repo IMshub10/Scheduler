@@ -244,7 +244,7 @@ class SwipeItemTouchHelper(private val context: Context, dragDirs: Int, private 
             swipeBack = event.action == MotionEvent.ACTION_CANCEL || event.action == MotionEvent.ACTION_UP
             if (swipeBack) {
                 if (abs(view!!.translationX) >= this.convertToDp(100)) {
-                    swipe.rightSwipeDelete(viewHolder.adapterPosition)
+                    swipe.rightSwipeDelete(viewHolder.adapterPosition, recyclerView.id)
                 }
             }
             false

@@ -16,9 +16,9 @@ interface ReminderDao {
     @Delete
     suspend fun deleteReminder(reminder: ReminderEntity)
 
-    @Query("DELETE FROM reminder_table")
-    suspend fun deleteAllReminders()
+    @Query("DELETE FROM reminder_table WHERE day == :selectedDay")
+    suspend fun deleteAllReminders(selectedDay: Int)
 
-    @Query("SELECT * FROM reminder_table ORDER BY `start` DESC")
-    fun getAllReminders(): Flow<List<ReminderEntity>>
+    @Query("SELECT * FROM reminder_table WHERE day == :selectedDay ORDER BY `start` DESC")
+    fun getAllReminders(selectedDay: Int): Flow<List<ReminderEntity>>
 }

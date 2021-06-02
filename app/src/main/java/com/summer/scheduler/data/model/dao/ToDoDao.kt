@@ -15,9 +15,9 @@ interface ToDoDao {
     @Delete
     suspend fun deleteToDo(toDo: ToDoEntity)
 
-    @Query("DELETE FROM to_do_table")
-    suspend fun deleteAllToDos()
+    @Query("DELETE FROM to_do_table WHERE day == :selectedDay")
+    suspend fun deleteAllToDos(selectedDay: Int)
 
-    @Query("SELECT * FROM to_do_table ORDER BY `key` DESC")
-    fun getAllToDos(): Flow<List<ToDoEntity>>
+    @Query("SELECT * FROM to_do_table WHERE day == :selectedDay ORDER BY `key` DESC")
+    fun getAllToDos(selectedDay: Int): Flow<List<ToDoEntity>>
 }

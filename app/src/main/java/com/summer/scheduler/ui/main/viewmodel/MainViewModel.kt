@@ -1,7 +1,6 @@
 package com.summer.scheduler.ui.main.viewmodel
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import cn.pedant.SweetAlert.SweetAlertDialog
@@ -19,9 +18,11 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.launch
 
-class MainViewModel(private val application: Application, private val reminderRepository: ReminderRepository, private val toDoRepository: ToDoRepository): ViewModel() {
+class MainViewModel(private val application: Application,
+                    private val reminderRepository: ReminderRepository,
+                    private val toDoRepository: ToDoRepository): ViewModel() {
 
-    private val userIntent = Channel<MainIntent>(Channel.UNLIMITED)
+    val userIntent = Channel<MainIntent>(Channel.UNLIMITED)
     private val _state = MutableStateFlow<MainState>(MainState.Idle)
     val state: StateFlow<MainState>
         get() = _state
@@ -34,34 +35,57 @@ class MainViewModel(private val application: Application, private val reminderRe
         viewModelScope.launch {
             userIntent.consumeAsFlow().collect {
                 when(it) {
-                    is MainIntent.FetchReminders -> fetchAllReminders()
-                    is MainIntent.FetchTodos -> fetchAllToDos()
-                    else -> Log.d("USER INTENT", "else case")
+                    is MainIntent.FetchReminders -> fetchAllReminders(it.day)
+                    is MainIntent.FetchTodos -> fetchAllToDos(it.day)
+                    is MainIntent.SelectDateFromDatePicker -> selectFromDatePicker()
+                    is MainIntent.SelectDateFromHorizontalPicker -> selectFromHorizontalPicker()
+                    is MainIntent.SwitchBetweenReminderToDo -> switchFragments()
+                    is MainIntent.AddToDo -> openToDoFragment()
+                    is MainIntent.AddReminder -> openReminderFragment()
                 }
             }
         }
     }
 
-    private fun fetchAllReminders() {
+    private fun selectFromHorizontalPicker() {
+        _state.value = MainState.SelectDateFromHorizontalPicker
+    }
+
+    private fun selectFromDatePicker() {
+        _state.value = MainState.SelectDateFromDatePicker
+    }
+
+    private fun switchFragments() {
+        _state.value = MainState.OpenSwitchBottomSheet
+    }
+
+    private fun openReminderFragment() {
+        _state.value = MainState.OpenReminderBottomSheet
+    }
+
+    private fun openToDoFragment() {
+        _state.value = MainState.OpenToDoBottomSheet
+    }
+
+    private fun fetchAllReminders(day: Int) {
         viewModelScope.launch {
             _state.value = MainState.Loading
             viewModelScope.launch(Dispatchers.IO) {
-                reminderRepository.getAllReminders().collect {
+                reminderRepository.getAllReminders(day).collect {
                     _state.value = MainState.Reminders(it)
                 }
             }
         }
     }
 
-    private fun fetchAllToDos() {
+    private fun fetchAllToDos(day: Int) {
         viewModelScope.launch {
             _state.value = MainState.Loading
             viewModelScope.launch(Dispatchers.IO) {
-                toDoRepository.getAllToDos().collect {
+                toDoRepository.getAllToDos(day).collect {
                     _state.value = MainState.ToDos(it)
                 }
             }
-
         }
     }
 
@@ -101,15 +125,15 @@ class MainViewModel(private val application: Application, private val reminderRe
         }
     }
 
-    fun removeAllToDos() {
+    fun removeAllToDos(day: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            toDoRepository.removeAllToDos()
+            toDoRepository.removeAllToDos(day)
         }
     }
 
-    fun removeAllReminders() {
+    fun removeAllReminders(day: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            reminderRepository.removeAllReminders()
+            reminderRepository.removeAllReminders(day)
         }
     }
 

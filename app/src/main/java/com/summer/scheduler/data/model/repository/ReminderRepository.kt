@@ -17,7 +17,7 @@ class ReminderRepository(application: Application) {
     }
 
 
-    fun getAllReminders() : Flow<List<ReminderEntity>> = reminderDao.getAllReminders()
+    fun getAllReminders(day: Int) : Flow<List<ReminderEntity>> = reminderDao.getAllReminders(day)
 
     suspend fun addReminder(reminder: ReminderEntity) = reminderDao.addReminder(reminder)
 
@@ -25,5 +25,5 @@ class ReminderRepository(application: Application) {
 
     suspend fun removeReminder(reminder: ReminderEntity) = reminderDao.deleteReminder(reminder)
 
-    suspend fun removeAllReminders() = reminderDao.deleteAllReminders()
+    suspend fun removeAllReminders(day: Int) = reminderDao.deleteAllReminders(day)
 }
