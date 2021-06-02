@@ -2,39 +2,53 @@ package com.summer.scheduler.ui.main.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.goodiebag.horizontalpicker.HorizontalPicker
 import com.summer.scheduler.R
 import com.summer.scheduler.data.model.entity.ReminderEntity
 import com.summer.scheduler.data.model.entity.ToDoEntity
 import com.summer.scheduler.ui.main.adapter.ReminderListAdapter
 import com.summer.scheduler.ui.main.adapter.ToDoListAdapter
+import com.summer.scheduler.ui.main.intent.MainIntent
+import com.summer.scheduler.ui.main.view.bottom_sheet_fragment.AddOption
+import com.summer.scheduler.ui.main.view.bottom_sheet_fragment.NewEvent
+import com.summer.scheduler.ui.main.view.bottom_sheet_fragment.NewToDo
+import com.summer.scheduler.ui.main.view.calendardialog.DatePickerDialog
+import com.summer.scheduler.ui.main.view.calendardialog.DatePickerDialogBoxListener
 import com.summer.scheduler.ui.main.viewmodel.MainViewModel
 import com.summer.scheduler.ui.main.viewmodel.ViewModelFactory
-import com.summer.scheduler.ui.main.viewstate.MainState
+import com.summer.scheduler.utils.SwipeItemTouchHelper
+import com.summer.scheduler.utils.listeners.Swipe
 import kotlinx.android.synthetic.main.schedule_main.*
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(),
+    NewEvent.OnEventAddedListener,
+    NewToDo.OnToDoAddedListener,
+    DatePickerDialogBoxListener,
+    Swipe{
 
     private lateinit var mainViewModel: MainViewModel
     private lateinit var reminderAdapter: ReminderListAdapter
     private lateinit var toDoAdapter: ToDoListAdapter
-
+    private var weekNo = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        startActivity(Intent(this, MainSchedule::class.java))
 
         setupUI()
         startingDay()
         setupViewModel()
-        observableViewModel()
+        setOnMonthClickListener()
         setOnDateClickListeners()
+        //observableViewModel()
 
         to_do_newItem.setOnClickListener {
             lifecycleScope.launch {
@@ -49,6 +63,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /*
     private fun observableViewModel() {
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -81,11 +96,12 @@ class MainActivity : AppCompatActivity() {
                         }
                     }
                 }
-
             }
         }
     }
 
+
+     */
     private fun openDatePickerDialog() {
         supportFragmentManager.let {
             DatePickerDialog.newInstance(Bundle()).apply {
@@ -96,7 +112,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun openToDoFragment() {
         supportFragmentManager.let {
-            NewToDoBottomSheetFragment.newInstance(Bundle()).apply {
+            NewToDo.newInstance(Bundle()).apply {
                 show(it, tag)
             }
         }
@@ -104,7 +120,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun openReminderFragment() {
         supportFragmentManager.let {
-            NewEventBottomSheetFragment.newInstance(Bundle()).apply {
+            NewEvent.newInstance(Bundle()).apply {
                 show(it, tag)
             }
         }
@@ -112,32 +128,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun openSwitchFragment() {
         supportFragmentManager.let {
-            AddOptionBottomSheetFragment.newInstance(Bundle()).apply {
+            AddOption.newInstance(Bundle()).apply {
                 show(it, tag)
-            mainViewModel.state.collect {
-                when (it) {
-                    is MainState.Idle -> {
-                    }
-                    is MainState.Loading -> {
-                    }
-                    is MainState.Reminders -> {
-                        getAllReminders(it.reminders)
-                    }
-                    is MainState.ToDos -> {
-                        getAllToDos(it.toDos)
-                    }
-                    is MainState.OpenBottomSheet -> {
-                    }
-                    is MainState.SelectDateFromCalendar -> {
-                    }
-                    is MainState.SelectDateFromPicker -> {
-                    }
-                }
             }
         }
     }
 
-    private fun getAllReminders(reminders: List<ReminderEntity>) {
+    fun getAllReminders(reminders: List<ReminderEntity>) {
         reminderAdapter.submitList(reminders)
     }
 
@@ -232,23 +229,14 @@ class MainActivity : AppCompatActivity() {
         val todayCalendar = Calendar.getInstance()
         val todayDate = Date()
         todayCalendar.time = todayDate
-
         weekNo = todayCalendar[Calendar.WEEK_OF_YEAR]
         if (todayCalendar[Calendar.DAY_OF_WEEK] == Calendar.SUNDAY) {
             weekNo++
         }
         setColorDaySelected(todayCalendar[Calendar.DAY_OF_WEEK])
         setDateToCardViews(weekNo)
-
-        val textItems: MutableList<HorizontalPicker.PickerItem> =
-            ArrayList()
-        for (i in 1..4) {
-            textItems.add(HorizontalPicker.TextItem("S$i"))
-        }
-        hpText.setItems(
-            textItems,
-            3
-        ) //3 here signifies the default selected item. Use : hpText.setItems(textItems) if none of the items are selected by default.
+        val simpleDateFormat = SimpleDateFormat("MMMM", Locale.getDefault())
+        textView_month!!.text = simpleDateFormat.format(todayDate)
     }
 
     private fun setupRecyclerViews() {
@@ -264,12 +252,35 @@ class MainActivity : AppCompatActivity() {
             this,
             0,
             ItemTouchHelper.RIGHT,
-            this
+            object : Swipe {
+                override fun rightSwipeDelete(position: Int, recyclerId: Int) {
+                }
+
+            }
         )
         val reminderItemTouchHelper = ItemTouchHelper(reminderSwipeHelperCallback)
         reminderItemTouchHelper.attachToRecyclerView(today_recyclerView)
-        val simpleDateFormat = SimpleDateFormat("MMMM", Locale.getDefault())
-        textView_month!!.text = simpleDateFormat.format(todayDate)
+
+        val toDoSwipeHelperCallback: ItemTouchHelper.Callback = SwipeItemTouchHelper(
+            this,
+            0,
+            ItemTouchHelper.LEFT,
+            object : Swipe {
+                override fun rightSwipeDelete(position: Int, recyclerId: Int) {
+                }
+
+            }
+        )
+        val toDoItemTouchHelper = ItemTouchHelper(toDoSwipeHelperCallback)
+        toDoItemTouchHelper.attachToRecyclerView(to_do_recyclerView)
+
+    }
+
+    fun setOnMonthClickListener() {
+        textView_month.setOnClickListener {
+            Toast.makeText(this, "Clicked", Toast.LENGTH_SHORT).show()
+            openDatePickerDialog()
+        }
     }
 
     private fun setOnDateClickListeners() {
@@ -314,15 +325,30 @@ class MainActivity : AppCompatActivity() {
             satDate!!.setBackgroundResource(R.drawable.shape_circle_selected)
             date[Calendar.DAY_OF_WEEK] = Calendar.SATURDAY
         }
-        val toDoSwipeHelperCallback: ItemTouchHelper.Callback = SwipeItemTouchHelper(
-            this,
-            0,
-            ItemTouchHelper.LEFT,
-            this
-        )
-        val toDoItemTouchHelper = ItemTouchHelper(toDoSwipeHelperCallback)
-        toDoItemTouchHelper.attachToRecyclerView(to_do_recyclerView)
+
     }
+
+    override fun sendDateInfo(dateString: String?, weekNo: Int, date: Date?) {
+        Log.e("weekNumber", weekNo.toString())
+        this.weekNo = weekNo
+        val c = Calendar.getInstance()
+        c.time = date!!
+        val simpleDateFormat = SimpleDateFormat("MMMM", Locale.getDefault())
+        textView_month!!.text = simpleDateFormat.format(date)
+        if (c[Calendar.DAY_OF_WEEK] == Calendar.SUNDAY) {
+            this.weekNo++
+            Log.e("weekNumber", "true")
+        }
+        setDateToCardViews(weekNo)
+        setColorDaySelected(c[Calendar.DAY_OF_WEEK])
+        Log.e("weekNumber", weekNo.toString())
+        lifecycleScope.launch {
+            mainViewModel.userIntent.send(MainIntent.FetchTodos(dateString!!.toInt()))
+            mainViewModel.userIntent.send(MainIntent.FetchReminders(dateString.toInt()))
+        }
+    }
+
+
 
     override fun onEventAdded(event: ReminderEntity) {
         mainViewModel.addReminder(event)
@@ -332,12 +358,7 @@ class MainActivity : AppCompatActivity() {
         mainViewModel.addToDo(toDo)
     }
 
-    override fun sendDateInfo(dateString: String?, weekNo: Int, date: Date?) {
-        lifecycleScope.launch {
-            mainViewModel.userIntent.send(MainIntent.FetchTodos(dateString!!.toInt()))
-            mainViewModel.userIntent.send(MainIntent.FetchReminders(dateString.toInt()))
-        }
-    }
+
 
     override fun rightSwipeDelete(position: Int, recyclerId: Int) {
         if (recyclerId == R.id.today_recyclerView) {

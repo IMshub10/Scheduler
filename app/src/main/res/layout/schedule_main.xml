@@ -8,15 +8,15 @@
     android:background="?attr/colorPrimary"
     android:orientation="vertical"
     android:theme="@style/Theme.Scheduler">
-<TextView
-    android:id="@+id/textView_month"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="MAY"
-    android:fontFamily="@font/roboto_bold"
-    android:gravity="center"
-    android:textColor="@color/white"
-    />
+    <TextView
+        android:id="@+id/textView_month"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="MAY"
+        android:fontFamily="@font/roboto_bold"
+        android:gravity="center"
+        android:textColor="@color/white"
+        />
     <!--Container for the week-->
     <LinearLayout
         android:id="@+id/linearlayout_weekContainer"

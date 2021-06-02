@@ -1,17 +1,16 @@
+package com.summer.scheduler.ui.main.view.bottom_sheet_fragment
+
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ToggleButton
 import androidx.navigation.findNavController
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.summer.scheduler.R
-import com.summer.scheduler.ui.main.view.NewEventBottomSheetFragment
-import com.summer.scheduler.ui.main.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.events_and_reminders.*
 
-class AddOptionBottomSheetFragment : BottomSheetDialogFragment() {
+class AddOption : BottomSheetDialogFragment() {
 
     private lateinit var toggle: ToggleButton
 
@@ -39,8 +38,8 @@ class AddOptionBottomSheetFragment : BottomSheetDialogFragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(bundle: Bundle): AddOptionBottomSheetFragment {
-            val fragment = AddOptionBottomSheetFragment()
+        fun newInstance(bundle: Bundle): AddOption {
+            val fragment = AddOption()
             fragment.arguments = bundle
             return fragment
         }

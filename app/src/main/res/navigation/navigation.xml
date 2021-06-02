@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/addOptionBottomSheetFragment"
-        android:name="AddOptionBottomSheetFragment"
+        android:name="com.summer.scheduler.ui.main.view.bottom_sheet_fragment.AddOption"
         android:label="AddOptionBottomSheetFragment"
         tools:layout="@layout/events_and_reminders">
         <action
@@ -23,12 +23,12 @@
     </fragment>
     <fragment
         android:id="@+id/newToDoBottomSheetFragment"
-        android:name="com.summer.scheduler.ui.main.view.NewToDoBottomSheetFragment"
+        android:name="com.summer.scheduler.ui.main.view.bottom_sheet_fragment.NewToDo"
         android:label="NewToDoBottomSheetFragment"
         tools:layout="@layout/fragment_reminders"/>
     <fragment
         android:id="@+id/newEventBottomSheetFragment"
-        android:name="com.summer.scheduler.ui.main.view.NewEventBottomSheetFragment"
+        android:name="com.summer.scheduler.ui.main.view.bottom_sheet_fragment.NewEvent"
         android:label="NewEventBottomSheetFragment"
         tools:layout="@layout/fragment_events"/>
 </navigation>
