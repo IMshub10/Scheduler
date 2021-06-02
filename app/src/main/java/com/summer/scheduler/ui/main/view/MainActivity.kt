@@ -3,9 +3,13 @@ package com.summer.scheduler.ui.main.view
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.summer.scheduler.R
@@ -21,9 +25,12 @@ import com.summer.scheduler.ui.main.view.calendardialog.DatePickerDialog
 import com.summer.scheduler.ui.main.view.calendardialog.DatePickerDialogBoxListener
 import com.summer.scheduler.ui.main.viewmodel.MainViewModel
 import com.summer.scheduler.ui.main.viewmodel.ViewModelFactory
+import com.summer.scheduler.ui.main.viewstate.MainState
 import com.summer.scheduler.utils.SwipeItemTouchHelper
 import com.summer.scheduler.utils.listeners.Swipe
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.schedule_main.*
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
@@ -41,14 +48,13 @@ class MainActivity : AppCompatActivity(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-
+        setSupportActionBar(toolbar_mainActivity)
         setupUI()
         startingDay()
         setupViewModel()
         setOnMonthClickListener()
         setOnDateClickListeners()
-        //observableViewModel()
+        observableViewModel()
 
         to_do_newItem.setOnClickListener {
             lifecycleScope.launch {
@@ -63,7 +69,7 @@ class MainActivity : AppCompatActivity(),
         }
     }
 
-    /*
+
     private fun observableViewModel() {
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -101,7 +107,7 @@ class MainActivity : AppCompatActivity(),
     }
 
 
-     */
+
     private fun openDatePickerDialog() {
         supportFragmentManager.let {
             DatePickerDialog.newInstance(Bundle()).apply {
@@ -348,8 +354,6 @@ class MainActivity : AppCompatActivity(),
         }
     }
 
-
-
     override fun onEventAdded(event: ReminderEntity) {
         mainViewModel.addReminder(event)
     }
@@ -357,8 +361,6 @@ class MainActivity : AppCompatActivity(),
     override fun onToDoAdded(toDo: ToDoEntity) {
         mainViewModel.addToDo(toDo)
     }
-
-
 
     override fun rightSwipeDelete(position: Int, recyclerId: Int) {
         if (recyclerId == R.id.today_recyclerView) {
@@ -368,5 +370,17 @@ class MainActivity : AppCompatActivity(),
             val toDo = toDoAdapter.currentList[position]
             mainViewModel.removeToDo(toDo)
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        this.menuInflater.inflate(R.menu.main, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.addButton){
+            //openSwitchFragment()
+        }
+        return super.onOptionsItemSelected(item)
     }
 }
