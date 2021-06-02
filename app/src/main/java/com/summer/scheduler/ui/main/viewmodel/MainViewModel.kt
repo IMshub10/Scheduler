@@ -53,6 +53,7 @@ class MainViewModel(private val application: Application,
 
     private fun selectFromDatePicker() {
         _state.value = MainState.SelectDateFromDatePicker
+
     }
 
     private fun switchFragments() {

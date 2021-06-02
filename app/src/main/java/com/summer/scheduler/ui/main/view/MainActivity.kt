@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity(),
     NewEvent.OnEventAddedListener,
     NewToDo.OnToDoAddedListener,
     DatePickerDialogBoxListener,
-    Swipe{
+    Swipe {
 
     private lateinit var mainViewModel: MainViewModel
     private lateinit var reminderAdapter: ReminderListAdapter
@@ -54,6 +54,7 @@ class MainActivity : AppCompatActivity(),
         setupViewModel()
         setOnMonthClickListener()
         setOnDateClickListeners()
+        newItemClickListenener()
         observableViewModel()
 
         to_do_newItem.setOnClickListener {
@@ -105,7 +106,6 @@ class MainActivity : AppCompatActivity(),
             }
         }
     }
-
 
 
     private fun openDatePickerDialog() {
@@ -284,8 +284,10 @@ class MainActivity : AppCompatActivity(),
 
     fun setOnMonthClickListener() {
         textView_month.setOnClickListener {
-            Toast.makeText(this, "Clicked", Toast.LENGTH_SHORT).show()
-            openDatePickerDialog()
+            lifecycleScope.launch {
+                mainViewModel.userIntent.send(MainIntent.SelectDateFromDatePicker(1))
+            }
+//            openDatePickerDialog()
         }
     }
 
@@ -294,45 +296,78 @@ class MainActivity : AppCompatActivity(),
         date[Calendar.WEEK_OF_YEAR] = weekNo
         date.firstDayOfWeek = Calendar.SUNDAY
 
-        val sdf = SimpleDateFormat("yyyyMMdd", Locale.getDefault())
-
         sunDate.setOnClickListener {
-            colorBlack()
-            sunDate!!.setBackgroundResource(R.drawable.shape_circle_selected)
-            date[Calendar.DAY_OF_WEEK] = Calendar.SUNDAY
+//            colorBlack()
+            lifecycleScope.launch {
+                mainViewModel.userIntent.send(MainIntent.SelectDateFromDatePicker(1))
+//            sunDate!!.setBackgroundResource(R.drawable.shape_circle_selected)
+//            date[Calendar.DAY_OF_WEEK] = Calendar.SUNDAY
+            }
         }
         monDate.setOnClickListener {
-            colorBlack()
-            monDate!!.setBackgroundResource(R.drawable.shape_circle_selected)
-            date[Calendar.DAY_OF_WEEK] = Calendar.MONDAY
+//            colorBlack()
+            lifecycleScope.launch {
+                mainViewModel.userIntent.send(MainIntent.SelectDateFromDatePicker(2))
+//            monDate!!.setBackgroundResource(R.drawable.shape_circle_selected)
+//            date[Calendar.DAY_OF_WEEK] = Calendar.MONDAY
+            }
         }
         tueDate.setOnClickListener {
-            colorBlack()
-            tueDate!!.setBackgroundResource(R.drawable.shape_circle_selected)
-            date[Calendar.DAY_OF_WEEK] = Calendar.TUESDAY
+//            colorBlack()
+            lifecycleScope.launch {
+                mainViewModel.userIntent.send(MainIntent.SelectDateFromDatePicker(3))
+//            tueDate!!.setBackgroundResource(R.drawable.shape_circle_selected)
+//            date[Calendar.DAY_OF_WEEK] = Calendar.TUESDAY
+            }
         }
         wedDate.setOnClickListener {
-            colorBlack()
-            wedDate!!.setBackgroundResource(R.drawable.shape_circle_selected)
-            date[Calendar.DAY_OF_WEEK] = Calendar.WEDNESDAY
+//            colorBlack()
+            lifecycleScope.launch {
+                mainViewModel.userIntent.send(MainIntent.SelectDateFromDatePicker(4))
+//            wedDate!!.setBackgroundResource(R.drawable.shape_circle_selected)
+//            date[Calendar.DAY_OF_WEEK] = Calendar.WEDNESDAY
+            }
         }
         thuDate.setOnClickListener {
-            colorBlack()
-            thuDate!!.setBackgroundResource(R.drawable.shape_circle_selected)
-            date[Calendar.DAY_OF_WEEK] = Calendar.THURSDAY
+//            colorBlack()
+            lifecycleScope.launch {
+                mainViewModel.userIntent.send(MainIntent.SelectDateFromDatePicker(5))
+//            thuDate!!.setBackgroundResource(R.drawable.shape_circle_selected)
+//            date[Calendar.DAY_OF_WEEK] = Calendar.THURSDAY
+            }
         }
         friDate.setOnClickListener {
-            colorBlack()
-            friDate!!.setBackgroundResource(R.drawable.shape_circle_selected)
-            date[Calendar.DAY_OF_WEEK] = Calendar.FRIDAY
+//            colorBlack()
+            lifecycleScope.launch {
+                mainViewModel.userIntent.send(MainIntent.SelectDateFromDatePicker(6))
+//            friDate!!.setBackgroundResource(R.drawable.shape_circle_selected)
+//            date[Calendar.DAY_OF_WEEK] = Calendar.FRIDAY
+            }
         }
         satDate.setOnClickListener {
-            colorBlack()
-            satDate!!.setBackgroundResource(R.drawable.shape_circle_selected)
-            date[Calendar.DAY_OF_WEEK] = Calendar.SATURDAY
+//            colorBlack()
+            lifecycleScope.launch {
+                mainViewModel.userIntent.send(MainIntent.SelectDateFromDatePicker(7))
+//            satDate!!.setBackgroundResource(R.drawable.shape_circle_selected)
+//            date[Calendar.DAY_OF_WEEK] = Calendar.SATURDAY
+            }
+        }
+    }
+
+    private fun newItemClickListenener() {
+        to_do_newItem.setOnClickListener {
+            lifecycleScope.launch {
+                mainViewModel.userIntent.send(MainIntent.AddToDo)
+            }
         }
 
+        today_newEvent.setOnClickListener {
+            lifecycleScope.launch {
+                mainViewModel.userIntent.send(MainIntent.AddReminder)
+            }
+        }
     }
+
 
     override fun sendDateInfo(dateString: String?, weekNo: Int, date: Date?) {
         Log.e("weekNumber", weekNo.toString())
@@ -378,7 +413,7 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.addButton){
+        if (item.itemId == R.id.addButton) {
             //openSwitchFragment()
         }
         return super.onOptionsItemSelected(item)
