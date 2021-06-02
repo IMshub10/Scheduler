@@ -41,6 +41,8 @@ class MainViewModel(
                     is MainIntent.SwitchBetweenReminderToDo -> switchFragments()
                     is MainIntent.AddToDo -> openToDoFragment()
                     is MainIntent.AddReminder -> openReminderFragment()
+                    is MainIntent.AddToDoToRoom -> addToDo(it.toDoEntity)
+                    is MainIntent.AddReminderToRoom -> addReminder(it.reminderEntity)
                 }
             }
         }
@@ -99,12 +101,16 @@ class MainViewModel(
 
     suspend fun addToDo(toDo: ToDoEntity) {
         viewModelScope.launch(Dispatchers.IO) {
+            _state.value = MainState.Loading
+            _state.value = MainState.AddToDoToRoom(toDo)
             toDoRepository.addToDo(toDo)
         }
     }
 
     suspend fun addReminder(event: ReminderEntity) {
         viewModelScope.launch(Dispatchers.IO) {
+            _state.value = MainState.Loading
+            _state.value = MainState.AddReminderToRoom(event)
             reminderRepository.addReminder(event)
         }
     }
