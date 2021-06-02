@@ -71,7 +71,7 @@ class MainActivity : AppCompatActivity(),
         fetchData(string)
     }
 
-    private fun fetchData(string: String){
+    private fun fetchData(string: String) {
         lifecycleScope.launch {
             mainViewModel.userIntent.send(MainIntent.FetchReminders(string.toInt()))
         }
@@ -423,9 +423,8 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun onEventAdded(event: ReminderEntity) {
-        lifecycleScope.launch {
-            mainViewModel.addReminder(event)
-        }
+        mainViewModel.addReminder(event)
+
     }
 
     override fun onCloseReminderFragment() {
@@ -433,9 +432,8 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun onToDoAdded(toDo: ToDoEntity) {
-        lifecycleScope.launch {
-            mainViewModel.addToDo(toDo)
-        }
+        mainViewModel.addToDo(toDo)
+
     }
 
     override fun onCloseToDoFragment() {

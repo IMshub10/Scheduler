@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 class MainViewModel(
     private val reminderRepository: ReminderRepository,
     private val toDoRepository: ToDoRepository
-): ViewModel() {
+) : ViewModel() {
 
     val userIntent = Channel<MainIntent>(Channel.UNLIMITED)
     private val _state = MutableStateFlow<MainState>(MainState.Idle)
@@ -33,7 +33,7 @@ class MainViewModel(
     private fun handleIntent() {
         viewModelScope.launch {
             userIntent.consumeAsFlow().collect {
-                when(it) {
+                when (it) {
                     is MainIntent.FetchReminders -> fetchAllReminders(it.day)
                     is MainIntent.FetchTodos -> fetchAllToDos(it.day)
                     is MainIntent.SelectDateFromDatePicker -> selectFromDatePicker()
@@ -41,14 +41,12 @@ class MainViewModel(
                     is MainIntent.SwitchBetweenReminderToDo -> switchFragments()
                     is MainIntent.AddToDo -> openToDoFragment()
                     is MainIntent.AddReminder -> openReminderFragment()
-                    is MainIntent.AddToDoToRoom -> addToDo(it.toDoEntity)
-                    is MainIntent.AddReminderToRoom -> addReminder(it.reminderEntity)
                 }
             }
         }
     }
 
-    private fun selectFromHorizontalPicker( date: Int) {
+    private fun selectFromHorizontalPicker(date: Int) {
         _state.value = MainState.SelectDateFromHorizontalPicker(date)
     }
 
@@ -99,18 +97,14 @@ class MainViewModel(
         _state.value = MainState.Idle
     }
 
-    suspend fun addToDo(toDo: ToDoEntity) {
+    fun addToDo(toDo: ToDoEntity) {
         viewModelScope.launch(Dispatchers.IO) {
-            _state.value = MainState.Loading
-            _state.value = MainState.AddToDoToRoom(toDo)
             toDoRepository.addToDo(toDo)
         }
     }
 
-    suspend fun addReminder(event: ReminderEntity) {
+    fun addReminder(event: ReminderEntity) {
         viewModelScope.launch(Dispatchers.IO) {
-            _state.value = MainState.Loading
-            _state.value = MainState.AddReminderToRoom(event)
             reminderRepository.addReminder(event)
         }
     }
