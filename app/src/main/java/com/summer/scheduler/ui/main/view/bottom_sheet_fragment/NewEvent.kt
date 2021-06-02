@@ -47,7 +47,7 @@ class NewEvent : BottomSheetDialogFragment() {
         if(inputCheck(eventTitle, eventStart, eventEnd)) {
             val c: Calendar = Calendar.getInstance()
             var dString = "${c.get(Calendar.DAY_OF_MONTH)}"
-            var mString = "${c.get(Calendar.MONTH)}"
+            var mString = "${c.get(Calendar.MONTH)+1}"
 
             if (c.get(Calendar.DAY_OF_MONTH) < 10) dString = "0$dString"
             if (c.get(Calendar.MONTH) < 10) mString = "0$mString"
