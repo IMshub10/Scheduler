@@ -38,7 +38,7 @@ class MainViewModel(private val application: Application,
                     is MainIntent.FetchReminders -> fetchAllReminders(it.day)
                     is MainIntent.FetchTodos -> fetchAllToDos(it.day)
                     is MainIntent.SelectDateFromDatePicker -> selectFromDatePicker()
-                    is MainIntent.SelectDateFromHorizontalPicker -> selectFromHorizontalPicker()
+                    is MainIntent.SelectDateFromHorizontalPicker -> selectFromHorizontalPicker(it.date)
                     is MainIntent.SwitchBetweenReminderToDo -> switchFragments()
                     is MainIntent.AddToDo -> openToDoFragment()
                     is MainIntent.AddReminder -> openReminderFragment()
@@ -47,8 +47,8 @@ class MainViewModel(private val application: Application,
         }
     }
 
-    private fun selectFromHorizontalPicker() {
-        _state.value = MainState.SelectDateFromHorizontalPicker
+    private fun selectFromHorizontalPicker( date: Int) {
+        _state.value = MainState.SelectDateFromHorizontalPicker(date)
     }
 
     private fun selectFromDatePicker() {

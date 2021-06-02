@@ -12,5 +12,5 @@ sealed class MainState {
     data class ToDos(val toDos: List<ToDoEntity>) : MainState()
     data class Reminders(val reminders: List<ReminderEntity>) : MainState()
     object SelectDateFromDatePicker : MainState()
-    object SelectDateFromHorizontalPicker : MainState()
+    data class SelectDateFromHorizontalPicker(val day:Int) : MainState()
 }
