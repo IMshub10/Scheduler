@@ -43,8 +43,6 @@ class MainActivity : AppCompatActivity(),
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        startActivity(Intent(this, MainSchedule::class.java))
-
         setupUI()
         setupViewModel()
         observableViewModel()
@@ -184,7 +182,7 @@ class MainActivity : AppCompatActivity(),
         val toDoSwipeHelperCallback: ItemTouchHelper.Callback = SwipeItemTouchHelper(
             this,
             0,
-            ItemTouchHelper.LEFT,
+            ItemTouchHelper.RIGHT,
             this
         )
         val toDoItemTouchHelper = ItemTouchHelper(toDoSwipeHelperCallback)
