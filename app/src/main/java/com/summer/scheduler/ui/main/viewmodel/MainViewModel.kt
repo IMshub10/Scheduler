@@ -48,7 +48,7 @@ class MainViewModel(private val application: Application,
     }
 
     private fun selectFromHorizontalPicker() {
-        _state.value = MainState.SelectDateFromHorizontalPicker
+        _state.value = MainState.SelectDateFromHorizontalPicker()
     }
 
     private fun selectFromDatePicker() {

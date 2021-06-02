@@ -57,17 +57,6 @@ class MainActivity : AppCompatActivity(),
         newItemClickListenener()
         observableViewModel()
 
-        to_do_newItem.setOnClickListener {
-            lifecycleScope.launch {
-                mainViewModel.userIntent.send(MainIntent.AddToDo)
-            }
-        }
-
-        today_newEvent.setOnClickListener {
-            lifecycleScope.launch {
-                mainViewModel.userIntent.send(MainIntent.AddReminder)
-            }
-        }
     }
 
 
@@ -96,7 +85,41 @@ class MainActivity : AppCompatActivity(),
                             openDatePickerDialog()
                         }
                         is MainState.SelectDateFromHorizontalPicker -> {
+                            val date = Calendar.getInstance()
+                            date[Calendar.WEEK_OF_YEAR] = weekNo
+                            date.firstDayOfWeek = Calendar.SUNDAY
+                            colorBlack()
+                            when (it.day) {
+                                1 -> {
+                                    date[Calendar.DAY_OF_WEEK] = Calendar.SUNDAY
+                                    sunDate!!.setBackgroundResource(R.drawable.shape_circle_selected)
+                                }
+                                2 -> {
+                                    date[Calendar.DAY_OF_WEEK] = Calendar.MONDAY
+                                    monDate!!.setBackgroundResource(R.drawable.shape_circle_selected)
+                                }
+                                3 -> {
+                                    date[Calendar.DAY_OF_WEEK] = Calendar.TUESDAY
+                                    tueDate!!.setBackgroundResource(R.drawable.shape_circle_selected)
+                                }
+                                4 -> {
+                                    date[Calendar.DAY_OF_WEEK] = Calendar.WEDNESDAY
+                                    wedDate!!.setBackgroundResource(R.drawable.shape_circle_selected)
+                                }
+                                5 -> {
+                                    date[Calendar.DAY_OF_WEEK] = Calendar.THURSDAY
+                                    sunDate!!.setBackgroundResource(R.drawable.shape_circle_selected)
+                                }
+                                6 -> {
+                                    date[Calendar.DAY_OF_WEEK] = Calendar.FRIDAY
+                                    friDate!!.setBackgroundResource(R.drawable.shape_circle_selected)
+                                }
+                                7 -> {
+                                    date[Calendar.DAY_OF_WEEK] = Calendar.SATURDAY
+                                    satDate!!.setBackgroundResource(R.drawable.shape_circle_selected)
+                                }
 
+                            }
                         }
                         is MainState.OpenSwitchBottomSheet -> {
                             openSwitchFragment()
