@@ -56,8 +56,6 @@ dependencies {
     implementation"androidx.recyclerview:recyclerview-selection:1.1.0"
 
     //HorizontalPicker
-//    implementation 'com.github.jhonnyx2012:horizontal-picker:1.0.6'
-    implementation  'com.github.GoodieBag:HorizontalPicker:v1.0'
 
 
     // Navigation Component

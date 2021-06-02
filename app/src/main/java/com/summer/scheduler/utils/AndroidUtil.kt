@@ -19,6 +19,16 @@ object AndroidUtils {
         } else ceil((density * value).toDouble()).toInt()
     }
 
+    fun getDisplayWidth(context: Context): Int {
+        var width = 0
+        try {
+            width = context.resources.displayMetrics.widthPixels
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return width
+    }
+
     private fun checkDisplaySize(context: Context) {
         try {
             density = context.resources.displayMetrics.density
