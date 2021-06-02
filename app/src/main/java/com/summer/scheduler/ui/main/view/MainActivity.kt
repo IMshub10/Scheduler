@@ -12,6 +12,9 @@ import com.summer.scheduler.data.model.entity.ToDoEntity
 import com.summer.scheduler.ui.main.adapter.ReminderListAdapter
 import com.summer.scheduler.ui.main.adapter.ToDoListAdapter
 import com.summer.scheduler.ui.main.intent.MainIntent
+import com.summer.scheduler.ui.main.view.bottom_sheet_fragment.AddOption
+import com.summer.scheduler.ui.main.view.bottom_sheet_fragment.NewEvent
+import com.summer.scheduler.ui.main.view.bottom_sheet_fragment.NewToDo
 import com.summer.scheduler.ui.main.view.calendardialog.DatePickerDialog
 import com.summer.scheduler.ui.main.view.calendardialog.DatePickerDialogBoxListener
 import com.summer.scheduler.ui.main.viewmodel.MainViewModel
@@ -24,8 +27,8 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity(),
-    NewEventBottomSheetFragment.OnEventAddedListener,
-    NewToDoBottomSheetFragment.OnToDoAddedListener,
+    NewEvent.OnEventAddedListener,
+    NewToDo.OnToDoAddedListener,
     DatePickerDialogBoxListener{
 
     private lateinit var mainViewModel: MainViewModel
@@ -102,7 +105,7 @@ class MainActivity : AppCompatActivity(),
 
     private fun openToDoFragment() {
         supportFragmentManager.let {
-            NewToDoBottomSheetFragment.newInstance(Bundle()).apply {
+            NewToDo.newInstance(Bundle()).apply {
                 show(it, tag)
             }
         }
@@ -110,7 +113,7 @@ class MainActivity : AppCompatActivity(),
 
     private fun openReminderFragment() {
         supportFragmentManager.let {
-            NewEventBottomSheetFragment.newInstance(Bundle()).apply {
+            NewEvent.newInstance(Bundle()).apply {
                 show(it, tag)
             }
         }
@@ -118,7 +121,7 @@ class MainActivity : AppCompatActivity(),
 
     private fun openSwitchFragment() {
         supportFragmentManager.let {
-            AddOptionBottomSheetFragment.newInstance(Bundle()).apply {
+            AddOption.newInstance(Bundle()).apply {
                 show(it, tag)
             }
         }

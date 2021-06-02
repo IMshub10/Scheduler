@@ -1,4 +1,4 @@
-package com.summer.scheduler.ui.main.view
+package com.summer.scheduler.ui.main.view.bottom_sheet_fragment
 
 import android.content.Context
 import android.os.Bundle
@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.fragment_events.*
 import kotlinx.android.synthetic.main.fragment_events.view.*
 import java.util.*
 
-class NewEventBottomSheetFragment : BottomSheetDialogFragment() {
+class NewEvent : BottomSheetDialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,8 +69,8 @@ class NewEventBottomSheetFragment : BottomSheetDialogFragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(bundle: Bundle): NewEventBottomSheetFragment {
-            val fragment = NewEventBottomSheetFragment()
+        fun newInstance(bundle: Bundle): NewEvent {
+            val fragment = NewEvent()
             fragment.arguments = bundle
             return fragment
         }

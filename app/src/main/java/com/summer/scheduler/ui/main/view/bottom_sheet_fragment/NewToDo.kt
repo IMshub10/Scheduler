@@ -1,4 +1,4 @@
-package com.summer.scheduler.ui.main.view
+package com.summer.scheduler.ui.main.view.bottom_sheet_fragment
 
 import android.content.Context
 import android.os.Bundle
@@ -8,16 +8,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.summer.scheduler.R
 import com.summer.scheduler.data.model.entity.ToDoEntity
-import com.summer.scheduler.ui.main.viewmodel.MainViewModel
-import com.summer.scheduler.ui.main.viewmodel.ViewModelFactory
 import kotlinx.android.synthetic.main.fragment_reminders.*
 import kotlinx.android.synthetic.main.fragment_reminders.view.*
 
-class NewToDoBottomSheetFragment : BottomSheetDialogFragment() {
+class NewToDo : BottomSheetDialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,8 +70,8 @@ class NewToDoBottomSheetFragment : BottomSheetDialogFragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(bundle: Bundle): NewToDoBottomSheetFragment {
-            val fragment = NewToDoBottomSheetFragment()
+        fun newInstance(bundle: Bundle): NewToDo {
+            val fragment = NewToDo()
             fragment.arguments = bundle
             return fragment
         }
