@@ -9,6 +9,7 @@ import com.summer.scheduler.data.model.repository.ToDoRepository
 import com.summer.scheduler.ui.main.intent.MainIntent
 import com.summer.scheduler.ui.main.viewstate.MainState
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -25,6 +26,9 @@ class MainViewModel(
     private val _state = MutableStateFlow<MainState>(MainState.Idle)
     val state: StateFlow<MainState>
         get() = _state
+
+    private var job1: Job? = null
+    private var job2: Job? = null
 
     init {
         handleIntent()
@@ -73,7 +77,12 @@ class MainViewModel(
     private suspend fun fetchAllReminders(day: Int) {
         viewModelScope.launch {
             _state.value = MainState.Loading
-            viewModelScope.launch(Dispatchers.IO) {
+            if (job1 != null) {
+                if (job1?.isCompleted == false) {
+                    job1?.cancel()
+                }
+            }
+            job1 = viewModelScope.launch(Dispatchers.IO) {
                 reminderRepository.getAllReminders(day).collect {
                     _state.value = MainState.Reminders(it)
                     viewModelScope.launch {
@@ -88,7 +97,12 @@ class MainViewModel(
     private suspend fun fetchAllToDos(day: Int) {
         viewModelScope.launch {
             _state.value = MainState.Loading
-            viewModelScope.launch(Dispatchers.IO) {
+            if (job2 != null) {
+                if (job2?.isCompleted == false) {
+                    job2?.cancel()
+                }
+            }
+            job2 = viewModelScope.launch(Dispatchers.IO) {
                 toDoRepository.getAllToDos(day).collect {
                     _state.value = MainState.ToDos(it)
                 }
