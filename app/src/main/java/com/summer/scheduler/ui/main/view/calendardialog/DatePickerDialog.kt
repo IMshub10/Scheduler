@@ -11,8 +11,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class DatePickerDialog : AppCompatDialogFragment() {
-    var dateString = ""
-    var weekNo = 0
+    private var dateString = ""
+    private var weekNo = 0
     private var listener: DatePickerDialogBoxListener? = null
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(
@@ -22,7 +22,7 @@ class DatePickerDialog : AppCompatDialogFragment() {
         val view = inflater.inflate(R.layout.component_scheduler_calendar, null)
         val datePicker = view.findViewById<DatePicker>(R.id.datePickerDialog)
         datePicker.firstDayOfWeek = Calendar.SUNDAY
-        datePicker.setOnDateChangedListener { dp, i, i1, i2 ->
+        datePicker.setOnDateChangedListener { _, i, i1, i2 ->
             val cal = Calendar.getInstance()
             cal[i, i1] = i2
             val sdf = SimpleDateFormat("yyyy/MM/dd", Locale.getDefault())
