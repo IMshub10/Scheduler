@@ -66,6 +66,7 @@ class NewToDo : BottomSheetDialogFragment() {
 
     interface OnToDoAddedListener {
         fun onToDoAdded(toDo: ToDoEntity)
+        fun onCloseToDoFragment()
     }
 
     companion object {
@@ -75,5 +76,10 @@ class NewToDo : BottomSheetDialogFragment() {
             fragment.arguments = bundle
             return fragment
         }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        mListener?.onCloseToDoFragment()
     }
 }
