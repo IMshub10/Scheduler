@@ -4,7 +4,7 @@
     android:layout_height="wrap_content">
 
     <ImageView
-        android:id="@+id/imageView_reminderDetailsEdit"
+        android:id="@+id/textView_doneButton"
         android:src="@drawable/ic_edit"
         android:layout_alignParentEnd="true"
         android:layout_width="wrap_content"
@@ -13,7 +13,20 @@
         android:layout_marginEnd="16dp"/>
 
     <TextView
-        android:id="@+id/textView_reminderDetailsTitle"
+        android:id="@+id/textView_doneEditButton"
+        android:layout_alignParentEnd="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/done"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        style="@style/text_list"
+        android:textColor="@color/blue_dark_008aff"
+        android:textStyle="bold"
+        android:visibility="invisible"/>
+
+    <EditText
+        android:id="@+id/editText_reminderDetailsTitle"
         style="@style/text_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -21,59 +34,69 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="12dp"
         android:text="@string/reminder_default_title_string"
-        android:textStyle="bold" />
+        android:textColor="@color/blue_dark_008aff"
+        android:textStyle="bold"
+        android:inputType="none"/>
 
-    <TextView
-        android:id="@+id/textView_reminderDetailsTiming"
+    <EditText
+        android:id="@+id/editText_reminderDetailsTiming"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView_reminderDetailsTitle"
+        android:layout_below="@+id/editText_reminderDetailsTitle"
         style="@style/text_list"
+        android:textColor="@color/blue_dark_008aff"
         android:text="@string/reminder_default_timing_string"
         android:layout_marginTop="50dp"
-        android:layout_marginStart="16dp"/>
-
-    <TextView
-        android:id="@+id/textView_reminderDetails"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView_reminderDetailsTiming"
         android:layout_marginStart="16dp"
-        style="@style/text_list"
-        android:layout_marginTop="16dp"
-        android:text="@string/reminder_details_string"/>
+        android:inputType="none"/>
 
-    <TextView
-        android:id="@+id/textView_reminderDetailsLocation"
+    <EditText
+        android:id="@+id/editText_reminderDetails"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView_reminderDetails"
-        android:layout_marginStart="16dp"
-        style="@style/text_list"
-        android:layout_marginTop="16dp"
-        android:text="@string/reminder_details_location_string"/>
-
-    <TextView
-        android:id="@+id/textView_reminderDetailsLinks"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView_reminderDetailsLocation"
+        android:layout_below="@+id/editText_reminderDetailsTiming"
         android:layout_marginStart="16dp"
         style="@style/text_list"
         android:textColor="@color/blue_dark_008aff"
         android:layout_marginTop="16dp"
-        android:text="@string/reminder_details_links_string"/>
+        android:text="@string/reminder_details_string"
+        android:inputType="none"/>
 
-    <TextView
-        android:id="@+id/textView_reminderDetailsUsers"
+    <EditText
+        android:id="@+id/editText_reminderDetailsLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editText_reminderDetails"
+        android:layout_marginStart="16dp"
+        style="@style/text_list"
+        android:textColor="@color/blue_dark_008aff"
+        android:layout_marginTop="16dp"
+        android:text="@string/reminder_details_location_string"
+        android:inputType="none"/>
+
+    <EditText
+        android:id="@+id/editText_reminderDetailsLinks"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editText_reminderDetailsLocation"
+        android:layout_marginStart="16dp"
+        style="@style/text_list"
+        android:textColor="@color/blue_dark_008aff"
+        android:layout_marginTop="16dp"
+        android:text="@string/reminder_details_links_string"
+        android:inputType="none"/>
+
+    <EditText
+        android:id="@+id/editText_reminderDetailsUsers"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/blue_dark_008aff"
-        android:layout_below="@+id/textView_reminderDetailsLinks"
+        android:layout_below="@+id/editText_reminderDetailsLinks"
         android:layout_marginStart="16dp"
         style="@style/text_list"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
-        android:text="@string/reminder_details_users_string"/>
+        android:text="@string/reminder_details_users_string"
+        android:inputType="none"/>
 
 </RelativeLayout>
