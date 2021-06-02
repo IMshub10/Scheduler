@@ -107,7 +107,7 @@ class MainActivity : AppCompatActivity(),
                                 }
                                 5 -> {
                                     date[Calendar.DAY_OF_WEEK] = Calendar.THURSDAY
-                                    sunDate!!.setBackgroundResource(R.drawable.shape_circle_selected)
+                                    thuDate!!.setBackgroundResource(R.drawable.shape_circle_selected)
                                 }
                                 6 -> {
                                     date[Calendar.DAY_OF_WEEK] = Calendar.FRIDAY

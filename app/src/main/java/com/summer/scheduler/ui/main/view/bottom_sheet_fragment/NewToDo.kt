@@ -18,6 +18,7 @@ class NewToDo : BottomSheetDialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setStyle(STYLE_NORMAL,R.style.BottomSheetDialogTheme)
     }
 
     override fun onCreateView(
