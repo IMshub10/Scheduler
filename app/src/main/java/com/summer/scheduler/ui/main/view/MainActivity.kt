@@ -1,5 +1,6 @@
 package com.summer.scheduler.ui.main.view
 
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -29,6 +30,7 @@ import com.summer.scheduler.utils.SwipeItemTouchHelper
 import com.summer.scheduler.utils.listeners.Swipe
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.schedule_main.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -53,7 +55,7 @@ class MainActivity : AppCompatActivity(),
         setupViewModel()
         setOnMonthClickListener()
         setOnDateClickListeners()
-        newItemClickListenener()
+        newItemClickListener()
         observableViewModel()
 
         to_do_newItem.setOnClickListener {
@@ -66,6 +68,24 @@ class MainActivity : AppCompatActivity(),
             lifecycleScope.launch {
                 mainViewModel.userIntent.send(MainIntent.AddReminder)
             }
+        }
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    override fun onStart() {
+        super.onStart()
+        val date = Date()
+        val formatter = SimpleDateFormat("yyyyMMdd")
+        val string = formatter.format(date)
+
+        lifecycleScope.launch {
+            fetchData(string)
+        }
+    }
+
+    private suspend fun fetchData(string: String){
+        lifecycleScope.launch(Dispatchers.IO) {
+            mainViewModel.userIntent.send(MainIntent.FetchReminders(string.toInt()))
         }
     }
 
@@ -157,7 +177,6 @@ class MainActivity : AppCompatActivity(),
         toDoAdapter = ToDoListAdapter(this)
 
         setupRecyclerViews()
-
     }
 
 
@@ -353,7 +372,7 @@ class MainActivity : AppCompatActivity(),
         }
     }
 
-    private fun newItemClickListenener() {
+    private fun newItemClickListener() {
         to_do_newItem.setOnClickListener {
             lifecycleScope.launch {
                 mainViewModel.userIntent.send(MainIntent.AddToDo)
@@ -383,8 +402,7 @@ class MainActivity : AppCompatActivity(),
         setColorDaySelected(c[Calendar.DAY_OF_WEEK])
         Log.e("weekNumber", weekNo.toString())
         lifecycleScope.launch {
-            mainViewModel.userIntent.send(MainIntent.FetchTodos(dateString!!.toInt()))
-            mainViewModel.userIntent.send(MainIntent.FetchReminders(dateString.toInt()))
+            fetchData(dateString!!)
         }
     }
 

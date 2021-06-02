@@ -77,9 +77,11 @@ class MainViewModel(private val application: Application,
             viewModelScope.launch(Dispatchers.IO) {
                 reminderRepository.getAllReminders(day).collect {
                     _state.value = MainState.Reminders(it)
+                    userIntent.send(MainIntent.FetchTodos(day))
                 }
             }
         }
+        _state.value = MainState.Idle
     }
 
     private fun fetchAllToDos(day: Int) {
@@ -91,6 +93,7 @@ class MainViewModel(private val application: Application,
                 }
             }
         }
+        _state.value = MainState.Idle
     }
 
     fun addToDo(toDo: ToDoEntity) {
