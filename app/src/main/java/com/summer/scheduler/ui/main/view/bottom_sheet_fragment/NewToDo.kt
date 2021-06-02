@@ -40,7 +40,7 @@ class NewToDo : BottomSheetDialogFragment() {
         val date = editText_fragmentEvents_date.text
 
         if(inputCheck(toDoItem, date)) {
-            val toDo = ToDoEntity(0,toDoItem,Integer.parseInt(date.toString()),false)
+            val toDo = ToDoEntity(0,toDoItem,date.toString().toInt(),false)
             mListener?.onToDoAdded(toDo)
             Toast.makeText(requireContext(), "Successfully Added",Toast.LENGTH_SHORT).show()
         } else {
