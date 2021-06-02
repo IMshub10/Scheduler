@@ -28,4 +28,6 @@
     <string name="_06_00_am">06:00 AM</string>
     <string name="to">to</string>
     <string name="time">Time</string>
+    <string name="may">MAY</string>
+    <string name="add">add</string>
 </resources>

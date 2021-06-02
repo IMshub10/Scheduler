@@ -3,6 +3,7 @@ package com.summer.scheduler.ui.main.view
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -23,6 +24,7 @@ import com.summer.scheduler.ui.main.viewmodel.MainViewModel
 import com.summer.scheduler.ui.main.viewmodel.ViewModelFactory
 import com.summer.scheduler.utils.SwipeItemTouchHelper
 import com.summer.scheduler.utils.listeners.Swipe
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.schedule_main.*
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -41,8 +43,7 @@ class MainActivity : AppCompatActivity(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-
+        setSupportActionBar(toolbar_mainActivity)
         setupUI()
         startingDay()
         setupViewModel()
@@ -348,8 +349,6 @@ class MainActivity : AppCompatActivity(),
         }
     }
 
-
-
     override fun onEventAdded(event: ReminderEntity) {
         mainViewModel.addReminder(event)
     }
@@ -357,8 +356,6 @@ class MainActivity : AppCompatActivity(),
     override fun onToDoAdded(toDo: ToDoEntity) {
         mainViewModel.addToDo(toDo)
     }
-
-
 
     override fun rightSwipeDelete(position: Int, recyclerId: Int) {
         if (recyclerId == R.id.today_recyclerView) {
@@ -368,5 +365,10 @@ class MainActivity : AppCompatActivity(),
             val toDo = toDoAdapter.currentList[position]
             mainViewModel.removeToDo(toDo)
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        this.menuInflater.inflate(R.menu.main, menu)
+        return super.onCreateOptionsMenu(menu)
     }
 }
