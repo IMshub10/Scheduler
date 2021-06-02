@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.*
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.goodiebag.horizontalpicker.HorizontalPicker
 import com.summer.scheduler.R
@@ -17,6 +18,8 @@ import com.summer.scheduler.ui.main.view.calendardialog.DatePickerDialogBoxListe
 import com.summer.scheduler.ui.main.viewmodel.MainViewModel
 import com.summer.scheduler.ui.main.viewmodel.ViewModelFactory
 import com.summer.scheduler.ui.main.viewstate.MainState
+import com.summer.scheduler.utils.SwipeItemTouchHelper
+import com.summer.scheduler.utils.listeners.Swipe
 import kotlinx.android.synthetic.main.schedule_main.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -26,7 +29,8 @@ import kotlin.collections.ArrayList
 class MainActivity : AppCompatActivity(),
     NewEventBottomSheetFragment.OnEventAddedListener,
     NewToDoBottomSheetFragment.OnToDoAddedListener,
-    DatePickerDialogBoxListener{
+    DatePickerDialogBoxListener,
+    Swipe{
 
     private lateinit var mainViewModel: MainViewModel
     private lateinit var reminderAdapter: ReminderListAdapter
@@ -141,13 +145,7 @@ class MainActivity : AppCompatActivity(),
         reminderAdapter = ReminderListAdapter(this)
         toDoAdapter = ToDoListAdapter(this)
 
-        to_do_recyclerView.layoutManager =
-            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        today_recyclerView.layoutManager =
-            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-
-        to_do_recyclerView.adapter = toDoAdapter
-        today_recyclerView.adapter = reminderAdapter
+        setupRecyclerViews()
 
         val hpText: HorizontalPicker = findViewById(R.id.hpicker)
 
@@ -160,6 +158,34 @@ class MainActivity : AppCompatActivity(),
             textItems,
             3
         ) //3 here signifies the default selected item. Use : hpText.setItems(textItems) if none of the items are selected by default.
+    }
+
+    private fun setupRecyclerViews() {
+        to_do_recyclerView.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        today_recyclerView.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+
+        to_do_recyclerView.adapter = toDoAdapter
+        today_recyclerView.adapter = reminderAdapter
+
+        val reminderSwipeHelperCallback: ItemTouchHelper.Callback = SwipeItemTouchHelper(
+            this,
+            0,
+            ItemTouchHelper.RIGHT,
+            this
+        )
+        val reminderItemTouchHelper = ItemTouchHelper(reminderSwipeHelperCallback)
+        reminderItemTouchHelper.attachToRecyclerView(today_recyclerView)
+
+        val toDoSwipeHelperCallback: ItemTouchHelper.Callback = SwipeItemTouchHelper(
+            this,
+            0,
+            ItemTouchHelper.LEFT,
+            this
+        )
+        val toDoItemTouchHelper = ItemTouchHelper(toDoSwipeHelperCallback)
+        toDoItemTouchHelper.attachToRecyclerView(to_do_recyclerView)
     }
 
     override fun onEventAdded(event: ReminderEntity) {
@@ -177,6 +203,16 @@ class MainActivity : AppCompatActivity(),
         lifecycleScope.launch {
             mainViewModel.userIntent.send(MainIntent.FetchTodos(day!!.toInt()))
             mainViewModel.userIntent.send(MainIntent.FetchReminders(day.toInt()))
+        }
+    }
+
+    override fun rightSwipeDelete(position: Int, recyclerId: Int) {
+        if (recyclerId == R.id.today_recyclerView) {
+            val reminder = reminderAdapter.currentList[position]
+            mainViewModel.removeReminder(reminder)
+        } else if (recyclerId == R.id.to_do_recyclerView) {
+            val toDo = toDoAdapter.currentList[position]
+            mainViewModel.removeToDo(toDo)
         }
     }
 }
