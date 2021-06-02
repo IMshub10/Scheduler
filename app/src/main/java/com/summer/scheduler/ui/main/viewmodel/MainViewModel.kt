@@ -1,9 +1,7 @@
 package com.summer.scheduler.ui.main.viewmodel
 
-import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import cn.pedant.SweetAlert.SweetAlertDialog
 import com.summer.scheduler.data.model.entity.ReminderEntity
 import com.summer.scheduler.data.model.entity.ToDoEntity
 import com.summer.scheduler.data.model.repository.ReminderRepository
@@ -18,9 +16,10 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.launch
 
-class MainViewModel(private val application: Application,
-                    private val reminderRepository: ReminderRepository,
-                    private val toDoRepository: ToDoRepository): ViewModel() {
+class MainViewModel(
+    private val reminderRepository: ReminderRepository,
+    private val toDoRepository: ToDoRepository
+): ViewModel() {
 
     val userIntent = Channel<MainIntent>(Channel.UNLIMITED)
     private val _state = MutableStateFlow<MainState>(MainState.Idle)
@@ -71,20 +70,22 @@ class MainViewModel(private val application: Application,
         _state.value = MainState.OpenToDoBottomSheet
     }
 
-    private fun fetchAllReminders(day: Int) {
+    private suspend fun fetchAllReminders(day: Int) {
         viewModelScope.launch {
             _state.value = MainState.Loading
             viewModelScope.launch(Dispatchers.IO) {
                 reminderRepository.getAllReminders(day).collect {
                     _state.value = MainState.Reminders(it)
-                    userIntent.send(MainIntent.FetchTodos(day))
+                    viewModelScope.launch {
+                        userIntent.send(MainIntent.FetchTodos(day))
+                    }
                 }
             }
         }
         _state.value = MainState.Idle
     }
 
-    private fun fetchAllToDos(day: Int) {
+    private suspend fun fetchAllToDos(day: Int) {
         viewModelScope.launch {
             _state.value = MainState.Loading
             viewModelScope.launch(Dispatchers.IO) {
@@ -96,91 +97,51 @@ class MainViewModel(private val application: Application,
         _state.value = MainState.Idle
     }
 
-    fun addToDo(toDo: ToDoEntity) {
+    suspend fun addToDo(toDo: ToDoEntity) {
         viewModelScope.launch(Dispatchers.IO) {
             toDoRepository.addToDo(toDo)
         }
     }
 
-    fun addReminder(event: ReminderEntity) {
+    suspend fun addReminder(event: ReminderEntity) {
         viewModelScope.launch(Dispatchers.IO) {
             reminderRepository.addReminder(event)
         }
     }
 
-    fun updateToDo(toDo: ToDoEntity) {
+    suspend fun updateToDo(toDo: ToDoEntity) {
         viewModelScope.launch(Dispatchers.IO) {
             toDoRepository.updateToDo(toDo)
         }
     }
 
-    fun updateReminder(event: ReminderEntity) {
+    suspend fun updateReminder(event: ReminderEntity) {
         viewModelScope.launch(Dispatchers.IO) {
             reminderRepository.updateReminder(event)
         }
     }
 
-    fun removeToDo(toDo: ToDoEntity) {
+    suspend fun removeToDo(toDo: ToDoEntity) {
         viewModelScope.launch(Dispatchers.IO) {
             toDoRepository.removeToDo(toDo)
         }
     }
 
-    fun removeReminder(event: ReminderEntity) {
+    suspend fun removeReminder(event: ReminderEntity) {
         viewModelScope.launch(Dispatchers.IO) {
             reminderRepository.removeReminder(event)
         }
     }
 
-    fun removeAllToDos(day: Int) {
+    suspend fun removeAllToDos(day: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             toDoRepository.removeAllToDos(day)
         }
     }
 
-    fun removeAllReminders(day: Int) {
+    suspend fun removeAllReminders(day: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             reminderRepository.removeAllReminders(day)
         }
-    }
-
-    fun showDeleteReminderDialog() {
-        val dialog = SweetAlertDialog(application.baseContext, SweetAlertDialog.WARNING_TYPE)
-            .setTitleText("Are you sure?")
-            .setContentText("This Reminder item will be permanently deleted")
-            .setConfirmText("Yes")
-            .setCancelText("No")
-            .setConfirmClickListener { sweetAlertDialog ->
-                sweetAlertDialog.setTitleText("Deleted!")
-                    .setContentText("Your Reminder item is successfully deleted!")
-                    .setConfirmText("OK")
-                    .setConfirmClickListener(null)
-                    .changeAlertType(SweetAlertDialog.SUCCESS_TYPE)
-            }
-            .setCancelClickListener {
-                it.cancel()
-            }
-
-        dialog.show()
-    }
-
-    fun showDeleteToDoDialog() {
-        val dialog = SweetAlertDialog(application.baseContext, SweetAlertDialog.WARNING_TYPE)
-            .setTitleText("Are you sure?")
-            .setContentText("This To Do item will be permanently deleted")
-            .setConfirmText("Yes")
-            .setCancelText("No")
-            .setConfirmClickListener { sweetAlertDialog ->
-                sweetAlertDialog.setTitleText("Deleted!")
-                    .setContentText("Your To Do item is successfully deleted!")
-                    .setConfirmText("OK")
-                    .setConfirmClickListener(null)
-                    .changeAlertType(SweetAlertDialog.SUCCESS_TYPE)
-            }
-            .setCancelClickListener {
-                it.cancel()
-            }
-
-        dialog.show()
     }
 }

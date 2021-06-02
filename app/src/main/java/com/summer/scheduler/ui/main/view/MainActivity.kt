@@ -6,12 +6,14 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import cn.pedant.SweetAlert.SweetAlertDialog
 import com.summer.scheduler.R
 import com.summer.scheduler.data.model.entity.ReminderEntity
 import com.summer.scheduler.data.model.entity.ToDoEntity
@@ -60,20 +62,17 @@ class MainActivity : AppCompatActivity(),
 
     }
 
-    @SuppressLint("SimpleDateFormat")
     override fun onStart() {
         super.onStart()
         val date = Date()
-        val formatter = SimpleDateFormat("yyyyMMdd")
+        val formatter = SimpleDateFormat("yyyyMMdd", Locale.getDefault())
         val string = formatter.format(date)
 
-        lifecycleScope.launch {
-            fetchData(string)
-        }
+        fetchData(string)
     }
 
-    private suspend fun fetchData(string: String){
-        lifecycleScope.launch(Dispatchers.IO) {
+    private fun fetchData(string: String){
+        lifecycleScope.launch {
             mainViewModel.userIntent.send(MainIntent.FetchReminders(string.toInt()))
         }
     }
@@ -298,12 +297,8 @@ class MainActivity : AppCompatActivity(),
         val reminderSwipeHelperCallback: ItemTouchHelper.Callback = SwipeItemTouchHelper(
             this,
             0,
-            ItemTouchHelper.RIGHT,
-            object : Swipe {
-                override fun rightSwipeDelete(position: Int, recyclerId: Int) {
-                }
-
-            }
+            ItemTouchHelper.LEFT,
+            this
         )
         val reminderItemTouchHelper = ItemTouchHelper(reminderSwipeHelperCallback)
         reminderItemTouchHelper.attachToRecyclerView(today_recyclerView)
@@ -312,11 +307,7 @@ class MainActivity : AppCompatActivity(),
             this,
             0,
             ItemTouchHelper.LEFT,
-            object : Swipe {
-                override fun rightSwipeDelete(position: Int, recyclerId: Int) {
-                }
-
-            }
+            this
         )
         val toDoItemTouchHelper = ItemTouchHelper(toDoSwipeHelperCallback)
         toDoItemTouchHelper.attachToRecyclerView(to_do_recyclerView)
@@ -424,9 +415,7 @@ class MainActivity : AppCompatActivity(),
         setDateToCardViews(weekNo)
         setColorDaySelected(c[Calendar.DAY_OF_WEEK])
         Log.e("weekNumber", weekNo.toString())
-        lifecycleScope.launch {
-            fetchData(dateString!!)
-        }
+        fetchData(dateString!!)
     }
 
     override fun onCloseDatePickerFragment() {
@@ -434,7 +423,9 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun onEventAdded(event: ReminderEntity) {
-        mainViewModel.addReminder(event)
+        lifecycleScope.launch {
+            mainViewModel.addReminder(event)
+        }
     }
 
     override fun onCloseReminderFragment() {
@@ -442,7 +433,9 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun onToDoAdded(toDo: ToDoEntity) {
-        mainViewModel.addToDo(toDo)
+        lifecycleScope.launch {
+            mainViewModel.addToDo(toDo)
+        }
     }
 
     override fun onCloseToDoFragment() {
@@ -450,12 +443,21 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun rightSwipeDelete(position: Int, recyclerId: Int) {
+        Log.e("rightSwipeDelete", "here1")
         if (recyclerId == R.id.today_recyclerView) {
+            Log.e("rightSwipeDelete", "here1")
             val reminder = reminderAdapter.currentList[position]
-            mainViewModel.removeReminder(reminder)
+            lifecycleScope.launch {
+                mainViewModel.removeReminder(reminder)
+            }
+
         } else if (recyclerId == R.id.to_do_recyclerView) {
+            Log.e("rightSwipeDelete", "here1")
             val toDo = toDoAdapter.currentList[position]
-            mainViewModel.removeToDo(toDo)
+            lifecycleScope.launch {
+                mainViewModel.removeToDo(toDo)
+            }
+
         }
     }
 
@@ -469,5 +471,45 @@ class MainActivity : AppCompatActivity(),
             //openSwitchFragment()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun showDeleteReminderDialog(reminder: ReminderEntity) {
+        val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+            .setTitleText("Are you sure?")
+            .setContentText("This Reminder item will be permanently deleted")
+            .setConfirmText("Yes")
+            .setCancelText("No")
+            .setConfirmClickListener { sweetAlertDialog ->
+                sweetAlertDialog.setTitleText("Deleted!")
+                    .setContentText("Your Reminder item is successfully deleted!")
+                    .setConfirmText("OK")
+                    .setConfirmClickListener(null)
+                    .changeAlertType(SweetAlertDialog.SUCCESS_TYPE)
+            }
+            .setCancelClickListener {
+                it.cancel()
+            }
+
+        dialog.show()
+    }
+
+    private fun showDeleteToDoDialog(toDo: ToDoEntity) {
+        val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+            .setTitleText("Are you sure?")
+            .setContentText("This To Do item will be permanently deleted")
+            .setConfirmText("Yes")
+            .setCancelText("No")
+            .setConfirmClickListener { sweetAlertDialog ->
+                sweetAlertDialog.setTitleText("Deleted!")
+                    .setContentText("Your To Do item is successfully deleted!")
+                    .setConfirmText("OK")
+                    .setConfirmClickListener(null)
+                    .changeAlertType(SweetAlertDialog.SUCCESS_TYPE)
+            }
+            .setCancelClickListener {
+                it.cancel()
+            }
+
+        dialog.show()
     }
 }

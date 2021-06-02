@@ -10,7 +10,7 @@ import java.lang.IllegalArgumentException
 class ViewModelFactory(private val application: Application) : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
-            return MainViewModel(application, ReminderRepository(application), ToDoRepository(application)) as T
+            return MainViewModel(ReminderRepository(application), ToDoRepository(application)) as T
         }
         throw IllegalArgumentException("Unknown class name")
     }
