@@ -111,13 +111,13 @@ class MainViewModel(
         _state.value = MainState.Idle
     }
 
-    fun addToDo(toDo: ToDoEntity) {
+    suspend fun addToDo(toDo: ToDoEntity) {
         viewModelScope.launch(Dispatchers.IO) {
             toDoRepository.addToDo(toDo)
         }
     }
 
-    fun addReminder(event: ReminderEntity) {
+    suspend fun addReminder(event: ReminderEntity) {
         viewModelScope.launch(Dispatchers.IO) {
             reminderRepository.addReminder(event)
         }

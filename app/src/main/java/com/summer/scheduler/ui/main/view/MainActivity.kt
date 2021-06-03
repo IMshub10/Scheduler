@@ -459,8 +459,9 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun onEventAdded(event: ReminderEntity) {
-        mainViewModel.addReminder(event)
-
+        lifecycleScope.launch {
+            mainViewModel.addReminder(event)
+        }
     }
 
     override fun onCloseReminderFragment() {
@@ -468,8 +469,9 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun onToDoAdded(toDo: ToDoEntity) {
-        mainViewModel.addToDo(toDo)
-
+        lifecycleScope.launch {
+            mainViewModel.addToDo(toDo)
+        }
     }
 
     override fun onCloseToDoFragment() {
@@ -484,14 +486,12 @@ class MainActivity : AppCompatActivity(),
             lifecycleScope.launch {
                 mainViewModel.removeReminder(reminder)
             }
-
         } else if (recyclerId == R.id.to_do_recyclerView) {
             Log.e("rightSwipeDelete", "here1")
             val toDo = toDoAdapter.currentList[position]
             lifecycleScope.launch {
                 mainViewModel.removeToDo(toDo)
             }
-
         }
     }
 
