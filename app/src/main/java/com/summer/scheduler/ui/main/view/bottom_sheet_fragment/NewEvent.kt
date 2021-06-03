@@ -19,7 +19,8 @@ import java.util.*
 
 class NewEvent(setDoneVisibility: Boolean) : BottomSheetDialogFragment() {
 
-    var setDoneVisibility: Boolean = true
+    private var setDoneVisibility: Boolean = true
+    private var added = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NORMAL,R.style.BottomSheetDialogTheme)
@@ -62,6 +63,7 @@ class NewEvent(setDoneVisibility: Boolean) : BottomSheetDialogFragment() {
 
             val event = ReminderEntity(0,eventTitle,eventAgenda,Integer.parseInt(eventStart.toString()),Integer.parseInt(eventEnd.toString()),eventPeople,eventLink,eventLocation, day.toInt())
             mListener?.onEventAdded(event)
+            added = true
             Toast.makeText(requireContext(), "Successfully Added",Toast.LENGTH_SHORT).show()
             dismiss()
             return true
@@ -99,12 +101,12 @@ class NewEvent(setDoneVisibility: Boolean) : BottomSheetDialogFragment() {
 
     interface OnEventAddedListener {
         fun onEventAdded(event: ReminderEntity)
-        fun onCloseReminderFragment()
+        fun onCloseReminderFragment(added: Boolean)
     }
 
     override fun onDetach() {
         super.onDetach()
-        mListener?.onCloseReminderFragment()
+        mListener?.onCloseReminderFragment(added)
     }
     init {
         this.setDoneVisibility = setDoneVisibility

@@ -85,8 +85,9 @@ class MainViewModel(
             }
             job1 = viewModelScope.launch(Dispatchers.IO) {
                 reminderRepository.getAllReminders(day).collect {
+                    Log.e("collecting1", "reminders")
                     _state.value = MainState.Reminders(it)
-                    Log.e("collecting", "reminders")
+                    Log.e("collecting2", "reminders")
                     viewModelScope.launch {
                         userIntent.send(MainIntent.FetchTodos(day))
                     }
@@ -105,8 +106,9 @@ class MainViewModel(
             }
             job2 = viewModelScope.launch(Dispatchers.IO) {
                 toDoRepository.getAllToDos(day).collect {
+                    Log.e("collecting1", "to dos")
                     _state.value = MainState.ToDos(it)
-                    Log.e("collecting", "to dos")
+                    Log.e("collecting2", "to dos")
                 }
             }
         }

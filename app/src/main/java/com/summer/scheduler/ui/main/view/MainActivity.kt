@@ -466,8 +466,9 @@ class MainActivity : AppCompatActivity(),
         }
     }
 
-    override fun onCloseReminderFragment() {
-        mainViewModel.setIdleState()
+    override fun onCloseReminderFragment(added: Boolean) {
+        if (!added)
+            mainViewModel.setIdleState()
     }
 
     override fun onToDoAdded(toDo: ToDoEntity) {
@@ -476,8 +477,9 @@ class MainActivity : AppCompatActivity(),
         }
     }
 
-    override fun onCloseToDoFragment() {
-        mainViewModel.setIdleState()
+    override fun onCloseToDoFragment(added: Boolean) {
+        if (!added)
+            mainViewModel.setIdleState()
     }
 
     override fun rightSwipeDelete(position: Int, recyclerId: Int) {

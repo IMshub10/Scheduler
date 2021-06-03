@@ -18,7 +18,8 @@ import kotlinx.android.synthetic.main.fragment_reminders.view.*
 
 class NewToDo(setDoneVisibility: Boolean) : BottomSheetDialogFragment() {
 
-    var setDoneVisibility: Boolean = true
+    private var setDoneVisibility: Boolean = true
+    private var added = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NORMAL, R.style.BottomSheetDialogTheme)
@@ -46,6 +47,7 @@ class NewToDo(setDoneVisibility: Boolean) : BottomSheetDialogFragment() {
         if (inputCheck(toDoItem, date)) {
             val toDo = ToDoEntity(0, toDoItem, date.toString().toInt(), false)
             mListener?.onToDoAdded(toDo)
+            added = true
             Toast.makeText(requireContext(), "Successfully Added", Toast.LENGTH_SHORT).show()
             dismiss()
             return true
@@ -76,7 +78,7 @@ class NewToDo(setDoneVisibility: Boolean) : BottomSheetDialogFragment() {
 
     interface OnToDoAddedListener {
         fun onToDoAdded(toDo: ToDoEntity)
-        fun onCloseToDoFragment()
+        fun onCloseToDoFragment(added: Boolean)
     }
 
     companion object {
@@ -90,7 +92,7 @@ class NewToDo(setDoneVisibility: Boolean) : BottomSheetDialogFragment() {
 
     override fun onDetach() {
         super.onDetach()
-        mListener?.onCloseToDoFragment()
+        mListener?.onCloseToDoFragment(added)
     }
 
     init {
