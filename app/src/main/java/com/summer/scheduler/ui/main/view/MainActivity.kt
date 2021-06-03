@@ -210,10 +210,12 @@ class MainActivity : AppCompatActivity(),
     }
 
     private fun getAllReminders(reminders: List<ReminderEntity>) {
+        Log.e("getAllReminders", "Here")
         reminderAdapter.submitList(reminders)
     }
 
     private fun getAllToDos(toDos: List<ToDoEntity>) {
+        Log.e("getAllToDos", "Here")
         toDoAdapter.submitList(toDos)
     }
 

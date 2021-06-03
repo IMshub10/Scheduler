@@ -1,5 +1,6 @@
 package com.summer.scheduler.ui.main.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.summer.scheduler.data.model.entity.ReminderEntity
@@ -85,13 +86,13 @@ class MainViewModel(
             job1 = viewModelScope.launch(Dispatchers.IO) {
                 reminderRepository.getAllReminders(day).collect {
                     _state.value = MainState.Reminders(it)
+                    Log.e("collecting", "reminders")
                     viewModelScope.launch {
                         userIntent.send(MainIntent.FetchTodos(day))
                     }
                 }
             }
         }
-        _state.value = MainState.Idle
     }
 
     private suspend fun fetchAllToDos(day: Int) {
@@ -105,10 +106,10 @@ class MainViewModel(
             job2 = viewModelScope.launch(Dispatchers.IO) {
                 toDoRepository.getAllToDos(day).collect {
                     _state.value = MainState.ToDos(it)
+                    Log.e("collecting", "to dos")
                 }
             }
         }
-        _state.value = MainState.Idle
     }
 
     suspend fun addToDo(toDo: ToDoEntity) {
