@@ -293,11 +293,11 @@ class SwipeItemTouchHelper(private val context: Context, dragDirs: Int, private 
             .setCancelText("No")
             .setConfirmClickListener { sweetAlertDialog ->
                 sweetAlertDialog.setTitleText("Deleted!")
+                    .showCancelButton(false)
                     .setContentText("Your Reminder item is successfully deleted!")
                     .setConfirmText("OK")
                     .setConfirmClickListener(null)
-                    //.dismissWithAnimation()
-                    //.changeAlertType(SweetAlertDialog.SUCCESS_TYPE)
+                    .changeAlertType(SweetAlertDialog.SUCCESS_TYPE)
 
                 mainViewModel.viewModelScope.launch {
                     mainViewModel.removeReminder(reminder)
