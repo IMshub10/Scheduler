@@ -74,7 +74,6 @@ class MainActivity : AppCompatActivity(),
         }
     }
 
-
     private fun observableViewModel() {
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -104,6 +103,7 @@ class MainActivity : AppCompatActivity(),
                             date[Calendar.WEEK_OF_YEAR] = weekNo
                             date.firstDayOfWeek = Calendar.SUNDAY
                             colorBlack()
+                            changeList(it.day, weekNo)
                             when (it.day) {
                                 1 -> {
                                     date[Calendar.DAY_OF_WEEK] = Calendar.SUNDAY
@@ -143,6 +143,37 @@ class MainActivity : AppCompatActivity(),
                 }
             }
         }
+    }
+
+    private var selectedDate = Calendar.getInstance()[Calendar.DATE]
+    private var selectedMonth = Calendar.getInstance()[Calendar.MONTH] + 1
+    private var selectedYear = Calendar.getInstance()[Calendar.YEAR]
+
+    private fun changeList(day: Int, weekNo: Int) {
+        val calendar = Calendar.Builder()
+            .setCalendarType("gregorian")
+            .setDate(selectedYear, selectedMonth - 1, selectedDate)
+            .build()
+
+        calendar[Calendar.WEEK_OF_YEAR] = weekNo
+        calendar.firstDayOfWeek = Calendar.SUNDAY
+        val diff = day - calendar[Calendar.DAY_OF_WEEK]
+        calendar.add(Calendar.DATE, diff)
+
+        var dString = "${calendar[Calendar.DATE]}"
+        var mString = "${calendar[Calendar.MONTH] + 1}"
+        val yString = "${calendar[Calendar.YEAR]}"
+
+        if (calendar.get(Calendar.DAY_OF_MONTH) < 10) dString = "0$dString"
+        if (calendar.get(Calendar.MONTH) + 1 < 10) mString = "0$mString"
+
+        val hSelectedDay = "$yString$mString$dString"
+
+        fetchData(hSelectedDay)
+
+        Log.e("dayOfWeek", "${calendar[Calendar.DAY_OF_WEEK]}")
+        Log.e("changeList", "${calendar[Calendar.DATE]} ${calendar[Calendar.MONTH] + 1} ${calendar[Calendar.YEAR]}")
+        Log.e("selectedItems", "$selectedYear $selectedMonth $selectedDate")
     }
 
 
@@ -400,6 +431,8 @@ class MainActivity : AppCompatActivity(),
 
     override fun sendDateInfo(dateString: String?, weekNo: Int, date: Date?) {
         Log.e("weekNumber", weekNo.toString())
+        setSelected(dateString!!)
+        Log.e("sendDateInfo", dateString)
         this.weekNo = weekNo
         val c = Calendar.getInstance()
         c.time = date!!
@@ -412,7 +445,13 @@ class MainActivity : AppCompatActivity(),
         setDateToCardViews(weekNo)
         setColorDaySelected(c[Calendar.DAY_OF_WEEK])
         Log.e("weekNumber", weekNo.toString())
-        fetchData(dateString!!)
+        fetchData(dateString)
+    }
+
+    private fun setSelected(dateString: String) {
+        selectedYear = dateString.substring(0, 4).toInt()
+        selectedMonth = dateString.substring(4, 6).toInt()
+        selectedDate = dateString.substring(6, 8).toInt()
     }
 
     override fun onCloseDatePickerFragment() {
