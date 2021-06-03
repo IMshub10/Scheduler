@@ -64,6 +64,7 @@
             android:layout_marginTop="8dp"
             android:backgroundTint="#FFFFFF"
             android:hint="@string/time"
+            android:enabled="false"
             android:ems="10"
             android:inputType="number"
             android:textColorHint="#FFFFFF"

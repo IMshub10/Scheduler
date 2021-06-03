@@ -460,21 +460,9 @@ class MainActivity : AppCompatActivity(),
         mainViewModel.setIdleState()
     }
 
-    override fun onEventAdded(event: ReminderEntity) {
-        lifecycleScope.launch {
-            mainViewModel.addReminder(event)
-        }
-    }
-
     override fun onCloseReminderFragment(added: Boolean) {
         if (!added)
             mainViewModel.setIdleState()
-    }
-
-    override fun onToDoAdded(toDo: ToDoEntity) {
-        lifecycleScope.launch {
-            mainViewModel.addToDo(toDo)
-        }
     }
 
     override fun onCloseToDoFragment(added: Boolean) {
@@ -483,20 +471,7 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun rightSwipeDelete(position: Int, recyclerId: Int) {
-        Log.e("rightSwipeDelete", "here1")
-        if (recyclerId == R.id.today_recyclerView) {
-            Log.e("rightSwipeDelete", "here1")
-            val reminder = reminderAdapter.currentList[position]
-            lifecycleScope.launch {
-                mainViewModel.removeReminder(reminder)
-            }
-        } else if (recyclerId == R.id.to_do_recyclerView) {
-            Log.e("rightSwipeDelete", "here1")
-            val toDo = toDoAdapter.currentList[position]
-            lifecycleScope.launch {
-                mainViewModel.removeToDo(toDo)
-            }
-        }
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

@@ -10,16 +10,23 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.summer.scheduler.R
 import com.summer.scheduler.data.model.entity.ToDoEntity
+import com.summer.scheduler.ui.main.viewmodel.MainViewModel
+import com.summer.scheduler.ui.main.viewmodel.ViewModelFactory
 import kotlinx.android.synthetic.main.fragment_reminders.*
 import kotlinx.android.synthetic.main.fragment_reminders.view.*
+import kotlinx.coroutines.launch
 
 class NewToDo(setDoneVisibility: Boolean) : BottomSheetDialogFragment() {
 
     private var setDoneVisibility: Boolean = true
     private var added = false
+    private lateinit var mainViewModel: MainViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NORMAL, R.style.BottomSheetDialogTheme)
@@ -44,17 +51,21 @@ class NewToDo(setDoneVisibility: Boolean) : BottomSheetDialogFragment() {
         val toDoItem = editText_fragmentEvents_reminder.text.toString()
         val date = editText_fragmentEvents_date.text
 
-        if (inputCheck(toDoItem, date)) {
+        return if (inputCheck(toDoItem, date)) {
             val toDo = ToDoEntity(0, toDoItem, date.toString().toInt(), false)
-            mListener?.onToDoAdded(toDo)
+
+            lifecycleScope.launch {
+                mainViewModel.addToDo(toDo)
+            }
+
             added = true
             Toast.makeText(requireContext(), "Successfully Added", Toast.LENGTH_SHORT).show()
             dismiss()
-            return true
+            true
         } else {
             Toast.makeText(requireContext(), "Please fill out all fields", Toast.LENGTH_SHORT)
                 .show()
-            return false
+            false
         }
 
     }
@@ -67,6 +78,10 @@ class NewToDo(setDoneVisibility: Boolean) : BottomSheetDialogFragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+
+        mainViewModel = ViewModelProvider(this, ViewModelFactory(requireActivity().application))
+            .get(MainViewModel::class.java)
+
         if (context is OnToDoAddedListener) {
             mListener = context
         } else {
@@ -77,7 +92,6 @@ class NewToDo(setDoneVisibility: Boolean) : BottomSheetDialogFragment() {
     }
 
     interface OnToDoAddedListener {
-        fun onToDoAdded(toDo: ToDoEntity)
         fun onCloseToDoFragment(added: Boolean)
     }
 

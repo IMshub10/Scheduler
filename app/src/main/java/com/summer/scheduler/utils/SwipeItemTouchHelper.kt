@@ -1,6 +1,7 @@
 package com.summer.scheduler.utils
 
 import android.annotation.SuppressLint
+import android.app.Application
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.PorterDuff
@@ -10,11 +11,22 @@ import android.view.HapticFeedbackConstants
 import android.view.MotionEvent
 import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.core.view.get
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelStoreOwner
+import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.summer.scheduler.R
+import com.summer.scheduler.data.model.entity.ReminderEntity
+import com.summer.scheduler.data.model.entity.ToDoEntity
+import com.summer.scheduler.ui.main.adapter.ReminderListAdapter
+import com.summer.scheduler.ui.main.adapter.ToDoListAdapter
+import com.summer.scheduler.ui.main.viewmodel.MainViewModel
+import com.summer.scheduler.ui.main.viewmodel.ViewModelFactory
 import com.summer.scheduler.utils.AndroidUtils.dp
 import com.summer.scheduler.utils.listeners.Swipe
+import kotlinx.coroutines.launch
 import kotlin.math.abs
 
 class SwipeItemTouchHelper(private val context: Context, dragDirs: Int, private val swipeDirs: Int, private val swipe: Swipe) : ItemTouchHelper.SimpleCallback(dragDirs, swipeDirs) {
@@ -55,12 +67,12 @@ class SwipeItemTouchHelper(private val context: Context, dragDirs: Int, private 
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {}
     override fun onChildDraw(c: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
-        super.onChildDraw(c, recyclerView, viewHolder, dX / 3, dY, actionState, isCurrentlyActive)
+        super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
         if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
             setTouchListener(recyclerView, viewHolder)
         }
         if (view!!.translationX < convertToDp(20) || dX < this.dX) {
-            super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+            super.onChildDraw(c, recyclerView, viewHolder, dX/3, dY, actionState, isCurrentlyActive)
             this.dX = dX
             startTracking = true
         }
@@ -238,6 +250,16 @@ class SwipeItemTouchHelper(private val context: Context, dragDirs: Int, private 
         shareRound.alpha = 255
     }
 
+    private lateinit var mainViewModel: MainViewModel
+
+    init {
+        mainViewModel = ViewModelProvider(
+            context as ViewModelStoreOwner,
+            ViewModelFactory(context.applicationContext as Application)
+        )
+            .get(MainViewModel::class.java)
+    }
+
     @SuppressLint("ClickableViewAccessibility")
     private fun setTouchListener(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
         recyclerView.setOnTouchListener { _, event ->
@@ -245,6 +267,17 @@ class SwipeItemTouchHelper(private val context: Context, dragDirs: Int, private 
             if (swipeBack) {
                 if (abs(view!!.translationX) >= this.convertToDp(100)) {
                     swipe.rightSwipeDelete(viewHolder.adapterPosition, recyclerView.id)
+                    if (recyclerView.id == R.id.to_do_recyclerView) {
+                        val toDo: ToDoEntity = (recyclerView.adapter as ToDoListAdapter).currentList[viewHolder.absoluteAdapterPosition]
+                        mainViewModel.viewModelScope.launch {
+                            mainViewModel.removeToDo(toDo)
+                        }
+                    } else {
+                        val reminder: ReminderEntity = (recyclerView.adapter as ReminderListAdapter).currentList[viewHolder.absoluteAdapterPosition]
+                        mainViewModel.viewModelScope.launch {
+                            mainViewModel.removeReminder(reminder)
+                        }
+                    }
                 }
             }
             false
