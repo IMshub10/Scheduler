@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -170,9 +169,7 @@ class MainActivity : AppCompatActivity(),
 
         val hSelectedDay = "$yString$mString$dString"
 
-        lifecycleScope.launch {
-            mainViewModel.userIntent.send(MainIntent.FetchReminders(hSelectedDay.toInt()))
-        }
+        fetchData(hSelectedDay)
 
         Log.e("dayOfWeek", "${calendar[Calendar.DAY_OF_WEEK]}")
         Log.e("changeList", "${calendar[Calendar.DATE]} ${calendar[Calendar.MONTH] + 1} ${calendar[Calendar.YEAR]}")
