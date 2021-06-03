@@ -463,7 +463,9 @@ class MainActivity : AppCompatActivity(),
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.addButton) {
-            //openSwitchFragment()
+            lifecycleScope.launch {
+                mainViewModel.userIntent.send(MainIntent.SwitchBetweenReminderToDo)
+            }
         }
         return super.onOptionsItemSelected(item)
     }

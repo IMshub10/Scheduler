@@ -17,13 +17,13 @@ class MainSchedule : AppCompatActivity() {
 
         val newToDo = findViewById<TextView>(R.id.to_do_newItem)
         newToDo.setOnClickListener{
-            val newToDoSheet = NewToDo()
+            val newToDoSheet = NewToDo(false)
             newToDoSheet.show(supportFragmentManager,newToDoSheet.tag)
         }
 
         val newEvent = findViewById<TextView>(R.id.today_newEvent)
         newEvent.setOnClickListener{
-            val newEventSheet = NewEvent()
+            val newEventSheet = NewEvent(false)
             newEventSheet.show(supportFragmentManager,newEventSheet.tag)
         }
     }

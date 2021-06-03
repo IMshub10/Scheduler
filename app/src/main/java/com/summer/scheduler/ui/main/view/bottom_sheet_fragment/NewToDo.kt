@@ -1,6 +1,7 @@
 package com.summer.scheduler.ui.main.view.bottom_sheet_fragment
 
 import android.content.Context
+import android.opengl.Visibility
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
@@ -8,18 +9,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.summer.scheduler.R
 import com.summer.scheduler.data.model.entity.ToDoEntity
 import kotlinx.android.synthetic.main.fragment_reminders.*
 import kotlinx.android.synthetic.main.fragment_reminders.view.*
 
-class NewToDo : BottomSheetDialogFragment() {
+class NewToDo(setDoneVisibility: Boolean) : BottomSheetDialogFragment() {
 
+    var setDoneVisibility: Boolean = true
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setStyle(STYLE_NORMAL,R.style.BottomSheetDialogTheme)
+        setStyle(STYLE_NORMAL, R.style.BottomSheetDialogTheme)
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -27,7 +31,7 @@ class NewToDo : BottomSheetDialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_reminders, container, false)
-
+        view.to_do_done.isVisible = setDoneVisibility
         view.to_do_done.setOnClickListener {
             insertToDoToDatabase()
         }
@@ -35,20 +39,25 @@ class NewToDo : BottomSheetDialogFragment() {
         return view
     }
 
-    private fun insertToDoToDatabase() {
+    fun insertToDoToDatabase() :Boolean{
         val toDoItem = editText_fragmentEvents_reminder.text.toString()
         val date = editText_fragmentEvents_date.text
 
-        if(inputCheck(toDoItem, date)) {
-            val toDo = ToDoEntity(0,toDoItem,date.toString().toInt(),false)
+        if (inputCheck(toDoItem, date)) {
+            val toDo = ToDoEntity(0, toDoItem, date.toString().toInt(), false)
             mListener?.onToDoAdded(toDo)
-            Toast.makeText(requireContext(), "Successfully Added",Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "Successfully Added", Toast.LENGTH_SHORT).show()
+            dismiss()
+            return true
         } else {
-            Toast.makeText(requireContext(), "Please fill out all fields",Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "Please fill out all fields", Toast.LENGTH_SHORT)
+                .show()
+            return false
         }
+
     }
 
-    private fun inputCheck(toDoItem: String, date: Editable):Boolean {
+    private fun inputCheck(toDoItem: String, date: Editable): Boolean {
         return !(TextUtils.isEmpty(toDoItem) && date.isEmpty())
     }
 
@@ -73,7 +82,7 @@ class NewToDo : BottomSheetDialogFragment() {
     companion object {
         @JvmStatic
         fun newInstance(bundle: Bundle): NewToDo {
-            val fragment = NewToDo()
+            val fragment = NewToDo(bundle.getBoolean("setDoneVisibility"))
             fragment.arguments = bundle
             return fragment
         }
@@ -82,5 +91,9 @@ class NewToDo : BottomSheetDialogFragment() {
     override fun onDetach() {
         super.onDetach()
         mListener?.onCloseToDoFragment()
+    }
+
+    init {
+        this.setDoneVisibility = setDoneVisibility
     }
 }

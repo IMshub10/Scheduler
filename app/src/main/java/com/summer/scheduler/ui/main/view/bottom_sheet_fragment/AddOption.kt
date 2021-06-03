@@ -4,19 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ToggleButton
-import androidx.navigation.findNavController
+import android.widget.Toast
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.summer.scheduler.R
 import kotlinx.android.synthetic.main.events_and_reminders.*
 
 class AddOption : BottomSheetDialogFragment() {
 
-    private lateinit var toggle: ToggleButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setStyle(STYLE_NORMAL,R.style.BottomSheetDialogTheme)
+        setStyle(STYLE_NORMAL, R.style.BottomSheetDialogTheme)
     }
 
     override fun onCreateView(
@@ -24,17 +22,45 @@ class AddOption : BottomSheetDialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.events_and_reminders, container, false)
+        return inflater.inflate(R.layout.events_and_reminders, container, false)
+    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        materialButton_toDo.isSelected = true
-        materialButton_toDo.setOnClickListener {
-            view: View -> view.findNavController().navigate(R.id.action_addOptionBottomSheetFragment_to_newToDoBottomSheetFragment2)
+        materialButton_toDo!!.isSelected = true
+        materialButton_toDo!!.isSelected = true
+
+        loadToDoFragment()
+        materialButton_toDo!!.setOnClickListener {
+            loadToDoFragment()
         }
-        materialButton_today.setOnClickListener {
-                view: View -> view.findNavController().navigate(R.id.action_addOptionBottomSheetFragment_to_newEventBottomSheetFragment)
+        materialButton_today!!.setOnClickListener {
+            loadNewEventFragment()
+        }
+    }
+
+    private fun loadToDoFragment(){
+        val newToDo = NewToDo(false)
+        val ft = childFragmentManager.beginTransaction()
+        ft.replace(R.id.toggle_fragment_container, newToDo)
+        ft.commit()
+        textView_done_eventsAndReminders.setOnClickListener{
+            if (newToDo.insertToDoToDatabase()){
+                dismiss()
+            }
         }
 
-        return view;
+    }
+    private fun loadNewEventFragment(){
+        val newEvent = NewEvent(false)
+        val ft = childFragmentManager.beginTransaction()
+        ft.replace(R.id.toggle_fragment_container, newEvent)
+        ft.commit()
+        textView_done_eventsAndReminders.setOnClickListener{
+            if (newEvent.insertToDoToDatabase()){
+                dismiss()
+            }
+        }
     }
 
     companion object {
