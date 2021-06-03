@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import cn.pedant.SweetAlert.SweetAlertDialog
 import com.summer.scheduler.R
 import com.summer.scheduler.data.model.entity.ReminderEntity
 import com.summer.scheduler.data.model.entity.ToDoEntity
@@ -269,14 +270,10 @@ class SwipeItemTouchHelper(private val context: Context, dragDirs: Int, private 
                     swipe.rightSwipeDelete(viewHolder.adapterPosition, recyclerView.id)
                     if (recyclerView.id == R.id.to_do_recyclerView) {
                         val toDo: ToDoEntity = (recyclerView.adapter as ToDoListAdapter).currentList[viewHolder.absoluteAdapterPosition]
-                        mainViewModel.viewModelScope.launch {
-                            mainViewModel.removeToDo(toDo)
-                        }
+                        showDeleteToDoDialog(toDo)
                     } else {
                         val reminder: ReminderEntity = (recyclerView.adapter as ReminderListAdapter).currentList[viewHolder.absoluteAdapterPosition]
-                        mainViewModel.viewModelScope.launch {
-                            mainViewModel.removeReminder(reminder)
-                        }
+                        showDeleteReminderDialog(reminder)
                     }
                 }
             }
@@ -286,6 +283,56 @@ class SwipeItemTouchHelper(private val context: Context, dragDirs: Int, private 
 
     private fun convertToDp(translationX: Int): Int {
         return dp(translationX.toFloat(), context)
+    }
+
+    private fun showDeleteReminderDialog(reminder: ReminderEntity) {
+        val dialog = SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE)
+            .setTitleText("Are you sure?")
+            .setContentText("This Reminder item will be permanently deleted")
+            .setConfirmText("Yes")
+            .setCancelText("No")
+            .setConfirmClickListener { sweetAlertDialog ->
+                sweetAlertDialog.setTitleText("Deleted!")
+                    .setContentText("Your Reminder item is successfully deleted!")
+                    .setConfirmText("OK")
+                    .setConfirmClickListener(null)
+                    //.dismissWithAnimation()
+                    //.changeAlertType(SweetAlertDialog.SUCCESS_TYPE)
+
+                mainViewModel.viewModelScope.launch {
+                    mainViewModel.removeReminder(reminder)
+                }
+            }
+            .setCancelClickListener {
+                it.cancel()
+            }
+
+        dialog.show()
+    }
+
+    private fun showDeleteToDoDialog(toDo: ToDoEntity) {
+        val dialog = SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE)
+            .setTitleText("Are you sure?")
+            .setContentText("This To Do item will be permanently deleted")
+            .setConfirmText("Yes")
+            .setCancelText("No")
+            .setConfirmClickListener { sweetAlertDialog ->
+                sweetAlertDialog.setTitleText("Deleted!")
+                    .showCancelButton(false)
+                    .setContentText("Your To Do item is successfully deleted!")
+                    .setConfirmText("OK")
+                    .setConfirmClickListener(null)
+                    .changeAlertType(SweetAlertDialog.SUCCESS_TYPE)
+
+                mainViewModel.viewModelScope.launch {
+                    mainViewModel.removeToDo(toDo)
+                }
+            }
+            .setCancelClickListener {
+                it.cancel()
+            }
+
+        dialog.show()
     }
 
 }
