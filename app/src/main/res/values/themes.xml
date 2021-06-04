@@ -2,42 +2,49 @@
     <!-- Base application theme. -->
     <style name="Theme.Scheduler" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/black</item>
-        <item name="colorPrimaryVariant">@color/black_hole</item>
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryVariant">@color/white_hole</item>
         <item name="colorOnPrimary">@color/white</item>
-        <item name="colorSurface">@color/grey_darkest_2c2c2e</item>
-        <item name="android:colorBackground">@color/black</item>
+        <item name="colorSurface">@color/white_hole</item>
+        <item name="android:colorBackground">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/blue_dark_008aff</item>
         <item name="colorSecondaryVariant">@color/blue_light_007aff</item>
-        <item name="colorOnSecondary">@color/black</item>
+        <item name="colorOnSecondary">@color/white</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
-        <item name="android:fontFamily">@font/roboto</item>
+        <!-- color -->
+        <item name="android:textColor">@color/black</item>
         <item name="icon_color1">@color/black</item>
         <item name="shape_circle_color">@color/white_hole</item>
         <item name="color_toolbar">@color/white_hole</item>
+
+        <!-- FONT -->
+        <item name="android:fontFamily">@font/roboto</item>
     </style>
 
     <style name="text_list" parent="TextAppearance.AppCompat">
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">?attr/icon_color1</item>
-        <item name="android:fontFamily">@font/roboto</item>
     </style>
+
     <style name="textCalendar" parent="TextAppearance.AppCompat">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/black</item>
         <item name="lineHeight">16sp</item>
     </style>
+
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light">
         <item name="android:windowTranslucentStatus">true</item>
         <item name="elevation">0dp</item>
     </style>
+
     <style name="BottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/BottomSheetStyle</item>
         <item name="android:windowSoftInputMode">adjustResize</item>
     </style>
+
     <style name="BottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@android:color/transparent</item>
     </style>
