@@ -14,7 +14,6 @@
     <string name="link">Link</string>
     <string name="location">Location</string>
     <string name="reminder">Reminder</string>
-    <string name="date">Date</string>
     <string name="events">Events</string>
     <string name="reminders">Reminders</string>
     <string name="next">next</string>
@@ -25,4 +24,10 @@
     <string name="reminder_details_location_string">Location of event here</string>
     <string name="reminder_details_links_string">Links of event here</string>
     <string name="reminder_details_users_string">Users in the event here</string>
+    <string name="date">Date</string>
+    <string name="_06_00_am">06:00 AM</string>
+    <string name="to">to</string>
+    <string name="time">Time</string>
+    <string name="may">MAY</string>
+    <string name="add">add</string>
 </resources>

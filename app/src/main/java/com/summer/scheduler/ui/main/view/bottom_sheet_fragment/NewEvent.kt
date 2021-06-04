@@ -8,17 +8,29 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.summer.scheduler.R
 import com.summer.scheduler.data.model.entity.ReminderEntity
+import com.summer.scheduler.ui.main.viewmodel.MainViewModel
+import com.summer.scheduler.ui.main.viewmodel.ViewModelFactory
 import kotlinx.android.synthetic.main.fragment_events.*
 import kotlinx.android.synthetic.main.fragment_events.view.*
+import kotlinx.android.synthetic.main.fragment_reminders.view.*
+import kotlinx.coroutines.launch
 import java.util.*
 
-class NewEvent : BottomSheetDialogFragment() {
+class NewEvent(setDoneVisibility: Boolean) : BottomSheetDialogFragment() {
+
+    private var setDoneVisibility: Boolean = true
+    private var added = false
+    private lateinit var mainViewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setStyle(STYLE_NORMAL,R.style.BottomSheetDialogTheme)
     }
 
     override fun onCreateView(
@@ -27,7 +39,7 @@ class NewEvent : BottomSheetDialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_events, container, false)
-
+        view.event_done.isVisible = setDoneVisibility
         view.event_done.setOnClickListener {
             insertToDoToDatabase()
         }
@@ -35,7 +47,7 @@ class NewEvent : BottomSheetDialogFragment() {
         return view
     }
 
-    private fun insertToDoToDatabase() {
+     fun insertToDoToDatabase() :Boolean{
         val eventTitle = editText_fragmentEvents_eventTitle.text.toString()
         val eventAgenda = editText_fragmentEvents_agenda.text.toString()
         val eventStart = editText_fragmentEvents_starts.text
@@ -47,19 +59,27 @@ class NewEvent : BottomSheetDialogFragment() {
         if(inputCheck(eventTitle, eventStart, eventEnd)) {
             val c: Calendar = Calendar.getInstance()
             var dString = "${c.get(Calendar.DAY_OF_MONTH)}"
-            var mString = "${c.get(Calendar.MONTH)}"
+            var mString = "${c.get(Calendar.MONTH)+1}"
 
             if (c.get(Calendar.DAY_OF_MONTH) < 10) dString = "0$dString"
-            if (c.get(Calendar.MONTH) < 10) mString = "0$mString"
+            if (c.get(Calendar.MONTH) + 1 < 10) mString = "0$mString"
             val yString = "${c.get(Calendar.YEAR)}"
 
             val day = "$yString$mString$dString"
 
             val event = ReminderEntity(0,eventTitle,eventAgenda,Integer.parseInt(eventStart.toString()),Integer.parseInt(eventEnd.toString()),eventPeople,eventLink,eventLocation, day.toInt())
-            mListener?.onEventAdded(event)
+
+            lifecycleScope.launch {
+                mainViewModel.addReminder(event)
+            }
+
+            added = true
             Toast.makeText(requireContext(), "Successfully Added",Toast.LENGTH_SHORT).show()
+            dismiss()
+            return true
         } else {
             Toast.makeText(requireContext(), "Please fill out all fields",Toast.LENGTH_SHORT).show()
+            return false
         }
     }
 
@@ -70,7 +90,7 @@ class NewEvent : BottomSheetDialogFragment() {
     companion object {
         @JvmStatic
         fun newInstance(bundle: Bundle): NewEvent {
-            val fragment = NewEvent()
+            val fragment = NewEvent(bundle.getBoolean("setDoneVisibility"))
             fragment.arguments = bundle
             return fragment
         }
@@ -80,6 +100,10 @@ class NewEvent : BottomSheetDialogFragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+
+        mainViewModel = ViewModelProvider(this, ViewModelFactory(requireActivity().application))
+            .get(MainViewModel::class.java)
+
         if (context is OnEventAddedListener) {
             mListener = context
         } else {
@@ -90,6 +114,14 @@ class NewEvent : BottomSheetDialogFragment() {
     }
 
     interface OnEventAddedListener {
-        fun onEventAdded(event: ReminderEntity)
+        fun onCloseReminderFragment(added: Boolean)
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        mListener?.onCloseReminderFragment(added)
+    }
+    init {
+        this.setDoneVisibility = setDoneVisibility
     }
 }

@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <attr name="icon_color1" format="color"/>
+    <attr name="shape_circle_color" format="color"/>
+    <attr name="color_toolbar" format="color"/>
+
 </resources>

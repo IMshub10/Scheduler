@@ -4,4 +4,5 @@ import java.util.*
 
 interface DatePickerDialogBoxListener {
     fun sendDateInfo(dateString: String?, weekNo: Int, date: Date?)
+    fun onCloseDatePickerFragment()
 }

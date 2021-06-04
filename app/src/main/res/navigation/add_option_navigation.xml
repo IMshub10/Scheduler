@@ -12,23 +12,19 @@
         tools:layout="@layout/events_and_reminders">
         <action
             android:id="@+id/action_addOptionBottomSheetFragment_to_newEventBottomSheetFragment"
-            app:destination="@id/newEventBottomSheetFragment"
-            app:popUpTo="@id/addOptionBottomSheetFragment"
-            app:popUpToInclusive="false" />
+            app:destination="@id/newEventBottomSheetFragment" />
         <action
             android:id="@+id/action_addOptionBottomSheetFragment_to_newToDoBottomSheetFragment2"
-            app:destination="@id/newToDoBottomSheetFragment"
-            app:popUpTo="@id/addOptionBottomSheetFragment"
-            app:popUpToInclusive="false" />
+            app:destination="@id/newToDoBottomSheetFragment" />
     </fragment>
     <fragment
         android:id="@+id/newToDoBottomSheetFragment"
         android:name="com.summer.scheduler.ui.main.view.bottom_sheet_fragment.NewToDo"
         android:label="NewToDoBottomSheetFragment"
-        tools:layout="@layout/fragment_reminders"/>
+        tools:layout="@layout/fragment_reminders" />
     <fragment
         android:id="@+id/newEventBottomSheetFragment"
         android:name="com.summer.scheduler.ui.main.view.bottom_sheet_fragment.NewEvent"
         android:label="NewEventBottomSheetFragment"
-        tools:layout="@layout/fragment_events"/>
+        tools:layout="@layout/fragment_events" />
 </navigation>

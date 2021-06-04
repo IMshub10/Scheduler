@@ -3,12 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:minHeight="480dp"
     android:background="#1D1D1F"
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/event_done"
+        android:id="@+id/event_new_done"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="end"
@@ -20,7 +19,7 @@
         android:textColor="?attr/colorSecondary"/>
 
     <EditText
-        android:id="@+id/editText_fragmentEvents_eventTitle"
+        android:id="@+id/editText_fragmentEventsNew_eventTitle"
         style="@style/text_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -36,7 +35,7 @@
         android:autofillHints="@string/event_title" />
 
     <EditText
-        android:id="@+id/editText_fragmentEvents_agenda"
+        android:id="@+id/editText_fragmentEventsNew_agenda"
         style="@style/text_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -52,34 +51,75 @@
         android:autofillHints="@string/agenda" />
 
 
-    <EditText
-        android:id="@+id/editText_fragmentEvents_starts"
-        style="@style/text_list"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
-        android:backgroundTint="#FFFFFF"
-        android:hint="@string/starts"
-        android:ems="10"
-        android:inputType="number"
-        android:textColorHint="#FFFFFF"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editText_fragmentEvents_agenda"
-        android:autofillHints="@string/starts" />
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/editText_fragmentEventsNew_starts"
+            style="@style/text_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="#FFFFFF"
+            android:hint="@string/time"
+            android:enabled="false"
+            android:ems="10"
+            android:inputType="number"
+            android:textColorHint="#FFFFFF"
+            android:autofillHints="@string/starts" />
+
+        <TextView
+            android:id="@+id/textView_newEventFragmentFrom"
+            style="@style/text_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="128dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/_06_00_am"
+            android:textColor="#808080" />
+
+        <TextView
+            android:id="@+id/textView_newEventFragmentToText"
+            style="@style/text_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/textView_newEventFragmentFrom"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="16dp"
+            android:text="@string/to"
+            android:layout_marginStart="10dp"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/textView_newEventFragmentTo"
+            style="@style/text_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/textView_newEventFragmentToText"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="16dp"
+            android:text="@string/_06_00_am"
+            android:layout_marginStart="10dp"
+            android:textColor="#808080" />
+
+    </RelativeLayout>
+
 
     <EditText
-        android:id="@+id/editText_fragmentEvents_ends"
+        android:id="@+id/editText_fragmentEventsNew_date"
         style="@style/text_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
         android:backgroundTint="#FFFFFF"
-        android:hint="@string/ends"
+        android:hint="@string/date"
         android:ems="10"
-        android:inputType="number"
+        android:inputType="date"
         android:textColorHint="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -87,7 +127,7 @@
         android:autofillHints="@string/ends" />
 
     <EditText
-        android:id="@+id/editText_fragmentEvents_people"
+        android:id="@+id/editText_fragmentEventsNew_people"
         style="@style/text_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -103,7 +143,7 @@
         android:autofillHints="@string/people" />
 
     <EditText
-        android:id="@+id/editText_fragmentEvents_link"
+        android:id="@+id/editText_fragmentEventsNew_link"
         style="@style/text_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -119,7 +159,7 @@
         android:autofillHints="@string/link" />
 
     <EditText
-        android:id="@+id/editText_fragmentEvents_location"
+        android:id="@+id/editText_fragmentEventsNew_location"
         style="@style/text_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
