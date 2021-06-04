@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.summer.scheduler.R
 import com.summer.scheduler.data.model.entity.ReminderEntity
 import com.summer.scheduler.data.model.entity.ToDoEntity
-import com.summer.scheduler.ui.main.`interface`.Reminder_RecyclerView_ItemClickListener
+import com.summer.scheduler.ui.main.`interface`.ReminderRecyclerViewItemClickListener
 import com.summer.scheduler.ui.main.adapter.ReminderListAdapter
 import com.summer.scheduler.ui.main.adapter.ToDoListAdapter
 import com.summer.scheduler.ui.main.intent.MainIntent
@@ -385,7 +385,7 @@ class MainActivity : AppCompatActivity(),
         today_recyclerView.adapter = reminderAdapter
 
         reminderAdapter.setOnEventClickListener(
-            object: Reminder_RecyclerView_ItemClickListener {
+            object: ReminderRecyclerViewItemClickListener {
                 override fun onEventClick(itemView: View, layoutPosition: Int) {
                     val intent = Intent(this@MainActivity, EventView::class.java)
 //                    intent.putExtra("key", value)

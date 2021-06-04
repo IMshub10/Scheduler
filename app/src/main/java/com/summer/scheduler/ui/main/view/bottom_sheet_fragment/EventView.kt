@@ -1,35 +1,30 @@
 package com.summer.scheduler.ui.main.view.bottom_sheet_fragment
 
-import android.icu.number.IntegerWidth
 import android.os.Bundle
 import android.text.Editable
-import android.text.TextUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.navArgs
+import androidx.lifecycle.viewModelScope
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.summer.scheduler.R
 import com.summer.scheduler.data.model.entity.ReminderEntity
-import com.summer.scheduler.ui.main.`interface`.Reminder_RecyclerView_ItemClickListener
-import com.summer.scheduler.ui.main.adapter.ReminderListAdapter
+import com.summer.scheduler.ui.main.`interface`.ReminderRecyclerViewItemClickListener
+import com.summer.scheduler.ui.main.intent.MainIntent
 import com.summer.scheduler.ui.main.viewmodel.MainViewModel
-import kotlinx.android.synthetic.main.fragment_events.*
-import kotlinx.android.synthetic.main.fragment_events.view.*
+import com.summer.scheduler.ui.main.viewmodel.ViewModelFactory
+import kotlinx.android.synthetic.main.fragment_events_new.*
+import kotlinx.android.synthetic.main.fragment_events_new.view.*
 import kotlinx.android.synthetic.main.reminder_details_layout.*
 import kotlinx.android.synthetic.main.reminder_details_layout.view.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import java.util.*
 
-class EventView : BottomSheetDialogFragment(), Reminder_RecyclerView_ItemClickListener {
+class EventView : BottomSheetDialogFragment(), ReminderRecyclerViewItemClickListener {
 
-   
-    private lateinit var eventUpdateViewModel : MainViewModel
+
+    private lateinit var mainViewModel : MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +38,9 @@ class EventView : BottomSheetDialogFragment(), Reminder_RecyclerView_ItemClickLi
     ): View? {
         val view = inflater.inflate(R.layout.reminder_details_layout, container, false)
 
-        eventUpdateViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+        mainViewModel = ViewModelProvider(requireActivity(),
+            ViewModelFactory(requireActivity().application))
+            .get(MainViewModel::class.java)
 
         view.imageView_editReminder.setOnClickListener {
 
@@ -67,10 +64,7 @@ class EventView : BottomSheetDialogFragment(), Reminder_RecyclerView_ItemClickLi
 
         textView_doneEditButton.setOnClickListener {
 
-
-            GlobalScope.launch(Dispatchers.IO) {
-                updateReminder() // fetch on IO thread
-            }
+            updateReminder()
 
             editText_reminderDetailsTitle.text = editText_reminderTitleUpdate.text
             imageView_editReminder.visibility = View.VISIBLE
@@ -86,43 +80,43 @@ class EventView : BottomSheetDialogFragment(), Reminder_RecyclerView_ItemClickLi
 
 
         }
-        return view;
+        return view
     }
 
     override fun onEventClick(itemView: View, layoutPosition: Int) {
-        val eventTitle = itemView.editText_fragmentEvents_eventTitle.text.toString()
-        val eventAgenda = itemView.editText_fragmentEvents_agenda.text.toString()
-        val eventStart = Integer.parseInt(itemView.editText_fragmentEvents_starts.text.toString())
-        val eventEnd = Integer.parseInt(itemView.editText_fragmentEvents_ends.text.toString())
-        val eventPeople = itemView.editText_fragmentEvents_people.text.toString()
-        val eventLink = itemView.editText_fragmentEvents_link.text.toString()
-        val eventLocation = itemView.editText_fragmentEvents_location.text.toString()
+        val eventTitle = itemView.editText_fragmentEventsNew_eventTitle.text.toString()
+        val eventAgenda = itemView.editText_fragmentEventsNew_agenda.text.toString()
+        val eventStart = itemView.textView_newEventFragmentFrom.text.toString()
+        val eventEnd = itemView.textView_newEventFragmentTo.text.toString()
+        val eventTime = "$eventStart-$eventEnd"
+        val eventDate = itemView.editText_fragmentEventsNew_date
+        val eventPeople = itemView.editText_fragmentEventsNew_people.text.toString()
+        val eventLink = itemView.editText_fragmentEventsNew_link.text.toString()
+        val eventLocation = itemView.editText_fragmentEventsNew_location.text.toString()
 
 
     }
 
-    private suspend fun updateReminder(){
-        val title = editText_reminderTitleUpdate.text.toString()
-        val startTime = editText_reminderDetailsStartTime.text
-        val endTime = editText_reminderDetailsEndTime.text
-        val details = editText_reminderDetails.text.toString()
-        val location = editText_reminderDetailsLocation.text.toString()
-        val links = editText_reminderDetailsLinks.text.toString()
-        val people = editText_reminderDetailsUsers.text.toString()
+    private fun updateReminder(){
+        val eventTitle = editText_fragmentEventsNew_eventTitle.text.toString()
+        val eventAgenda = editText_fragmentEventsNew_agenda.text.toString()
+        val eventStart = textView_newEventFragmentFrom.text.toString()
+        val eventEnd = textView_newEventFragmentTo.text.toString()
+        val eventDate = editText_fragmentEventsNew_date.text.toString()
+        val eventPeople = editText_fragmentEventsNew_people.text.toString()
+        val eventLink = editText_fragmentEventsNew_link.text.toString()
+        val eventLocation = editText_fragmentEventsNew_location.text.toString()
 
-        if(inputCheck(title, startTime, endTime)) {
-            val c: Calendar = Calendar.getInstance()
-            var dString = "${c.get(Calendar.DAY_OF_MONTH)}"
-            var mString = "${c.get(Calendar.MONTH)}"
+        if(inputCheck(eventTitle, eventStart, eventEnd, eventDate)) {
 
-            if (c.get(Calendar.DAY_OF_MONTH) < 10) dString = "0$dString"
-            if (c.get(Calendar.MONTH) < 10) mString = "0$mString"
-            val yString = "${c.get(Calendar.YEAR)}"
+            val updateEvent = ReminderEntity(0,eventTitle,eventAgenda,eventStart,
+                eventEnd,eventPeople,eventLink,
+                eventLocation, eventDate.toInt())
 
-            val day = "$yString$mString$dString"
-            val updateEvent = ReminderEntity(0, title, details, Integer.parseInt(startTime.toString()),
-                                Integer.parseInt(endTime.toString()),people,links,location, day.toInt())
-            eventUpdateViewModel.updateReminder(updateEvent)
+            mainViewModel.viewModelScope.launch {
+                mainViewModel.userIntent.send(MainIntent.UpdateReminder(updateEvent))
+            }
+
             Toast.makeText(requireContext(), "Successfully Updated!", Toast.LENGTH_SHORT).show()
 
         } else {
@@ -130,7 +124,10 @@ class EventView : BottomSheetDialogFragment(), Reminder_RecyclerView_ItemClickLi
         }
     }
 
-    private fun inputCheck(eventTitle: String, eventStart: Editable, eventEnd: Editable):Boolean {
-        return !(TextUtils.isEmpty(eventTitle) && eventStart.isEmpty() && eventEnd.isEmpty())
+    private fun inputCheck(eventTitle: String, eventStart: String, eventEnd: String, eventDate: String):Boolean {
+        return !((eventTitle.isEmpty() || eventTitle.isBlank()) &&
+                (eventStart.isEmpty() || eventStart.isBlank()) &&
+                (eventEnd.isEmpty() || eventEnd.isBlank()) &&
+                (eventDate.isEmpty() || eventDate.isBlank()))
     }
 }
