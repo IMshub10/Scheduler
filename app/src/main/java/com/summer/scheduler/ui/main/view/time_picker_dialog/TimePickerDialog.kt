@@ -2,13 +2,11 @@ package com.summer.scheduler.ui.main.view.time_picker_dialog
 
 import android.app.AlertDialog
 import android.app.Dialog
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
-import androidx.appcompat.app.AppCompatDialogFragment
+import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelStoreOwner
 import com.summer.scheduler.R
 import com.summer.scheduler.ui.main.viewmodel.MainViewModel
 import com.summer.scheduler.ui.main.viewmodel.ViewModelFactory
@@ -16,7 +14,7 @@ import kotlinx.android.synthetic.main.component_time_picker.view.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-class TimePickerDialog: AppCompatDialogFragment() {
+class TimePickerDialog: DialogFragment() {
 
     private var selectedHour: Int
     private var selectedMin: Int

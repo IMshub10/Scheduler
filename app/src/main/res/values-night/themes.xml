@@ -22,6 +22,8 @@
 
         <!-- FONT -->
         <item name="android:fontFamily">@font/roboto</item>
+
+        <item name="colorControlNormal">@color/transparent</item>
     </style>
 
     <style name="editTextStyle" parent="Widget.AppCompat.EditText">
