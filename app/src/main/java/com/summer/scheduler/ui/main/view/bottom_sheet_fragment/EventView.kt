@@ -78,7 +78,7 @@ class EventView : BottomSheetDialogFragment() {
         return view;
     }
 
-    private fun updateReminder(){
+    private suspend fun updateReminder(){
         val title = editText_reminderTitleUpdate.text.toString()
         val startTime = editText_reminderDetailsStartTime.text
         val endTime = editText_reminderDetailsEndTime.text

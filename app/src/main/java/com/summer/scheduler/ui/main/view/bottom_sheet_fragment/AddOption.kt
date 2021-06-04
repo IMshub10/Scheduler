@@ -8,6 +8,10 @@ import android.widget.Toast
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.summer.scheduler.R
 import kotlinx.android.synthetic.main.events_and_reminders.*
+import kotlinx.android.synthetic.main.fragment_events.*
+import kotlinx.android.synthetic.main.fragment_events.view.*
+import kotlinx.android.synthetic.main.fragment_reminders.*
+import kotlinx.android.synthetic.main.fragment_reminders.view.*
 
 class AddOption : BottomSheetDialogFragment() {
 
@@ -22,12 +26,13 @@ class AddOption : BottomSheetDialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.events_and_reminders, container, false)
+        val view = inflater.inflate(R.layout.events_and_reminders, container, false)
+
+        return view
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        materialButton_toDo!!.isSelected = true
         materialButton_toDo!!.isSelected = true
 
         loadToDoFragment()
@@ -44,10 +49,10 @@ class AddOption : BottomSheetDialogFragment() {
         val ft = childFragmentManager.beginTransaction()
         ft.replace(R.id.toggle_fragment_container, newToDo)
         ft.commit()
+        newToDo.to_do_done.visibility = View.GONE
         textView_done_eventsAndReminders.setOnClickListener{
-            if (newToDo.insertToDoToDatabase()){
-                dismiss()
-            }
+            newToDo.insertToDoToDatabase()
+            dismiss()
         }
 
     }
@@ -56,10 +61,10 @@ class AddOption : BottomSheetDialogFragment() {
         val ft = childFragmentManager.beginTransaction()
         ft.replace(R.id.toggle_fragment_container, newEvent)
         ft.commit()
+        newEvent.event_done.visibility = View.GONE
         textView_done_eventsAndReminders.setOnClickListener{
-            if (newEvent.insertToDoToDatabase()){
-                dismiss()
-            }
+            newEvent.insertToDoToDatabase()
+            dismiss()
         }
     }
 
