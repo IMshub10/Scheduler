@@ -8,5 +8,5 @@ data class ToDoEntity(
     @PrimaryKey(autoGenerate = true) val key: Int,
     val title: String,
     val day: Int,
-    val check: Boolean
+    var check: Boolean
 )

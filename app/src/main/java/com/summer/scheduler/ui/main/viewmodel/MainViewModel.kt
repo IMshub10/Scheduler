@@ -46,6 +46,8 @@ class MainViewModel(
                     is MainIntent.SwitchBetweenReminderToDo -> switchFragments()
                     is MainIntent.AddToDo -> openToDoFragment()
                     is MainIntent.AddReminder -> openReminderFragment()
+                    is MainIntent.UpdateReminder -> updateReminder(it.reminder)
+                    is MainIntent.UpdateToDo -> updateToDo(it.toDo)
                 }
             }
         }
@@ -126,13 +128,13 @@ class MainViewModel(
         }
     }
 
-    suspend fun updateToDo(toDo: ToDoEntity) {
+    private suspend fun updateToDo(toDo: ToDoEntity) {
         viewModelScope.launch(Dispatchers.IO) {
             toDoRepository.updateToDo(toDo)
         }
     }
 
-    suspend fun updateReminder(event: ReminderEntity) {
+    private suspend fun updateReminder(event: ReminderEntity) {
         viewModelScope.launch(Dispatchers.IO) {
             reminderRepository.updateReminder(event)
         }
