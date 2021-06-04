@@ -251,15 +251,11 @@ class SwipeItemTouchHelper(private val context: Context, dragDirs: Int, private 
         shareRound.alpha = 255
     }
 
-    private lateinit var mainViewModel: MainViewModel
-
-    init {
-        mainViewModel = ViewModelProvider(
-            context as ViewModelStoreOwner,
-            ViewModelFactory(context.applicationContext as Application)
-        )
-            .get(MainViewModel::class.java)
-    }
+    private var mainViewModel: MainViewModel = ViewModelProvider(
+        context as ViewModelStoreOwner,
+        ViewModelFactory(context.applicationContext as Application)
+    )
+        .get(MainViewModel::class.java)
 
     @SuppressLint("ClickableViewAccessibility")
     private fun setTouchListener(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
