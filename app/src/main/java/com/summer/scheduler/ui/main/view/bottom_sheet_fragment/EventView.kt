@@ -20,7 +20,7 @@ import java.util.*
 
 class EventView : BottomSheetDialogFragment() {
 
-    private val args by navArgs<>()
+   
     private lateinit var eventUpdateViewModel : MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
