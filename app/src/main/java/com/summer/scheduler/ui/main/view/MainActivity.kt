@@ -188,7 +188,11 @@ class MainActivity : AppCompatActivity(),
 
         fetchData(hSelectedDay)
 
-        textView_month_year!!.text = getMonthName(calendar[Calendar.MONTH])
+        val date = calendar.time
+        val formatter = SimpleDateFormat("MMMM yyyy", Locale.getDefault())
+        val text = formatter.format(date)
+
+        textView_month_year!!.text = text
 
         Log.e("dayOfWeek", "${calendar[Calendar.DAY_OF_WEEK]}")
         Log.e(
@@ -196,24 +200,6 @@ class MainActivity : AppCompatActivity(),
             "${calendar[Calendar.DATE]} ${calendar[Calendar.MONTH] + 1} ${calendar[Calendar.YEAR]}"
         )
         Log.e("selectedItems", "$selectedYear $selectedMonth $selectedDate")
-    }
-
-    private fun getMonthName(month: Int): String {
-        return when(month) {
-            0 -> "January"
-            1 -> "February"
-            2 -> "March"
-            3 -> "April"
-            4 -> "May"
-            5 -> "June"
-            6 -> "July"
-            7 -> "August"
-            8 -> "September"
-            9 -> "October"
-            10 -> "November"
-            11 -> "December"
-            else -> "No month"
-        }
     }
 
     private fun openDatePickerDialog() {
