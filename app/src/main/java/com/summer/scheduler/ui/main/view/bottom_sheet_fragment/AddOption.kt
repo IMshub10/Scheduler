@@ -1,3 +1,4 @@
+
 package com.summer.scheduler.ui.main.view.bottom_sheet_fragment
 
 import android.os.Bundle
@@ -7,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.summer.scheduler.R
+import com.summer.scheduler.ui.main.`interface`.Reminder_RecyclerView_ItemClickListener
 import kotlinx.android.synthetic.main.events_and_reminders.*
 import kotlinx.android.synthetic.main.fragment_events.*
 import kotlinx.android.synthetic.main.fragment_events.view.*
@@ -26,9 +28,8 @@ class AddOption : BottomSheetDialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.events_and_reminders, container, false)
+        return inflater.inflate(R.layout.events_and_reminders, container, false)
 
-        return view
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -43,6 +44,8 @@ class AddOption : BottomSheetDialogFragment() {
             loadNewEventFragment()
         }
     }
+
+
 
     private fun loadToDoFragment(){
         val newToDo = NewToDo(false)

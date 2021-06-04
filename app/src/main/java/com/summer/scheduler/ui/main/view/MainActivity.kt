@@ -1,10 +1,12 @@
 package com.summer.scheduler.ui.main.view
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -15,10 +17,12 @@ import cn.pedant.SweetAlert.SweetAlertDialog
 import com.summer.scheduler.R
 import com.summer.scheduler.data.model.entity.ReminderEntity
 import com.summer.scheduler.data.model.entity.ToDoEntity
+import com.summer.scheduler.ui.main.`interface`.Reminder_RecyclerView_ItemClickListener
 import com.summer.scheduler.ui.main.adapter.ReminderListAdapter
 import com.summer.scheduler.ui.main.adapter.ToDoListAdapter
 import com.summer.scheduler.ui.main.intent.MainIntent
 import com.summer.scheduler.ui.main.view.bottom_sheet_fragment.AddOption
+import com.summer.scheduler.ui.main.view.bottom_sheet_fragment.EventView
 import com.summer.scheduler.ui.main.view.bottom_sheet_fragment.NewEvent
 import com.summer.scheduler.ui.main.view.bottom_sheet_fragment.NewToDo
 import com.summer.scheduler.ui.main.view.calendardialog.DatePickerDialog
@@ -323,6 +327,19 @@ class MainActivity : AppCompatActivity(),
 
         to_do_recyclerView.adapter = toDoAdapter
         today_recyclerView.adapter = reminderAdapter
+
+        reminderAdapter.setOnEventClickListener(
+            object: Reminder_RecyclerView_ItemClickListener {
+                override fun onEventClick(itemView: View, layoutPosition: Int) {
+                    val intent = Intent(this@MainActivity, EventView::class.java)
+//                    intent.putExtra("key", value)
+//                    startActivity(intent);
+
+
+                }
+
+            }
+        )
 
         val reminderSwipeHelperCallback: ItemTouchHelper.Callback = SwipeItemTouchHelper(
             this,

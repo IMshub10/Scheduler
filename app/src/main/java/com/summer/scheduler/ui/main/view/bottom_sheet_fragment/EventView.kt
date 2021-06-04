@@ -4,6 +4,7 @@ import android.icu.number.IntegerWidth
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,12 +14,19 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.summer.scheduler.R
 import com.summer.scheduler.data.model.entity.ReminderEntity
+import com.summer.scheduler.ui.main.`interface`.Reminder_RecyclerView_ItemClickListener
+import com.summer.scheduler.ui.main.adapter.ReminderListAdapter
 import com.summer.scheduler.ui.main.viewmodel.MainViewModel
+import kotlinx.android.synthetic.main.fragment_events.*
+import kotlinx.android.synthetic.main.fragment_events.view.*
 import kotlinx.android.synthetic.main.reminder_details_layout.*
 import kotlinx.android.synthetic.main.reminder_details_layout.view.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.util.*
 
-class EventView : BottomSheetDialogFragment() {
+class EventView : BottomSheetDialogFragment(), Reminder_RecyclerView_ItemClickListener {
 
    
     private lateinit var eventUpdateViewModel : MainViewModel
@@ -59,9 +67,12 @@ class EventView : BottomSheetDialogFragment() {
 
         textView_doneEditButton.setOnClickListener {
 
-            updateReminder()
-            editText_reminderDetailsTitle.text = editText_reminderTitleUpdate.text
 
+            GlobalScope.launch(Dispatchers.IO) {
+                updateReminder() // fetch on IO thread
+            }
+
+            editText_reminderDetailsTitle.text = editText_reminderTitleUpdate.text
             imageView_editReminder.visibility = View.VISIBLE
             textView_doneEditButton.visibility = View.INVISIBLE
             editText_reminderTitleUpdate.visibility = View.GONE
@@ -78,6 +89,18 @@ class EventView : BottomSheetDialogFragment() {
         return view;
     }
 
+    override fun onEventClick(itemView: View, layoutPosition: Int) {
+        val eventTitle = itemView.editText_fragmentEvents_eventTitle.text.toString()
+        val eventAgenda = itemView.editText_fragmentEvents_agenda.text.toString()
+        val eventStart = Integer.parseInt(itemView.editText_fragmentEvents_starts.text.toString())
+        val eventEnd = Integer.parseInt(itemView.editText_fragmentEvents_ends.text.toString())
+        val eventPeople = itemView.editText_fragmentEvents_people.text.toString()
+        val eventLink = itemView.editText_fragmentEvents_link.text.toString()
+        val eventLocation = itemView.editText_fragmentEvents_location.text.toString()
+
+
+    }
+
     private suspend fun updateReminder(){
         val title = editText_reminderTitleUpdate.text.toString()
         val startTime = editText_reminderDetailsStartTime.text
@@ -87,7 +110,7 @@ class EventView : BottomSheetDialogFragment() {
         val links = editText_reminderDetailsLinks.text.toString()
         val people = editText_reminderDetailsUsers.text.toString()
 
-        if(inputCheck(title., startTime, endTime)) {
+        if(inputCheck(title, startTime, endTime)) {
             val c: Calendar = Calendar.getInstance()
             var dString = "${c.get(Calendar.DAY_OF_MONTH)}"
             var mString = "${c.get(Calendar.MONTH)}"
