@@ -50,6 +50,7 @@ class MainActivity : AppCompatActivity(),
     private var weekNo = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar_mainActivity)
         setupUI()
@@ -59,7 +60,6 @@ class MainActivity : AppCompatActivity(),
         setOnDateClickListeners()
         newItemClickListener()
         observableViewModel()
-
     }
 
     override fun onStart() {
@@ -188,6 +188,8 @@ class MainActivity : AppCompatActivity(),
 
         fetchData(hSelectedDay)
 
+        textView_month_year!!.text = getMonthName(calendar[Calendar.MONTH])
+
         Log.e("dayOfWeek", "${calendar[Calendar.DAY_OF_WEEK]}")
         Log.e(
             "changeList",
@@ -196,6 +198,23 @@ class MainActivity : AppCompatActivity(),
         Log.e("selectedItems", "$selectedYear $selectedMonth $selectedDate")
     }
 
+    private fun getMonthName(month: Int): String {
+        return when(month) {
+            0 -> "January"
+            1 -> "February"
+            2 -> "March"
+            3 -> "April"
+            4 -> "May"
+            5 -> "June"
+            6 -> "July"
+            7 -> "August"
+            8 -> "September"
+            9 -> "October"
+            10 -> "November"
+            11 -> "December"
+            else -> "No month"
+        }
+    }
 
     private fun openDatePickerDialog() {
         supportFragmentManager.let {
