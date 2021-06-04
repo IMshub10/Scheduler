@@ -1,24 +1,27 @@
 package com.summer.scheduler.ui.main.view
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import cn.pedant.SweetAlert.SweetAlertDialog
 import com.summer.scheduler.R
 import com.summer.scheduler.data.model.entity.ReminderEntity
 import com.summer.scheduler.data.model.entity.ToDoEntity
+import com.summer.scheduler.ui.main.`interface`.Reminder_RecyclerView_ItemClickListener
 import com.summer.scheduler.ui.main.adapter.ReminderListAdapter
 import com.summer.scheduler.ui.main.adapter.ToDoListAdapter
 import com.summer.scheduler.ui.main.intent.MainIntent
 import com.summer.scheduler.ui.main.view.bottom_sheet_fragment.AddOption
+import com.summer.scheduler.ui.main.view.bottom_sheet_fragment.EventView
 import com.summer.scheduler.ui.main.view.bottom_sheet_fragment.NewEvent
 import com.summer.scheduler.ui.main.view.bottom_sheet_fragment.NewToDo
 import com.summer.scheduler.ui.main.view.calendardialog.DatePickerDialog
@@ -107,30 +110,44 @@ class MainActivity : AppCompatActivity(),
                             when (it.day) {
                                 1 -> {
                                     date[Calendar.DAY_OF_WEEK] = Calendar.SUNDAY
+                                    sunDate.alpha = 1.0f
+                                    textView_sunday!!.alpha = 1.0f
                                     sunDate!!.setBackgroundResource(R.drawable.shape_circle_selected)
                                 }
                                 2 -> {
                                     date[Calendar.DAY_OF_WEEK] = Calendar.MONDAY
+                                    monDate.alpha = 1.0f
+                                    textView_monday!!.alpha = 1.0f
                                     monDate!!.setBackgroundResource(R.drawable.shape_circle_selected)
                                 }
                                 3 -> {
                                     date[Calendar.DAY_OF_WEEK] = Calendar.TUESDAY
+                                    tueDate.alpha = 1.0f
+                                    textView_tuesday!!.alpha = 1.0f
                                     tueDate!!.setBackgroundResource(R.drawable.shape_circle_selected)
                                 }
                                 4 -> {
                                     date[Calendar.DAY_OF_WEEK] = Calendar.WEDNESDAY
+                                    wedDate.alpha = 1.0f
+                                    textView_wednesday!!.alpha = 1.0f
                                     wedDate!!.setBackgroundResource(R.drawable.shape_circle_selected)
                                 }
                                 5 -> {
                                     date[Calendar.DAY_OF_WEEK] = Calendar.THURSDAY
+                                    thuDate.alpha = 1.0f
+                                    textView_thursday!!.alpha = 1.0f
                                     thuDate!!.setBackgroundResource(R.drawable.shape_circle_selected)
                                 }
                                 6 -> {
                                     date[Calendar.DAY_OF_WEEK] = Calendar.FRIDAY
+                                    friDate.alpha = 1.0f
+                                    textView_friday!!.alpha = 1.0f
                                     friDate!!.setBackgroundResource(R.drawable.shape_circle_selected)
                                 }
                                 7 -> {
                                     date[Calendar.DAY_OF_WEEK] = Calendar.SATURDAY
+                                    satDate.alpha = 1.0f
+                                    textView_saturday!!.alpha = 1.0f
                                     satDate!!.setBackgroundResource(R.drawable.shape_circle_selected)
                                 }
 
@@ -172,7 +189,10 @@ class MainActivity : AppCompatActivity(),
         fetchData(hSelectedDay)
 
         Log.e("dayOfWeek", "${calendar[Calendar.DAY_OF_WEEK]}")
-        Log.e("changeList", "${calendar[Calendar.DATE]} ${calendar[Calendar.MONTH] + 1} ${calendar[Calendar.YEAR]}")
+        Log.e(
+            "changeList",
+            "${calendar[Calendar.DATE]} ${calendar[Calendar.MONTH] + 1} ${calendar[Calendar.YEAR]}"
+        )
         Log.e("selectedItems", "$selectedYear $selectedMonth $selectedDate")
     }
 
@@ -211,11 +231,21 @@ class MainActivity : AppCompatActivity(),
 
     private fun getAllReminders(reminders: List<ReminderEntity>) {
         Log.e("getAllReminders", "Here")
+        if (reminders.isEmpty()) {
+            textView_todayEmpty.visibility = View.VISIBLE
+        } else {
+            textView_todayEmpty.visibility = View.GONE
+        }
         reminderAdapter.submitList(reminders)
     }
 
     private fun getAllToDos(toDos: List<ToDoEntity>) {
         Log.e("getAllToDos", "Here")
+        if (toDos.isEmpty()) {
+            textView_to_do_Empty.visibility = View.VISIBLE
+        } else {
+            textView_to_do_Empty.visibility = View.GONE
+        }
         toDoAdapter.submitList(toDos)
     }
 
@@ -262,30 +292,44 @@ class MainActivity : AppCompatActivity(),
             1 -> {
                 colorBlack()
                 sunDate!!.setBackgroundResource(R.drawable.shape_circle_selected)
+                sunDate.alpha = 1.0f
+                textView_sunday.alpha = 1.0f
             }
             2 -> {
                 colorBlack()
                 monDate!!.setBackgroundResource(R.drawable.shape_circle_selected)
+                monDate.alpha = 1.0f
+                textView_monday.alpha = 1.0f
             }
             3 -> {
                 colorBlack()
                 tueDate!!.setBackgroundResource(R.drawable.shape_circle_selected)
+                tueDate.alpha = 1.0f
+                textView_tuesday.alpha = 1.0f
             }
             4 -> {
                 colorBlack()
                 wedDate!!.setBackgroundResource(R.drawable.shape_circle_selected)
+                wedDate.alpha = 1.0f
+                textView_wednesday.alpha = 1.0f
             }
             5 -> {
                 colorBlack()
                 thuDate!!.setBackgroundResource(R.drawable.shape_circle_selected)
+                thuDate.alpha = 1.0f
+                textView_thursday.alpha = 1.0f
             }
             6 -> {
                 colorBlack()
                 friDate!!.setBackgroundResource(R.drawable.shape_circle_selected)
+                friDate.alpha = 1.0f
+                textView_friday.alpha = 1.0f
             }
             7 -> {
                 colorBlack()
                 satDate!!.setBackgroundResource(R.drawable.shape_circle_selected)
+                textView_saturday.alpha = 1.0f
+                satDate.alpha = 1.0f
             }
         }
     }
@@ -298,6 +342,22 @@ class MainActivity : AppCompatActivity(),
         thuDate!!.setBackgroundResource(R.drawable.shape_circle)
         friDate!!.setBackgroundResource(R.drawable.shape_circle)
         satDate!!.setBackgroundResource(R.drawable.shape_circle)
+
+        sunDate!!.alpha = 0.35f
+        monDate!!.alpha = 0.35f
+        tueDate!!.alpha = 0.35f
+        wedDate!!.alpha = 0.35f
+        thuDate!!.alpha = 0.35f
+        friDate!!.alpha = 0.35f
+        satDate!!.alpha = 0.35f
+
+        textView_sunday!!.alpha = 0.35f
+        textView_monday!!.alpha = 0.35f
+        textView_tuesday!!.alpha = 0.35f
+        textView_wednesday!!.alpha = 0.35f
+        textView_thursday!!.alpha = 0.35f
+        textView_friday!!.alpha = 0.35f
+        textView_saturday!!.alpha = 0.35f
     }
 
     private fun startingDay() {
@@ -311,8 +371,8 @@ class MainActivity : AppCompatActivity(),
         }
         setColorDaySelected(todayCalendar[Calendar.DAY_OF_WEEK])
         setDateToCardViews(weekNo)
-        val simpleDateFormat = SimpleDateFormat("MMMM", Locale.getDefault())
-        textView_month!!.text = simpleDateFormat.format(todayDate)
+        val simpleDateFormat = SimpleDateFormat("MMMM yyyy", Locale.getDefault())
+        textView_month_year!!.text = simpleDateFormat.format(todayDate)
     }
 
     private fun setupRecyclerViews() {
@@ -323,6 +383,19 @@ class MainActivity : AppCompatActivity(),
 
         to_do_recyclerView.adapter = toDoAdapter
         today_recyclerView.adapter = reminderAdapter
+
+        reminderAdapter.setOnEventClickListener(
+            object: Reminder_RecyclerView_ItemClickListener {
+                override fun onEventClick(itemView: View, layoutPosition: Int) {
+                    val intent = Intent(this@MainActivity, EventView::class.java)
+//                    intent.putExtra("key", value)
+//                    startActivity(intent);
+
+
+                }
+
+            }
+        )
 
         val reminderSwipeHelperCallback: ItemTouchHelper.Callback = SwipeItemTouchHelper(
             this,
@@ -345,7 +418,7 @@ class MainActivity : AppCompatActivity(),
     }
 
     fun setOnMonthClickListener() {
-        textView_month.setOnClickListener {
+        textView_month_year.setOnClickListener {
             lifecycleScope.launch {
                 mainViewModel.userIntent.send(MainIntent.SelectDateFromDatePicker)
             }
@@ -438,8 +511,8 @@ class MainActivity : AppCompatActivity(),
         this.weekNo = weekNo
         val c = Calendar.getInstance()
         c.time = date!!
-        val simpleDateFormat = SimpleDateFormat("MMMM", Locale.getDefault())
-        textView_month!!.text = simpleDateFormat.format(date)
+        val simpleDateFormat = SimpleDateFormat("MMMM yyyy", Locale.getDefault())
+        textView_month_year!!.text = simpleDateFormat.format(date)
         if (c[Calendar.DAY_OF_WEEK] == Calendar.SUNDAY) {
             this.weekNo++
             Log.e("weekNumber", "true")

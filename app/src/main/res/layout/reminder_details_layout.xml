@@ -4,7 +4,7 @@
     android:layout_height="wrap_content">
 
     <ImageView
-        android:id="@+id/textView_doneButton"
+        android:id="@+id/imageView_editReminder"
         android:src="@drawable/ic_edit"
         android:layout_alignParentEnd="true"
         android:layout_width="wrap_content"
@@ -21,7 +21,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         style="@style/text_list"
-        android:textColor="@color/blue_dark_008aff"
+        android:textColor="@color/white_hole"
         android:textStyle="bold"
         android:visibility="invisible"/>
 
@@ -34,30 +34,65 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="12dp"
         android:text="@string/reminder_default_title_string"
-        android:textColor="@color/blue_dark_008aff"
+        android:textColor="@color/white_hole"
         android:textStyle="bold"
         android:inputType="none"/>
 
     <EditText
-        android:id="@+id/editText_reminderDetailsTiming"
+        android:id="@+id/editText_reminderTitleUpdate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/editText_reminderDetailsTitle"
         style="@style/text_list"
-        android:textColor="@color/blue_dark_008aff"
+        android:textColor="@color/white_hole"
         android:text="@string/reminder_default_timing_string"
         android:layout_marginTop="50dp"
         android:layout_marginStart="16dp"
+        android:inputType="none"
+        android:visibility="gone"/>
+
+    <EditText
+        android:id="@+id/editText_reminderDetailsStartTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editText_reminderTitleUpdate"
+        style="@style/text_list"
+        android:textColor="@color/white_hole"
+        android:text="Start Time"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:inputType="none"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editText_reminderTitleUpdate"
+        style="@style/text_list"
+        android:textColor="@color/white_hole"
+        android:text="-"
+        android:layout_marginTop="25dp"
+        android:layout_marginStart="110dp"/>
+
+    <EditText
+        android:id="@+id/editText_reminderDetailsEndTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editText_reminderTitleUpdate"
+        style="@style/text_list"
+        android:textColor="@color/white_hole"
+        android:text="End Time"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="120dp"
         android:inputType="none"/>
 
     <EditText
         android:id="@+id/editText_reminderDetails"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/editText_reminderDetailsTiming"
+        android:layout_below="@+id/editText_reminderDetailsStartTime"
         android:layout_marginStart="16dp"
         style="@style/text_list"
-        android:textColor="@color/blue_dark_008aff"
+        android:textColor="@color/white_hole"
         android:layout_marginTop="16dp"
         android:text="@string/reminder_details_string"
         android:inputType="none"/>
@@ -69,7 +104,7 @@
         android:layout_below="@+id/editText_reminderDetails"
         android:layout_marginStart="16dp"
         style="@style/text_list"
-        android:textColor="@color/blue_dark_008aff"
+        android:textColor="@color/white_hole"
         android:layout_marginTop="16dp"
         android:text="@string/reminder_details_location_string"
         android:inputType="none"/>
