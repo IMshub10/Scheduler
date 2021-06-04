@@ -134,7 +134,7 @@ class MainViewModel(
         }
     }
 
-    private suspend fun updateReminder(event: ReminderEntity) {
+    suspend fun updateReminder(event: ReminderEntity) {
         viewModelScope.launch(Dispatchers.IO) {
             reminderRepository.updateReminder(event)
         }
