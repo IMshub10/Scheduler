@@ -1,5 +1,6 @@
 package com.summer.scheduler.ui.main.view.bottom_sheet_fragment
 
+import android.app.DatePickerDialog
 import android.content.Context
 import android.os.Bundle
 import android.text.Editable
@@ -19,6 +20,7 @@ import com.summer.scheduler.ui.main.viewmodel.ViewModelFactory
 import kotlinx.android.synthetic.main.fragment_reminders.*
 import kotlinx.android.synthetic.main.fragment_reminders.view.*
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
 import java.util.*
 
 class NewToDo(setDoneVisibility: Boolean) : BottomSheetDialogFragment() {
@@ -26,7 +28,7 @@ class NewToDo(setDoneVisibility: Boolean) : BottomSheetDialogFragment() {
     private var setDoneVisibility: Boolean = true
     private var added = false
     private lateinit var mainViewModel: MainViewModel
-    val cal = Calendar.getInstance()
+    val cal: Calendar = Calendar.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,10 +42,34 @@ class NewToDo(setDoneVisibility: Boolean) : BottomSheetDialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_reminders, container, false)
+
         view.to_do_done.isVisible = setDoneVisibility
+
+
+        val dateSetListener =
+            DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
+                cal.set(Calendar.YEAR, year)
+                cal.set(Calendar.MONTH, month)
+                cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+                updateDateInView()
+            }
+
+        view.editText_fragmentEvents_date.setOnClickListener {
+            activity?.let {
+                DatePickerDialog(
+                    it,
+                    dateSetListener,
+                    cal.get(Calendar.YEAR),
+                    cal.get(Calendar.MONTH),
+                    cal.get(Calendar.DAY_OF_MONTH)
+                ).show()
+            }
+        }
+
         view.to_do_done.setOnClickListener {
             insertToDoToDatabase()
         }
+
 
         return view
     }
@@ -73,6 +99,12 @@ class NewToDo(setDoneVisibility: Boolean) : BottomSheetDialogFragment() {
 
     private fun inputCheck(toDoItem: String, date: Editable): Boolean {
         return !(TextUtils.isEmpty(toDoItem) && date.isEmpty())
+    }
+
+    private fun updateDateInView() {
+        val myFormat = "dd/MM/yyyy"
+        val sdf = SimpleDateFormat(myFormat, Locale.US)
+        editText_fragmentEvents_date.text = Editable.Factory.getInstance().newEditable(sdf.format(cal.time))
     }
 
     private var mListener: OnToDoAddedListener? = null
