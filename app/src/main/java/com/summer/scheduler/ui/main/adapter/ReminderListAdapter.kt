@@ -20,6 +20,7 @@ class ReminderListAdapter(private val context: Context) :
     ListAdapter<ReminderEntity, ReminderItemHolder>(DIFF_CALLBACK) {
 
     private var reminderRecyclerViewItemClickListener: Reminder_RecyclerView_ItemClickListener? = null
+
     class ReminderItemHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val timings: TextView = itemView.findViewById(R.id.textView_reminderTimings)
         val title: TextView = itemView.findViewById(R.id.textView_reminderTitle)
@@ -40,7 +41,7 @@ class ReminderListAdapter(private val context: Context) :
         holder.title.text = reminder.event
     }
 
-    fun setOnEventClickListener(reminderRecyclerviewItemclicklistener: Reminder_RecyclerView_ItemClickListener) {
+    fun setOnEventClickListener(reminderRecyclerViewItemClickListener: Reminder_RecyclerView_ItemClickListener) {
         this.reminderRecyclerViewItemClickListener = reminderRecyclerViewItemClickListener
     }
 
@@ -52,6 +53,11 @@ class ReminderListAdapter(private val context: Context) :
                 reminderRecyclerViewItemClickListener!!.onEventClick(itemView, layoutPosition)
             }
         }
+    }
+
+    public override fun getItem(position: Int): ReminderEntity {
+        return super.getItem(position)
+
     }
 
 

@@ -1,23 +1,18 @@
 package com.summer.scheduler.ui.main.view.bottom_sheet_fragment
 
-import android.icu.number.IntegerWidth
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.summer.scheduler.R
 import com.summer.scheduler.data.model.entity.ReminderEntity
 import com.summer.scheduler.ui.main.`interface`.Reminder_RecyclerView_ItemClickListener
-import com.summer.scheduler.ui.main.adapter.ReminderListAdapter
 import com.summer.scheduler.ui.main.viewmodel.MainViewModel
-import kotlinx.android.synthetic.main.fragment_events.*
 import kotlinx.android.synthetic.main.fragment_events.view.*
 import kotlinx.android.synthetic.main.reminder_details_layout.*
 import kotlinx.android.synthetic.main.reminder_details_layout.view.*
@@ -26,9 +21,9 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.util.*
 
-class EventView : BottomSheetDialogFragment(), Reminder_RecyclerView_ItemClickListener {
+class EventView(data: ReminderEntity) : BottomSheetDialogFragment() {
 
-   
+    private val eventDetails: ReminderEntity = data
     private lateinit var eventUpdateViewModel : MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,6 +39,7 @@ class EventView : BottomSheetDialogFragment(), Reminder_RecyclerView_ItemClickLi
         val view = inflater.inflate(R.layout.reminder_details_layout, container, false)
 
         eventUpdateViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+
 
         view.imageView_editReminder.setOnClickListener {
 
@@ -89,16 +85,16 @@ class EventView : BottomSheetDialogFragment(), Reminder_RecyclerView_ItemClickLi
         return view;
     }
 
-    override fun onEventClick(itemView: View, layoutPosition: Int) {
-        val eventTitle = itemView.editText_fragmentEvents_eventTitle.text.toString()
-        val eventAgenda = itemView.editText_fragmentEvents_agenda.text.toString()
-        val eventStart = Integer.parseInt(itemView.editText_fragmentEvents_starts.text.toString())
-        val eventEnd = Integer.parseInt(itemView.editText_fragmentEvents_ends.text.toString())
-        val eventPeople = itemView.editText_fragmentEvents_people.text.toString()
-        val eventLink = itemView.editText_fragmentEvents_link.text.toString()
-        val eventLocation = itemView.editText_fragmentEvents_location.text.toString()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-
+        editText_reminderDetailsTitle.text = Editable.Factory.getInstance().newEditable(eventDetails.event)
+        editText_reminderDetailsStartTime.text = Editable.Factory.getInstance().newEditable(eventDetails.start.toString())
+        editText_reminderDetailsEndTime.text = Editable.Factory.getInstance().newEditable(eventDetails.end.toString())
+        editText_reminderDetails.text = Editable.Factory.getInstance().newEditable(eventDetails.agenda)
+        editText_reminderDetailsLocation.text = Editable.Factory.getInstance().newEditable(eventDetails.location)
+        editText_reminderDetailsLinks.text = Editable.Factory.getInstance().newEditable(eventDetails.link)
+        editText_reminderDetailsUsers.text = Editable.Factory.getInstance().newEditable(eventDetails.people)
     }
 
     private suspend fun updateReminder(){
@@ -120,7 +116,7 @@ class EventView : BottomSheetDialogFragment(), Reminder_RecyclerView_ItemClickLi
             val yString = "${c.get(Calendar.YEAR)}"
 
             val day = "$yString$mString$dString"
-            val updateEvent = ReminderEntity(0, title, details, Integer.parseInt(startTime.toString()),
+            val updateEvent = ReminderEntity(eventDetails.key, title, details, Integer.parseInt(startTime.toString()),
                                 Integer.parseInt(endTime.toString()),people,links,location, day.toInt())
             eventUpdateViewModel.updateReminder(updateEvent)
             Toast.makeText(requireContext(), "Successfully Updated!", Toast.LENGTH_SHORT).show()
