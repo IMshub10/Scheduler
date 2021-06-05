@@ -1,11 +1,14 @@
 package com.summer.scheduler.ui.main.view.bottom_sheet_fragment
 
+import android.app.DatePickerDialog
 import android.content.Context
 import android.os.Bundle
+import android.text.Editable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.DatePicker
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.isVisible
@@ -14,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.summer.scheduler.R
 import com.summer.scheduler.data.model.entity.ReminderEntity
 import com.summer.scheduler.ui.main.view.time_picker_dialog.TimePickerDialog
@@ -24,12 +28,16 @@ import kotlinx.android.synthetic.main.fragment_events_new.view.*
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
+import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener
+import com.summer.scheduler.ui.main.view.MainActivity
+
 
 class NewEvent(setDoneVisibility: Boolean) : BottomSheetDialogFragment() {
 
     private var setDoneVisibility: Boolean = true
     private var added = false
     private lateinit var mainViewModel: MainViewModel
+    var cal = Calendar.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +50,9 @@ class NewEvent(setDoneVisibility: Boolean) : BottomSheetDialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_events_new, container, false)
+
         view.event_new_done.isVisible = setDoneVisibility
+
         view.event_new_done.setOnClickListener {
             insertToDoToDatabase()
         }
@@ -60,6 +70,18 @@ class NewEvent(setDoneVisibility: Boolean) : BottomSheetDialogFragment() {
                 TimePickerDialog.newInstance(Bundle(), false).apply {
                     show(it, tag)
                 }
+            }
+        }
+
+        view.editText_fragmentEventsNew_date.setOnClickListener {
+            activity?.let {
+                DatePickerDialog(
+                    it,
+                    dateSetListener,
+                    cal.get(Calendar.YEAR),
+                    cal.get(Calendar.MONTH),
+                    cal.get(Calendar.DAY_OF_MONTH)
+                ).show()
             }
         }
 
@@ -125,6 +147,21 @@ class NewEvent(setDoneVisibility: Boolean) : BottomSheetDialogFragment() {
                 (eventStart.isEmpty() || eventStart.isBlank()) &&
                 (eventEnd.isEmpty() || eventEnd.isBlank()) &&
                 (eventDate.isEmpty() || eventDate.isBlank()))
+    }
+
+    val dateSetListener = object: DatePickerDialog.OnDateSetListener{
+        override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
+            cal.set(Calendar.YEAR, year)
+            cal.set(Calendar.MONTH, month)
+            cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+            updateDateInView()
+        }
+    }
+
+    private fun updateDateInView() {
+        val myFormat = "dd/MM/yyyy"
+        val sdf = SimpleDateFormat(myFormat, Locale.US)
+        editText_fragmentEventsNew_date.text = Editable.Factory.getInstance().newEditable(sdf.format(cal.getTime()))
     }
 
     companion object {

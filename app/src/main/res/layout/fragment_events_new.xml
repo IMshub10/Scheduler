@@ -125,7 +125,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/editText_fragmentEvents_starts"
-        android:autofillHints="@string/ends" />
+        android:autofillHints="@string/ends"
+        android:clickable="false"
+        android:focusable="false"
+        android:cursorVisible="false"
+        android:focusableInTouchMode="false"/>
 
     <EditText
         android:id="@+id/editText_fragmentEventsNew_people"
