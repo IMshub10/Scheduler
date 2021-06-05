@@ -9,17 +9,19 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import com.summer.scheduler.R
 import com.summer.scheduler.ui.main.viewmodel.MainViewModel
 import com.summer.scheduler.ui.main.viewmodel.ViewModelFactory
+import com.summer.scheduler.utils.AndroidUtils
 import kotlinx.android.synthetic.main.component_time_picker.view.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-class TimePickerDialog: DialogFragment() {
+class TimePickerDialog : DialogFragment() {
 
     private var selectedHour: Int
     private var selectedMin: Int
@@ -41,14 +43,15 @@ class TimePickerDialog: DialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        dialog!!.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT));
+        dialog!!.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        dialog!!.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT));
+        dialog!!.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
     }
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(
             requireActivity()
@@ -68,11 +71,13 @@ class TimePickerDialog: DialogFragment() {
             if (mStart) {
                 Log.e("doneButtonOnClick", "Here start")
                 mainViewModel.startTimeArray.value = getTime()
-            }
-            else {
+            } else {
                 Log.e("doneButtonOnClick", "Here stop")
                 mainViewModel.stopTimeArray.value = getTime()
             }
+            dismiss()
+        }
+        view.timePicker_relativeLayout.setOnClickListener {
             dismiss()
         }
 
