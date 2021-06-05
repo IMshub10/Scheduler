@@ -48,7 +48,7 @@ class AddOption : BottomSheetDialogFragment() {
         val ft = childFragmentManager.beginTransaction()
         ft.replace(R.id.toggle_fragment_container, newToDo)
         ft.commit()
-        newToDo.to_do_done.visibility = View.GONE
+        //newToDo.to_do_done.visibility = View.GONE
         textView_done_eventsAndReminders.setOnClickListener{
             newToDo.insertToDoToDatabase()
             dismiss()
@@ -60,7 +60,7 @@ class AddOption : BottomSheetDialogFragment() {
         val ft = childFragmentManager.beginTransaction()
         ft.replace(R.id.toggle_fragment_container, newEvent)
         ft.commit()
-        newEvent.event_done.visibility = View.GONE
+        //newEvent.event_done.visibility = View.GONE
         textView_done_eventsAndReminders.setOnClickListener{
             newEvent.insertToDoToDatabase()
             dismiss()

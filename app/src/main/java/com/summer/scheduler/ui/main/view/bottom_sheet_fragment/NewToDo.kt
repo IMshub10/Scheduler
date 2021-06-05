@@ -19,12 +19,14 @@ import com.summer.scheduler.ui.main.viewmodel.ViewModelFactory
 import kotlinx.android.synthetic.main.fragment_reminders.*
 import kotlinx.android.synthetic.main.fragment_reminders.view.*
 import kotlinx.coroutines.launch
+import java.util.*
 
 class NewToDo(setDoneVisibility: Boolean) : BottomSheetDialogFragment() {
 
     private var setDoneVisibility: Boolean = true
     private var added = false
     private lateinit var mainViewModel: MainViewModel
+    val cal = Calendar.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -97,7 +99,7 @@ class NewToDo(setDoneVisibility: Boolean) : BottomSheetDialogFragment() {
     companion object {
         @JvmStatic
         fun newInstance(bundle: Bundle): NewToDo {
-            val fragment = NewToDo(bundle.getBoolean("setDoneVisibility"))
+            val fragment = NewToDo(true)
             fragment.arguments = bundle
             return fragment
         }

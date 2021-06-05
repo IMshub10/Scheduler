@@ -8,16 +8,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.DatePicker
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.isVisible
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.google.android.material.datepicker.MaterialDatePicker
 import com.summer.scheduler.R
 import com.summer.scheduler.data.model.entity.ReminderEntity
 import com.summer.scheduler.ui.main.view.time_picker_dialog.TimePickerDialog
@@ -28,8 +24,6 @@ import kotlinx.android.synthetic.main.fragment_events_new.view.*
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
-import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener
-import com.summer.scheduler.ui.main.view.MainActivity
 
 
 class NewEvent(setDoneVisibility: Boolean) : BottomSheetDialogFragment() {
@@ -37,7 +31,7 @@ class NewEvent(setDoneVisibility: Boolean) : BottomSheetDialogFragment() {
     private var setDoneVisibility: Boolean = true
     private var added = false
     private lateinit var mainViewModel: MainViewModel
-    var cal = Calendar.getInstance()
+    private var cal = Calendar.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -149,25 +143,24 @@ class NewEvent(setDoneVisibility: Boolean) : BottomSheetDialogFragment() {
                 (eventDate.isEmpty() || eventDate.isBlank()))
     }
 
-    val dateSetListener = object: DatePickerDialog.OnDateSetListener{
-        override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
+    private val dateSetListener =
+        DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
             cal.set(Calendar.YEAR, year)
             cal.set(Calendar.MONTH, month)
             cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
             updateDateInView()
         }
-    }
 
     private fun updateDateInView() {
         val myFormat = "dd/MM/yyyy"
         val sdf = SimpleDateFormat(myFormat, Locale.US)
-        editText_fragmentEventsNew_date.text = Editable.Factory.getInstance().newEditable(sdf.format(cal.getTime()))
+        editText_fragmentEventsNew_date.text = Editable.Factory.getInstance().newEditable(sdf.format(cal.time))
     }
 
     companion object {
         @JvmStatic
         fun newInstance(bundle: Bundle): NewEvent {
-            val fragment = NewEvent(bundle.getBoolean("setDoneVisibility"))
+            val fragment = NewEvent(true)
             fragment.arguments = bundle
             return fragment
         }
