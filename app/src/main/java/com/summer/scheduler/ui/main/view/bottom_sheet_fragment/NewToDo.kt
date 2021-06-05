@@ -79,7 +79,7 @@ class NewToDo(setDoneVisibility: Boolean) : BottomSheetDialogFragment() {
         val date = editText_fragmentEvents_date.text
 
         return if (inputCheck(toDoItem, date)) {
-            val toDo = ToDoEntity(0, toDoItem, date.toString().toInt(), false)
+            val toDo = ToDoEntity(0, toDoItem, date.toString(), false)
 
             lifecycleScope.launch {
                 mainViewModel.addToDo(toDo)

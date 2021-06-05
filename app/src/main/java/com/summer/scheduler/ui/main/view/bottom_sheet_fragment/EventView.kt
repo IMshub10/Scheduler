@@ -91,8 +91,8 @@ class EventView(data: ReminderEntity) : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         editText_reminderDetailsTitle.text = Editable.Factory.getInstance().newEditable(eventDetails.event)
-        editText_reminderDetailsStartTime.text = Editable.Factory.getInstance().newEditable(eventDetails.start.toString())
-        editText_reminderDetailsEndTime.text = Editable.Factory.getInstance().newEditable(eventDetails.end.toString())
+        editText_reminderDetailsStartTime.text = Editable.Factory.getInstance().newEditable(eventDetails.start)
+        editText_reminderDetailsEndTime.text = Editable.Factory.getInstance().newEditable(eventDetails.end)
         editText_reminderDetails.text = Editable.Factory.getInstance().newEditable(eventDetails.agenda)
         editText_reminderDetailsLocation.text = Editable.Factory.getInstance().newEditable(eventDetails.location)
         editText_reminderDetailsLinks.text = Editable.Factory.getInstance().newEditable(eventDetails.link)
@@ -113,7 +113,7 @@ class EventView(data: ReminderEntity) : BottomSheetDialogFragment() {
 
             val updateEvent = ReminderEntity(eventDetails.key,eventTitle,eventAgenda,eventStart,
                 eventEnd,eventPeople,eventLink,
-                eventLocation, eventDate.toInt())
+                eventLocation, eventDate)
 
             mainViewModel.viewModelScope.launch {
                 mainViewModel.userIntent.send(MainIntent.UpdateReminder(updateEvent))

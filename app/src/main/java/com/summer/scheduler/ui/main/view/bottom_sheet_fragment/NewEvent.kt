@@ -118,7 +118,7 @@ class NewEvent(setDoneVisibility: Boolean) : BottomSheetDialogFragment() {
              val event = ReminderEntity(
                  0,eventTitle,eventAgenda,eventStart,
                  eventEnd,eventPeople,eventLink,
-                 eventLocation, eventDate.toInt()
+                 eventLocation, eventDate
              )
 
              lifecycleScope.launch {

@@ -7,6 +7,6 @@ import androidx.room.PrimaryKey
 data class ToDoEntity(
     @PrimaryKey(autoGenerate = true) val key: Int,
     val title: String,
-    val day: Int,
+    val day: String, //Format: dd/MM/yyyy
     var check: Boolean
 )
