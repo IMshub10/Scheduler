@@ -3,6 +3,7 @@ package com.summer.scheduler.ui.main.view.calendardialog
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.widget.DatePicker
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDialogFragment
@@ -23,12 +24,15 @@ class DatePickerDialog : AppCompatDialogFragment() {
         val datePicker = view.findViewById<DatePicker>(R.id.datePickerDialog)
         datePicker.firstDayOfWeek = Calendar.SUNDAY
         datePicker.setOnDateChangedListener { _, i, i1, i2 ->
-            val cal = Calendar.getInstance()
-            cal[i, i1] = i2
+            val cal = Calendar.Builder()
+                .setDate(i, i1, i2)
+                .build()
+            cal[Calendar.DAY_OF_WEEK]
             val sdf = SimpleDateFormat("yyyyMMdd", Locale.getDefault())
             dateString = sdf.format(cal.time)
             weekNo = cal[Calendar.WEEK_OF_YEAR]
-            if (cal[Calendar.DAY_OF_WEEK] ==Calendar.SUNDAY){
+            Log.e("DatePickerDialog->onDateChange", "$i $i1 $i2")
+            if (cal[Calendar.DAY_OF_WEEK] == Calendar.SUNDAY){
                 weekNo++
             }
             listener!!.sendDateInfo(dateString, weekNo, cal.time)
