@@ -32,7 +32,6 @@ class DatePickerDialog : AppCompatDialogFragment() {
             dateString = sdf.format(cal.time)
             weekNo = cal[Calendar.WEEK_OF_YEAR]
             Log.e("DatePickerDialog->onDateChange", "$i $i1 $i2")
-            Log.e("DatePickerDialog->onDateChange", "${cal[Calendar.DAY_OF_WEEK]} ${cal[Calendar.DAY_OF_WEEK_IN_MONTH]}")
             if (cal[Calendar.DAY_OF_WEEK] == Calendar.SUNDAY){
                 weekNo++
             }
