@@ -46,5 +46,8 @@
         <item name="android:windowTranslucentStatus">true</item>
         <item name="elevation">0dp</item>
     </style>
+    <style name="timePickerStyleTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar.Bridge">
+        <item name="android:colorControlNormal">@color/transparent</item>
+    </style>
 
 </resources>
