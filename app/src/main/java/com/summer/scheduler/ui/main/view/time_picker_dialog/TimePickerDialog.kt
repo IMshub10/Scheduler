@@ -2,9 +2,14 @@ package com.summer.scheduler.ui.main.view.time_picker_dialog
 
 import android.app.AlertDialog
 import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import com.summer.scheduler.R
@@ -28,9 +33,22 @@ class TimePickerDialog: DialogFragment() {
         Log.e("TimePickerDialog", "timeString: $timeString")
     }
 
-    private lateinit var doneButton: Button
+    private lateinit var doneButton: TextView
     private lateinit var mainViewModel: MainViewModel
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        dialog!!.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT));
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        dialog!!.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT));
+    }
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(
             requireActivity()

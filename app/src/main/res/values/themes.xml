@@ -50,5 +50,8 @@
     <style name="BottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@android:color/transparent</item>
     </style>
+    <style name="timePickerStyleTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar.Bridge">
+        <item name="android:colorControlNormal">@color/transparent</item>
+    </style>
 
 </resources>
