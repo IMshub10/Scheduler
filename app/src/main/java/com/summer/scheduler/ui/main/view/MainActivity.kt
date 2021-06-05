@@ -102,7 +102,10 @@ class MainActivity : AppCompatActivity(),
                             openDatePickerDialog()
                         }
                         is MainState.SelectDateFromHorizontalPicker -> {
-                            val date = Calendar.getInstance()
+                            val date = Calendar.Builder()
+                                .setDate(selectedYear, selectedMonth - 1, selectedDate)
+                                .set(Calendar.WEEK_OF_YEAR, weekNo)
+                                .build()
                             date[Calendar.WEEK_OF_YEAR] = weekNo
                             date.firstDayOfWeek = Calendar.SUNDAY
                             colorBlack()
@@ -273,7 +276,10 @@ class MainActivity : AppCompatActivity(),
 
     private fun setDateToCardViews(weekNo: Int) {
         val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-        val cal = Calendar.getInstance()
+        val cal = Calendar.Builder()
+            .setDate(selectedYear, selectedMonth - 1, selectedDate)
+            .set(Calendar.WEEK_OF_YEAR, weekNo)
+            .build()
         cal[Calendar.WEEK_OF_YEAR] = weekNo
         cal.firstDayOfWeek = Calendar.SUNDAY
         cal[Calendar.DAY_OF_WEEK] = Calendar.MONDAY
@@ -367,7 +373,10 @@ class MainActivity : AppCompatActivity(),
 
     private fun startingDay() {
 
-        val todayCalendar = Calendar.getInstance()
+        val todayCalendar = Calendar.Builder()
+            .setDate(selectedYear, selectedMonth - 1, selectedDate)
+            .set(Calendar.WEEK_OF_YEAR, weekNo)
+            .build()
         val todayDate = Date()
         todayCalendar.time = todayDate
         weekNo = todayCalendar[Calendar.WEEK_OF_YEAR]
@@ -432,7 +441,10 @@ class MainActivity : AppCompatActivity(),
     }
 
     private fun setOnDateClickListeners() {
-        val date = Calendar.getInstance()
+        val date = Calendar.Builder()
+            .setDate(selectedYear, selectedMonth - 1, selectedDate)
+            .set(Calendar.WEEK_OF_YEAR, weekNo)
+            .build()
         date[Calendar.WEEK_OF_YEAR] = weekNo
         date.firstDayOfWeek = Calendar.SUNDAY
 
@@ -514,7 +526,10 @@ class MainActivity : AppCompatActivity(),
         setSelected(dateString!!)
         Log.e("sendDateInfo", dateString)
         this.weekNo = weekNo
-        val c = Calendar.getInstance()
+        val c = Calendar.Builder()
+            .setDate(selectedYear, selectedMonth - 1, selectedDate)
+            .set(Calendar.WEEK_OF_YEAR, weekNo)
+            .build()
         c.time = date!!
         val simpleDateFormat = SimpleDateFormat("MMMM yyyy", Locale.getDefault())
         textView_month_year!!.text = simpleDateFormat.format(date)

@@ -1,7 +1,6 @@
 package com.summer.scheduler.ui.main.view.bottom_sheet_fragment
 
 import android.content.Context
-import android.opengl.Visibility
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
