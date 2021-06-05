@@ -11,20 +11,21 @@ import androidx.lifecycle.viewModelScope
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.summer.scheduler.R
 import com.summer.scheduler.data.model.entity.ReminderEntity
-import com.summer.scheduler.ui.main.`interface`.ReminderRecyclerViewItemClickListener
 import com.summer.scheduler.ui.main.intent.MainIntent
 import com.summer.scheduler.ui.main.viewmodel.MainViewModel
 import com.summer.scheduler.ui.main.viewmodel.ViewModelFactory
 import kotlinx.android.synthetic.main.fragment_events_new.*
-import kotlinx.android.synthetic.main.fragment_events_new.view.*
 import kotlinx.android.synthetic.main.reminder_details_layout.*
 import kotlinx.android.synthetic.main.reminder_details_layout.view.*
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class EventView : BottomSheetDialogFragment(), ReminderRecyclerViewItemClickListener {
+class EventView(data: ReminderEntity) : BottomSheetDialogFragment() {
 
 
     private lateinit var mainViewModel : MainViewModel
+    private val eventDetails: ReminderEntity = data
+    private lateinit var eventUpdateViewModel : MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +42,7 @@ class EventView : BottomSheetDialogFragment(), ReminderRecyclerViewItemClickList
         mainViewModel = ViewModelProvider(requireActivity(),
             ViewModelFactory(requireActivity().application))
             .get(MainViewModel::class.java)
+
 
         view.imageView_editReminder.setOnClickListener {
 
@@ -64,7 +66,9 @@ class EventView : BottomSheetDialogFragment(), ReminderRecyclerViewItemClickList
 
         textView_doneEditButton.setOnClickListener {
 
-            updateReminder()
+            GlobalScope.launch {
+                updateReminder()
+            }
 
             editText_reminderDetailsTitle.text = editText_reminderTitleUpdate.text
             imageView_editReminder.visibility = View.VISIBLE
@@ -83,21 +87,19 @@ class EventView : BottomSheetDialogFragment(), ReminderRecyclerViewItemClickList
         return view
     }
 
-    override fun onEventClick(itemView: View, layoutPosition: Int) {
-        val eventTitle = itemView.editText_fragmentEventsNew_eventTitle.text.toString()
-        val eventAgenda = itemView.editText_fragmentEventsNew_agenda.text.toString()
-        val eventStart = itemView.textView_newEventFragmentFrom.text.toString()
-        val eventEnd = itemView.textView_newEventFragmentTo.text.toString()
-        val eventTime = "$eventStart-$eventEnd"
-        val eventDate = itemView.editText_fragmentEventsNew_date
-        val eventPeople = itemView.editText_fragmentEventsNew_people.text.toString()
-        val eventLink = itemView.editText_fragmentEventsNew_link.text.toString()
-        val eventLocation = itemView.editText_fragmentEventsNew_location.text.toString()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-
+        editText_reminderDetailsTitle.text = Editable.Factory.getInstance().newEditable(eventDetails.event)
+        editText_reminderDetailsStartTime.text = Editable.Factory.getInstance().newEditable(eventDetails.start.toString())
+        editText_reminderDetailsEndTime.text = Editable.Factory.getInstance().newEditable(eventDetails.end.toString())
+        editText_reminderDetails.text = Editable.Factory.getInstance().newEditable(eventDetails.agenda)
+        editText_reminderDetailsLocation.text = Editable.Factory.getInstance().newEditable(eventDetails.location)
+        editText_reminderDetailsLinks.text = Editable.Factory.getInstance().newEditable(eventDetails.link)
+        editText_reminderDetailsUsers.text = Editable.Factory.getInstance().newEditable(eventDetails.people)
     }
 
-    private fun updateReminder(){
+    private suspend fun updateReminder(){
         val eventTitle = editText_fragmentEventsNew_eventTitle.text.toString()
         val eventAgenda = editText_fragmentEventsNew_agenda.text.toString()
         val eventStart = textView_newEventFragmentFrom.text.toString()
@@ -109,7 +111,7 @@ class EventView : BottomSheetDialogFragment(), ReminderRecyclerViewItemClickList
 
         if(inputCheck(eventTitle, eventStart, eventEnd, eventDate)) {
 
-            val updateEvent = ReminderEntity(0,eventTitle,eventAgenda,eventStart,
+            val updateEvent = ReminderEntity(eventDetails.key,eventTitle,eventAgenda,eventStart,
                 eventEnd,eventPeople,eventLink,
                 eventLocation, eventDate.toInt())
 
@@ -117,6 +119,7 @@ class EventView : BottomSheetDialogFragment(), ReminderRecyclerViewItemClickList
                 mainViewModel.userIntent.send(MainIntent.UpdateReminder(updateEvent))
             }
 
+            eventUpdateViewModel.updateReminder(updateEvent)
             Toast.makeText(requireContext(), "Successfully Updated!", Toast.LENGTH_SHORT).show()
 
         } else {

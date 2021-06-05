@@ -1,6 +1,5 @@
 package com.summer.scheduler.ui.main.view
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -401,11 +400,9 @@ class MainActivity : AppCompatActivity(),
         reminderAdapter.setOnEventClickListener(
             object: ReminderRecyclerViewItemClickListener {
                 override fun onEventClick(itemView: View, layoutPosition: Int) {
-                    val intent = Intent(this@MainActivity, EventView::class.java)
-//                    intent.putExtra("key", value)
-//                    startActivity(intent);
-
-
+                    val selectedReminderEntity = reminderAdapter.getItem(layoutPosition)
+                    val reminderDetailsSheet = EventView(selectedReminderEntity)
+                    reminderDetailsSheet.show(supportFragmentManager, reminderDetailsSheet.tag)
                 }
 
             }
