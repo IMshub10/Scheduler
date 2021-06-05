@@ -26,4 +26,5 @@
     <color name="grey_lighter_c7c7cc">#c7c7cc</color>
     <color name="grey_lightest_d1d1d5">#d6d6d8</color>
 
+    <color name="transparent">#00000000</color>
 </resources>

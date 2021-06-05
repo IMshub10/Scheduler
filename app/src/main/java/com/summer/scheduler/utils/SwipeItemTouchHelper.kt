@@ -72,8 +72,8 @@ class SwipeItemTouchHelper(private val context: Context, dragDirs: Int, private 
         if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
             setTouchListener(recyclerView, viewHolder)
         }
-        if (view!!.translationX < convertToDp(20) || dX < this.dX) {
-            super.onChildDraw(c, recyclerView, viewHolder, dX/3, dY, actionState, isCurrentlyActive)
+        if (view!!.translationX < convertToDp(30) || dX < this.dX) {
+            super.onChildDraw(c, recyclerView, viewHolder, dX/4, dY, actionState, isCurrentlyActive)
             this.dX = dX
             startTracking = true
         }

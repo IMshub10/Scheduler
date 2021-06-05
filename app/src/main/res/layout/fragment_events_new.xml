@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:minHeight="480dp"
     android:background="#1D1D1F"
     android:orientation="vertical">
 
@@ -79,7 +80,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginStart="128dp"
             android:layout_marginTop="16dp"
-            android:text="@string/_06_00_am"
+            android:text="@string/start_time"
             android:textColor="#808080" />
 
         <TextView
@@ -102,7 +103,7 @@
             android:layout_toEndOf="@+id/textView_newEventFragmentToText"
             android:layout_alignParentTop="true"
             android:layout_marginTop="16dp"
-            android:text="@string/_06_00_am"
+            android:text="@string/end_time"
             android:layout_marginStart="10dp"
             android:textColor="#808080" />
 

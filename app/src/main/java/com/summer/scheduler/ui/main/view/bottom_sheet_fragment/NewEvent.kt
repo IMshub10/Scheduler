@@ -2,24 +2,27 @@ package com.summer.scheduler.ui.main.view.bottom_sheet_fragment
 
 import android.content.Context
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.isVisible
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.summer.scheduler.R
 import com.summer.scheduler.data.model.entity.ReminderEntity
+import com.summer.scheduler.ui.main.view.time_picker_dialog.TimePickerDialog
 import com.summer.scheduler.ui.main.viewmodel.MainViewModel
 import com.summer.scheduler.ui.main.viewmodel.ViewModelFactory
-import kotlinx.android.synthetic.main.fragment_events.*
-import kotlinx.android.synthetic.main.fragment_events.view.*
-import kotlinx.android.synthetic.main.fragment_reminders.view.*
+import kotlinx.android.synthetic.main.fragment_events_new.*
+import kotlinx.android.synthetic.main.fragment_events_new.view.*
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
 import java.util.*
 
 class NewEvent(setDoneVisibility: Boolean) : BottomSheetDialogFragment() {
@@ -38,53 +41,90 @@ class NewEvent(setDoneVisibility: Boolean) : BottomSheetDialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_events, container, false)
-        view.event_done.isVisible = setDoneVisibility
-        view.event_done.setOnClickListener {
+        val view = inflater.inflate(R.layout.fragment_events_new, container, false)
+        view.event_new_done.isVisible = setDoneVisibility
+        view.event_new_done.setOnClickListener {
             insertToDoToDatabase()
         }
+
+        view.textView_newEventFragmentFrom.setOnClickListener {
+            requireActivity().supportFragmentManager.let {
+                TimePickerDialog.newInstance(Bundle(), true).apply {
+                    show(it, tag)
+                }
+            }
+        }
+
+        view.textView_newEventFragmentTo.setOnClickListener {
+            requireActivity().supportFragmentManager.let {
+                TimePickerDialog.newInstance(Bundle(), false).apply {
+                    show(it, tag)
+                }
+            }
+        }
+
+        mainViewModel = ViewModelProvider(
+            requireActivity(),
+            ViewModelFactory(requireActivity().application)
+        ).get(MainViewModel::class.java)
+
+        mainViewModel.startTimeArray.observe(this, {
+            Log.e("observer", "Here start")
+            for (i in it) {
+                Log.e("start for", "$i")
+            }
+            onTimePicked(it, textView_newEventFragmentFrom)
+        })
+
+        mainViewModel.stopTimeArray.observe(this, {
+            Log.e("observer", "Here stop")
+            for (i in it) {
+                Log.e("stop for", "$i")
+            }
+            onTimePicked(it, textView_newEventFragmentTo)
+        })
 
         return view
     }
 
      fun insertToDoToDatabase() :Boolean{
-        val eventTitle = editText_fragmentEvents_eventTitle.text.toString()
-        val eventAgenda = editText_fragmentEvents_agenda.text.toString()
-        val eventStart = editText_fragmentEvents_starts.text
-        val eventEnd = editText_fragmentEvents_ends.text
-        val eventPeople = editText_fragmentEvents_people.text.toString()
-        val eventLink = editText_fragmentEvents_link.text.toString()
-        val eventLocation = editText_fragmentEvents_location.text.toString()
+         val eventTitle = editText_fragmentEventsNew_eventTitle.text.toString()
+         val eventAgenda = editText_fragmentEventsNew_agenda.text.toString()
+         val eventStart = textView_newEventFragmentFrom.text.toString()
+         val eventEnd = textView_newEventFragmentTo.text.toString()
+         val eventDate = editText_fragmentEventsNew_date.text.toString()
+         val eventPeople = editText_fragmentEventsNew_people.text.toString()
+         val eventLink = editText_fragmentEventsNew_link.text.toString()
+         val eventLocation = editText_fragmentEventsNew_location.text.toString()
 
-        if(inputCheck(eventTitle, eventStart, eventEnd)) {
-            val c: Calendar = Calendar.getInstance()
-            var dString = "${c.get(Calendar.DAY_OF_MONTH)}"
-            var mString = "${c.get(Calendar.MONTH)+1}"
+         return if(inputCheck(eventTitle, eventStart, eventEnd, eventDate) &&
+             eventDate != "" && eventStart != "start time" && eventEnd != "stop time") {
+             val event = ReminderEntity(
+                 0,eventTitle,eventAgenda,eventStart,
+                 eventEnd,eventPeople,eventLink,
+                 eventLocation, eventDate.toInt()
+             )
 
-            if (c.get(Calendar.DAY_OF_MONTH) < 10) dString = "0$dString"
-            if (c.get(Calendar.MONTH) + 1 < 10) mString = "0$mString"
-            val yString = "${c.get(Calendar.YEAR)}"
+             lifecycleScope.launch {
+                 mainViewModel.addReminder(event)
+             }
 
-            val day = "$yString$mString$dString"
+             added = true
+             Toast.makeText(requireContext(), "Successfully Added",Toast.LENGTH_SHORT).show()
+             dismiss()
+             true
 
-            val event = ReminderEntity(0,eventTitle,eventAgenda,Integer.parseInt(eventStart.toString()),Integer.parseInt(eventEnd.toString()),eventPeople,eventLink,eventLocation, day.toInt())
-
-            lifecycleScope.launch {
-                mainViewModel.addReminder(event)
-            }
-
-            added = true
-            Toast.makeText(requireContext(), "Successfully Added",Toast.LENGTH_SHORT).show()
-            dismiss()
-            return true
-        } else {
-            Toast.makeText(requireContext(), "Please fill out all fields",Toast.LENGTH_SHORT).show()
-            return false
-        }
+         } else {
+             Toast.makeText(requireContext(), "Please fill out all fields",Toast.LENGTH_SHORT).show()
+             false
+         }
     }
 
-    private fun inputCheck(eventTitle: String, eventStart: Editable, eventEnd: Editable):Boolean {
-        return !(TextUtils.isEmpty(eventTitle) && eventStart.isEmpty() && eventEnd.isEmpty())
+    private fun inputCheck(eventTitle: String, eventStart: String, eventEnd: String, eventDate: String):Boolean {
+        return !((eventTitle.isEmpty() || eventTitle.isBlank()) &&
+                (eventStart.isEmpty() || eventStart.isBlank()) &&
+                (eventEnd.isEmpty() || eventEnd.isBlank()) &&
+                (eventDate.isEmpty() || eventDate.isBlank()))
     }
 
     companion object {
@@ -100,9 +140,6 @@ class NewEvent(setDoneVisibility: Boolean) : BottomSheetDialogFragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-
-        mainViewModel = ViewModelProvider(this, ViewModelFactory(requireActivity().application))
-            .get(MainViewModel::class.java)
 
         if (context is OnEventAddedListener) {
             mListener = context
@@ -120,8 +157,34 @@ class NewEvent(setDoneVisibility: Boolean) : BottomSheetDialogFragment() {
     override fun onDetach() {
         super.onDetach()
         mListener?.onCloseReminderFragment(added)
+        mainViewModel.startTimeArray.value = arrayOf(-1,-1)
+        mainViewModel.stopTimeArray.value = arrayOf(-1,-1)
     }
     init {
         this.setDoneVisibility = setDoneVisibility
+    }
+
+    private fun onTimePicked(time: Array<Int>, textView: TextView) {
+        if (time[0] == -1 && time[1] == -1) {
+            var string = ""
+            if (textView.id == textView_newEventFragmentFrom.id) {
+                string = "start time"
+            } else if (textView.id == textView_newEventFragmentTo.id) {
+                string = "stop time"
+            }
+            textView.text = string
+        }
+        else {
+            val hr = time[0]
+            val min = time[1]
+            val date = Calendar.Builder()
+                .set(Calendar.HOUR, hr)
+                .set(Calendar.MINUTE, min)
+                .build().time
+
+            val format = SimpleDateFormat("HH:mm", Locale.getDefault())
+            val dateString = format.format(date)
+            textView.text = dateString
+        }
     }
 }

@@ -1,6 +1,8 @@
 package com.summer.scheduler.ui.main.viewmodel
 
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.summer.scheduler.data.model.entity.ReminderEntity
@@ -163,4 +165,7 @@ class MainViewModel(
             reminderRepository.removeAllReminders(day)
         }
     }
+
+    var startTimeArray: MutableLiveData<Array<Int>> = MutableLiveData(arrayOf(-1,-1))
+    var stopTimeArray: MutableLiveData<Array<Int>> = MutableLiveData(arrayOf(-1,-1))
 }

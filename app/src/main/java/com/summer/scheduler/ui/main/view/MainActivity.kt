@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.summer.scheduler.R
 import com.summer.scheduler.data.model.entity.ReminderEntity
 import com.summer.scheduler.data.model.entity.ToDoEntity
-import com.summer.scheduler.ui.main.`interface`.Reminder_RecyclerView_ItemClickListener
+import com.summer.scheduler.ui.main.`interface`.ReminderRecyclerViewItemClickListener
 import com.summer.scheduler.ui.main.adapter.ReminderListAdapter
 import com.summer.scheduler.ui.main.adapter.ToDoListAdapter
 import com.summer.scheduler.ui.main.intent.MainIntent
@@ -49,6 +49,7 @@ class MainActivity : AppCompatActivity(),
     private var weekNo = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar_mainActivity)
         setupUI()
@@ -58,7 +59,6 @@ class MainActivity : AppCompatActivity(),
         setOnDateClickListeners()
         newItemClickListener()
         observableViewModel()
-
     }
 
     override fun onStart() {
@@ -101,7 +101,10 @@ class MainActivity : AppCompatActivity(),
                             openDatePickerDialog()
                         }
                         is MainState.SelectDateFromHorizontalPicker -> {
-                            val date = Calendar.getInstance()
+                            val date = Calendar.Builder()
+                                .setDate(selectedYear, selectedMonth - 1, selectedDate)
+                                .set(Calendar.WEEK_OF_YEAR, weekNo)
+                                .build()
                             date[Calendar.WEEK_OF_YEAR] = weekNo
                             date.firstDayOfWeek = Calendar.SUNDAY
                             colorBlack()
@@ -187,6 +190,12 @@ class MainActivity : AppCompatActivity(),
 
         fetchData(hSelectedDay)
 
+        val date = calendar.time
+        val formatter = SimpleDateFormat("MMMM yyyy", Locale.getDefault())
+        val text = formatter.format(date)
+
+        textView_month_year!!.text = text
+
         Log.e("dayOfWeek", "${calendar[Calendar.DAY_OF_WEEK]}")
         Log.e(
             "changeList",
@@ -194,7 +203,6 @@ class MainActivity : AppCompatActivity(),
         )
         Log.e("selectedItems", "$selectedYear $selectedMonth $selectedDate")
     }
-
 
     private fun openDatePickerDialog() {
         supportFragmentManager.let {
@@ -267,7 +275,10 @@ class MainActivity : AppCompatActivity(),
 
     private fun setDateToCardViews(weekNo: Int) {
         val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-        val cal = Calendar.getInstance()
+        val cal = Calendar.Builder()
+            .setDate(selectedYear, selectedMonth - 1, selectedDate)
+            .set(Calendar.WEEK_OF_YEAR, weekNo)
+            .build()
         cal[Calendar.WEEK_OF_YEAR] = weekNo
         cal.firstDayOfWeek = Calendar.SUNDAY
         cal[Calendar.DAY_OF_WEEK] = Calendar.MONDAY
@@ -361,7 +372,10 @@ class MainActivity : AppCompatActivity(),
 
     private fun startingDay() {
 
-        val todayCalendar = Calendar.getInstance()
+        val todayCalendar = Calendar.Builder()
+            .setDate(selectedYear, selectedMonth - 1, selectedDate)
+            .set(Calendar.WEEK_OF_YEAR, weekNo)
+            .build()
         val todayDate = Date()
         todayCalendar.time = todayDate
         weekNo = todayCalendar[Calendar.WEEK_OF_YEAR]
@@ -384,7 +398,7 @@ class MainActivity : AppCompatActivity(),
         today_recyclerView.adapter = reminderAdapter
 
         reminderAdapter.setOnEventClickListener(
-            object: Reminder_RecyclerView_ItemClickListener {
+            object: ReminderRecyclerViewItemClickListener {
                 override fun onEventClick(itemView: View, layoutPosition: Int) {
                     val selectedReminderEntity = reminderAdapter.getItem(layoutPosition)
                     val reminderDetailsSheet = EventView(selectedReminderEntity)
@@ -424,7 +438,10 @@ class MainActivity : AppCompatActivity(),
     }
 
     private fun setOnDateClickListeners() {
-        val date = Calendar.getInstance()
+        val date = Calendar.Builder()
+            .setDate(selectedYear, selectedMonth - 1, selectedDate)
+            .set(Calendar.WEEK_OF_YEAR, weekNo)
+            .build()
         date[Calendar.WEEK_OF_YEAR] = weekNo
         date.firstDayOfWeek = Calendar.SUNDAY
 
@@ -506,7 +523,10 @@ class MainActivity : AppCompatActivity(),
         setSelected(dateString!!)
         Log.e("sendDateInfo", dateString)
         this.weekNo = weekNo
-        val c = Calendar.getInstance()
+        val c = Calendar.Builder()
+            .setDate(selectedYear, selectedMonth - 1, selectedDate)
+            .set(Calendar.WEEK_OF_YEAR, weekNo)
+            .build()
         c.time = date!!
         val simpleDateFormat = SimpleDateFormat("MMMM yyyy", Locale.getDefault())
         textView_month_year!!.text = simpleDateFormat.format(date)

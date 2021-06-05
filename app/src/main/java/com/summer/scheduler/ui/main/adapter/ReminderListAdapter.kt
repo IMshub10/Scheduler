@@ -10,15 +10,14 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.summer.scheduler.R
 import com.summer.scheduler.data.model.entity.ReminderEntity
-import com.summer.scheduler.ui.main.`interface`.Reminder_RecyclerView_ItemClickListener
+import com.summer.scheduler.ui.main.`interface`.ReminderRecyclerViewItemClickListener
 import com.summer.scheduler.ui.main.adapter.ReminderListAdapter.*
-import kotlinx.android.synthetic.main.fragment_events.*
-import kotlinx.android.synthetic.main.fragment_events.view.*
 import kotlinx.android.synthetic.main.reminder_list_item.view.*
 
 class ReminderListAdapter(private val context: Context) :
     ListAdapter<ReminderEntity, ReminderItemHolder>(DIFF_CALLBACK) {
 
+    private var reminderRecyclerViewItemClickListener: ReminderRecyclerViewItemClickListener? = null
     private var reminderRecyclerViewItemClickListener: Reminder_RecyclerView_ItemClickListener? = null
 
     class ReminderItemHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -43,6 +42,8 @@ class ReminderListAdapter(private val context: Context) :
 
     fun setOnEventClickListener(reminderRecyclerViewItemClickListener: Reminder_RecyclerView_ItemClickListener) {
         this.reminderRecyclerViewItemClickListener = reminderRecyclerViewItemClickListener
+    fun setOnEventClickListener(reminderRecyclerviewItemClickListener: ReminderRecyclerViewItemClickListener) {
+        this.reminderRecyclerViewItemClickListener = reminderRecyclerviewItemClickListener
     }
 
     inner class EventsHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
