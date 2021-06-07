@@ -50,6 +50,10 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/editText_fragmentEvents_reminder"
-        android:autofillHints="@string/date" />
+        android:autofillHints="@string/date"
+        android:clickable="false"
+        android:focusable="false"
+        android:cursorVisible="false"
+        android:focusableInTouchMode="false"/>
 
 </LinearLayout>
